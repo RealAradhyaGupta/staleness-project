@@ -181,11 +181,18 @@ def main():
     if len(sub) == 0 or "shrinkage" not in sub:
         print("  not available in this file")
     else:
-        sub["paired_gain"] = sub["stale"] - sub["shrinkage"]   # >0 = shrinkage better
+        # CORRECTED 19 October 2026, PROGRESS_LOG.md L-049. Higher fidelity
+        # is better, so the gain of shrinkage over stale is shrinkage MINUS
+        # stale. This line used to read stale - shrinkage while the comment
+        # claimed ">0 = shrinkage better", so the sign of the reported gain
+        # was the wrong way round. Only the direction was wrong. The size of
+        # the effect and the verdict (the interval includes zero) do not
+        # change. The bootstrap seed is untouched.
+        sub["paired_gain"] = sub["shrinkage"] - sub["stale"]   # >0 = shrinkage better
         obs, lo, hi, nd = block_boot(sub, "paired_gain", rng)
         print(f"  n = {len(sub)} jobs over {nd} days")
-        print(f"  mean paired gain of shrinkage over stale (fidelity): "
-              f"{obs:+.5f}")
+        print(f"  mean paired gain of shrinkage over stale (fidelity, "
+              f"positive means shrinkage is better): {obs:+.5f}")
         print(f"  95 percent interval: [{lo:+.5f}, {hi:+.5f}]")
         verdict = ("shrinkage is better" if lo > 0 else
                    "stale is better" if hi < 0 else
