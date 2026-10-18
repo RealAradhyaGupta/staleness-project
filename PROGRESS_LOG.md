@@ -82,6 +82,7 @@ output recorded in NOTES.md. I did not reconstruct anything from memory alone.
 | L-047 | 2026-10-14 15:39 | DONE | Wrote DISCLOSURES.md, led NOTES.md with the null, and re-verified all 22 frozen checksums |
 | L-048 | 2026-10-18 20:31 | DONE | Built report_pack: 141 files, 9.17 MB, zipped; secret scan 198 hits and 0 secrets; one team engine file changed, circuits.py |
 | L-049 | 2026-10-19 00:11 | FAULT | Correction to L-039: the Comparison B gain had the wrong sign, shrinkage is +0.00176 not -0.00176, and the null verdict is unchanged |
+| L-050 | 2026-10-19 00:19 | CHANGE | Correction block added to DISCLOSURES.md too: its section 8 carried the same wrong sign as L-039 |
 
 ## Glossary
 
@@ -3986,3 +3987,57 @@ standing and superseded rather than quietly corrected in place.
 
 Next: push the corrected scripts to the public repository, then Round 2 under
 L-041.
+
+---
+
+## L-050 | 2026-10-19 00:19 IST (2026-10-18 18:49 UTC) | CHANGE | Correction block added to DISCLOSURES.md too: its section 8 carried the same wrong sign as L-039
+
+A small follow-up to L-049, recorded separately because L-049 was already
+written and is append-only.
+
+**What I missed in L-049.** When I corrected the Comparison B sign in L-049 I
+listed the files I had changed as `scripts/20_analyse_results.py`,
+`scripts/23_independent_check.py`, `NOTES.md` and the log. I did not check
+`docs/DISCLOSURES.md`, which carries the same wrong-direction claim in its
+section 8: "mean gain -0.00176", "the point estimate is slightly negative",
+"our chosen setting did not beat using the newest card". That file was already
+pushed to the public repository, so for about forty minutes the repository held
+`NOTES.md` saying +0.00176 and `DISCLOSURES.md` saying -0.00176 at the same
+time. That is my fault twice over: once for the original sign error and once
+for not grepping the rest of the project for the same number when I fixed it.
+
+**How it was caught.** Claude Code checked the other public files for the same
+claim before pushing, found it in `docs/DISCLOSURES.md` lines 259 to 262, and
+told me rather than editing a file I had not asked about. I then asked for the
+fix.
+
+**What I changed.** `docs/DISCLOSURES.md` now carries a
+"CORRECTION (L-049), 19 October 2026" block near the top, above section 1,
+giving the corrected numbers and saying plainly that section 8 below has the
+wrong sign and is superseded on that one point. Section 8 itself, and every
+other word already in that file, is left exactly as it was written on
+14 October 2026. Nothing was reworded and nothing was deleted.
+
+**The numbers in the new block, unchanged from L-049.** Pooled gain +0.00176
+with a 95 percent interval of [-0.00147, +0.00482], +0.00345 at 6 h and
+-0.00003 at 24 h, n = 1764 over 22 days. Every interval includes zero.
+Comparison B is still a null result and the verdict is unchanged. The block
+also says the honest reading out loud: the fix neither beat nor lost to using
+the newest card, so this is a null and not a defeat.
+
+**What was NOT touched.** `PROTOCOL.md`, `PROTOCOL_AMENDMENTS.md` and every
+file in `engine/`. All 22 frozen sha256 values from L-033 were checked again
+after this edit and all 22 still match, 0 failed. No existing log entry was
+edited, `data/raw` was not touched, nothing was written into `outputs/`, the
+engine was not run and no quantum hardware job was submitted.
+
+Files Claude Code changed for this entry, at my direction:
+`docs/DISCLOSURES.md` and this `PROGRESS_LOG.md` entry.
+
+What I did myself: I decided that `DISCLOSURES.md` gets a correction block
+above the old text rather than a quiet edit of section 8, for the same reason
+L-039 and the old NOTES.md headline were left standing. A disclosures file that
+silently rewrote its own mistakes would be worth nothing.
+
+Next: Round 2 under L-041, starting with a probe of whether IBM still serves
+cards older than 28 August 2026.
