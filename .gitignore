@@ -1,0 +1,27 @@
+# secrets
+.env
+.env.*
+!.env.example
+
+# virtual environments
+.venv/
+venv/
+
+# python
+__pycache__/
+*.pyc
+
+# macOS
+.DS_Store
+
+# IBM calibration data and everything derived from it.
+# Not shared while IBM's redistribution terms are still being checked.
+data/
+outputs/
+logs/
+*.pkl
+*.npz
+*.json.gz
+
+# assistant tooling
+.claude/
