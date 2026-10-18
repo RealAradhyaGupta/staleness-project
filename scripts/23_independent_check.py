@@ -45,8 +45,15 @@ L039_TABLE_A = {
 L039_STATES = {"0": dict(n=1205, mean=0.0000),
                "1": dict(n=935, mean=0.0289),
                "2 or more": dict(n=3148, mean=0.0280)}
-L039_B = dict(n=1764, mean=-0.00176, lo=-0.00482, hi=0.00147,
-              at6=-0.00345, at24=0.00003)
+# The Comparison B numbers to check against. CORRECTED 19 October 2026,
+# PROGRESS_LOG.md L-049. L-039 printed these with the sign the wrong way
+# round, because of the fault fixed in this file and in
+# scripts/20_analyse_results.py. The values below are the same numbers in
+# the corrected direction, where positive means shrinkage is better: the
+# mean and the per-delay means are negated, and the interval bounds are
+# negated and swapped. L-039 itself is left exactly as it was written.
+L039_B = dict(n=1764, mean=0.00176, lo=-0.00147, hi=0.00482,
+              at6=0.00345, at24=-0.00003)
 
 
 def parse_iso(s):
@@ -141,7 +148,13 @@ def main():
 
     for j in jobs:
         j["regret_stale"] = j["fid"]["ceiling"] - j["fid"]["stale"]
-        j["gain_shrink"] = j["fid"]["stale"] - j["fid"]["shrinkage"]
+        # CORRECTED 19 October 2026, PROGRESS_LOG.md L-049. Higher fidelity
+        # is better, so the gain of shrinkage over stale is shrinkage MINUS
+        # stale. This line used to read stale - shrinkage while the print
+        # below called it "the gain of shrinkage over stale", so the sign
+        # was the wrong way round, the same fault as in
+        # scripts/20_analyse_results.py. Only the direction was wrong.
+        j["gain_shrink"] = j["fid"]["shrinkage"] - j["fid"]["stale"]
 
     main_set = [j for j in jobs if not j["touches_gap"]]
     gap_set = [j for j in jobs if j["touches_gap"]]
@@ -203,7 +216,8 @@ def main():
     obs, lo, hi, nd = bootstrap_days(
         group_by_day(sub, lambda r: r["gain_shrink"]), rng, args.boot)
     print(f"  n = {len(sub)} jobs over {nd} days")
-    print(f"  mean paired gain of shrinkage over stale: {obs:+.5f}")
+    print(f"  mean paired gain of shrinkage over stale "
+          f"(positive means shrinkage is better): {obs:+.5f}")
     print(f"  95 percent interval: [{lo:+.5f}, {hi:+.5f}]")
     print(f"  interval {'excludes' if (lo > 0 or hi < 0) else 'includes'} zero")
     out["comparison_b"]["pooled"] = dict(n=len(sub), mean=obs, lo=lo, hi=hi)
@@ -227,6 +241,8 @@ def main():
     print("\n" + "=" * 78)
     print(f"4. EVERY NUMBER AGAINST L-039, tolerance {TOL}")
     print("=" * 78)
+    print("  The Comparison B rows compare against L-039's numbers with the sign")
+    print("  corrected per L-049. Table A and the states split are unaffected.")
     for line, _ in diffs:
         print("  " + line)
     over = [line for line, is_diff in diffs if is_diff]

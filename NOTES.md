@@ -2,6 +2,40 @@
 
 Facts and numbers only.
 
+## CORRECTION (L-049), 19 October 2026
+
+The Comparison B number in the headline below has the WRONG SIGN. See
+PROGRESS_LOG.md entry L-049. The headline text below this block is left exactly
+as it was first written and is superseded on this one point only.
+
+`scripts/20_analyse_results.py` computed the paired value as stale minus
+shrinkage on fidelity while calling it the gain of shrinkage over stale. Higher
+fidelity is better, so that sign is the wrong way round. The corrected numbers,
+same data, same bootstrap seed 20261014:
+
+    n = 1764 jobs over 22 days                 (unchanged)
+    mean paired gain of shrinkage over stale   +0.00176
+    95 percent interval                        [-0.00147, +0.00482]
+      at  6 h   +0.00345   [-0.00030, +0.00725]
+      at 24 h   -0.00003   [-0.00307, +0.00265]
+
+Flipping the sign negates the whole bootstrap distribution, so each interval
+bound becomes minus the other bound.
+
+THE VERDICT DOES NOT CHANGE. Comparison B is still NULL: every interval still
+includes zero. What changes is the direction of the point estimate. Shrinkage
+was slightly better than stale on average, by about 0.0018 of fidelity pooled
+and about 0.0034 at 6 h, but the interval includes zero, so no claim that
+shrinkage beats using the newest card is made. The sentence below, "the point
+estimate is negative, the method under test did not beat using the newest
+card", is wrong in direction and is superseded by this block.
+
+`scripts/23_independent_check.py` had the same inverted line, so the agreement
+reported in L-042 was an agreement on a sign-flipped number. Both scripts are
+fixed. Table A, the stale regret numbers and every other number in these notes
+are unaffected, because they use ceiling minus stale, where a larger number
+correctly means worse.
+
 ## HEADLINE, test period 21 Sep to 12 Oct 2026
 
 ### 1. The pre-registered fix did NOT work. Comparison B is null.

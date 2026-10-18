@@ -81,6 +81,7 @@ output recorded in NOTES.md. I did not reconstruct anything from memory alone.
 | L-046 | 2026-10-14 15:38 | FAULT | Correction to L-037: the Aer fault hits a clean process too, and my first bisection was wrong twice |
 | L-047 | 2026-10-14 15:39 | DONE | Wrote DISCLOSURES.md, led NOTES.md with the null, and re-verified all 22 frozen checksums |
 | L-048 | 2026-10-18 20:31 | DONE | Built report_pack: 141 files, 9.17 MB, zipped; secret scan 198 hits and 0 secrets; one team engine file changed, circuits.py |
+| L-049 | 2026-10-19 00:11 | FAULT | Correction to L-039: the Comparison B gain had the wrong sign, shrinkage is +0.00176 not -0.00176, and the null verdict is unchanged |
 
 ## Glossary
 
@@ -3867,3 +3868,121 @@ renamed or deleted.
 
 Next: still Round 2 under L-041, starting with a probe of whether IBM still
 serves cards older than 28 August 2026.
+
+---
+
+## L-049 | 2026-10-19 00:11 IST (2026-10-18 18:41 UTC) | FAULT | Correction to L-039: the Comparison B gain had the wrong sign, shrinkage is +0.00176 not -0.00176, and the null verdict is unchanged
+
+**This entry corrects the DIRECTION of the Comparison B number reported in
+L-039. L-039 and NOTES.md stay exactly as they were written. They are not
+edited, not reworded and not deleted. They are superseded by this entry on
+this one point.**
+
+**What was wrong.** `scripts/20_analyse_results.py` computed the paired
+Comparison B value as `stale - shrinkage` on FIDELITY, and the comment on that
+same line said ">0 = shrinkage better". Both cannot be true. Higher fidelity is
+better, so `stale - shrinkage` is positive when STALE is better, not when
+shrinkage is better. The arithmetic was right and the data was right. Only the
+sign of the reported gain, and therefore the sentence I wrote about it, was the
+wrong way round. The fault is mine. Nobody else introduced it and no library
+caused it.
+
+**How I found it.** Not by a test. I was writing the final project report and
+reading my own sentence "the point estimate is negative, the method did not
+beat using the newest card" next to the line of code that produced it, and the
+two did not agree. If I had not been reading the code and the prose side by
+side I would have shipped it.
+
+**What I verified first, before changing any code.** I recomputed the mean
+fidelity of the stale arm and the shrinkage arm straight from
+`outputs/test_full/all_rows.csv`, read only, with the same filter script 20
+uses: pivot to one row per job, drop the 360 jobs that touch the 22 to 23
+September publishing gaps, keep D = 6 and 24 h. 33888 rows, 5648 jobs, main set
+5288.
+
+```
+ D      n    mean stale   mean shrinkage   shrinkage - stale
+ 6    909      0.905697         0.909144           +0.003447
+24    855      0.903351         0.903321           -0.000030
+pool 1764      0.904560         0.906322           +0.001762
+```
+
+So shrinkage is the HIGHER fidelity of the two at 6 h and is level with stale at
+24 h. That is the opposite direction to what L-039 says, and it confirmed the
+fault before I touched anything.
+
+**The corrected numbers, from one read-only run of the fixed script 20 on the
+same file with the same bootstrap seed 20261014.** Nothing was re-run with a new
+seed and no new modelling choice was made.
+
+```
+                  as printed in L-039        corrected
+pooled mean           -0.00176               +0.00176
+pooled interval  [-0.00482, +0.00147]   [-0.00147, +0.00482]
+D =  6 h              -0.00345               +0.00345
+D =  6 h interval                       [-0.00030, +0.00725]
+D = 24 h              +0.00003               -0.00003
+D = 24 h interval                       [-0.00307, +0.00265]
+n = 1764 jobs over 22 days, unchanged
+```
+
+Because only the sign of the per-job value changed, the whole bootstrap
+distribution is simply negated, so each interval bound becomes minus the other
+bound. That is why the bounds swap as well as change sign.
+
+**THE VERDICT DOES NOT CHANGE. Comparison B is still a null result.** Every
+interval still includes zero. The script still prints "no significant
+difference". What changes is only the direction of the point estimate I quote in
+prose. The honest sentence is now: shrinkage was slightly better than stale on
+average, by about 0.0018 of fidelity pooled and about 0.0034 at 6 h, but the
+interval includes zero, so this project does not claim shrinkage beats using the
+newest card. The wrong sentence in L-039, "the point estimate is negative, the
+method did not beat using the newest card", stays in L-039 as written and is
+superseded here.
+
+**The same fault was in the independent check.**
+`scripts/23_independent_check.py` had the identical inverted line and the
+identical label, so its agreement with L-039 in L-042 was an agreement on a
+sign-flipped number. The 42 numbers it compared are still right in size, and the
+Table A and states-crossed parts were never affected, because those use
+`ceiling - stale`, where a larger number correctly means worse. I fixed the
+definition there too. That file also stores L-039's Comparison B values as
+constants to check against, so I negated those four numbers and swapped the
+interval bounds, with a comment saying why, otherwise the script would now
+report a false mismatch against its own reference.
+
+**Why this got past the sanity checks.** None of the four checks in PROTOCOL.md
+section 12 looks at the sign of Comparison B. Check 2 compares the ceiling with
+stale and check 3 ranks the arms, and both of those were right. A check that
+compared the ranked arm table with the Comparison B sign would have caught it:
+the exploratory arm table in the same printout has shrinkage at 0.9049 above
+stale at 0.9027, which contradicted the Comparison B line sitting a few lines
+above it in the same output. I had both on screen and did not join them up.
+
+**What changed, exactly.** `scripts/20_analyse_results.py`: the paired_gain
+definition flipped, a comment added saying what was wrong, and the printed label
+now says positive means shrinkage is better.
+`scripts/23_independent_check.py`: the same flip, the same comment, the four
+stored L-039 Comparison B constants corrected in direction, and a note printed
+above its comparison table. `NOTES.md`: a short CORRECTION block added at the
+very top, above the old headline. The old headline text below it is untouched.
+`PROGRESS_LOG.md`: this entry. Nothing else.
+
+**What was NOT touched.** `PROTOCOL.md`, `PROTOCOL_AMENDMENTS.md` and every
+file in `engine/`. All 22 frozen sha256 values from L-033 were checked again
+after these edits and all 22 still match, 0 failed. No existing log entry was
+edited. `data/raw` was not touched and nothing was written into `outputs/`.
+The engine was not run and no quantum hardware job was submitted.
+
+Files Claude Code changed for this entry, at my direction:
+`scripts/20_analyse_results.py`, `scripts/23_independent_check.py`,
+`NOTES.md` and this `PROGRESS_LOG.md` entry.
+
+What I did myself: I spotted the contradiction between my prose and the code
+while writing the report, I insisted the numbers be recomputed from the raw
+rows before any code was edited so that the fix was not based on my assumption
+about the sign, and I decided that L-039 and the old NOTES.md text are left
+standing and superseded rather than quietly corrected in place.
+
+Next: push the corrected scripts to the public repository, then Round 2 under
+L-041.
