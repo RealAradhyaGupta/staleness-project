@@ -14,6 +14,48 @@ withdrawal is named.
 
 ---
 
+## CORRECTION (L-049), 19 October 2026
+
+**Section 8 of this file has the WRONG SIGN on the Comparison B gain.** See
+PROGRESS_LOG.md entry L-049. The text of section 8 below is left exactly as it
+was first written on 14 October 2026 and is superseded on this one point only.
+
+`scripts/20_analyse_results.py` computed the paired Comparison B value as stale
+minus shrinkage on fidelity while the comment and the printed label called it
+the gain of shrinkage over stale. Higher fidelity is better, so that sign is the
+wrong way round. `scripts/23_independent_check.py` had the same inverted line,
+so the agreement reported in L-042 was an agreement on a sign-flipped number.
+Both scripts are fixed. The corrected numbers, same data and same bootstrap
+seed 20261014:
+
+    n = 1764 jobs over 22 days                 (unchanged)
+    mean paired gain of shrinkage over stale   +0.00176
+    95 percent interval                        [-0.00147, +0.00482]
+      at  6 h   +0.00345   [-0.00030, +0.00725]
+      at 24 h   -0.00003   [-0.00307, +0.00265]
+
+Flipping the sign negates the whole bootstrap distribution, so each interval
+bound becomes minus the other bound.
+
+**THE VERDICT DOES NOT CHANGE. Comparison B is still NULL.** Every interval
+still includes zero, so this project still makes no claim that shrinkage beats
+using the newest card. What changes is the direction of the point estimate.
+Shrinkage was slightly BETTER than stale on average, by about 0.0018 of
+fidelity pooled and about 0.0034 at 6 h, not worse. So the sentence in section 8
+below, "the point estimate is slightly negative. Our chosen setting did not beat
+using the newest card", is wrong in direction and is superseded by this block.
+The honest reading is that the fix neither beat nor lost to using the newest
+card: the result is a null, not a defeat.
+
+This fault reached a reported result. It did not change any other number in
+this project. Table A, the stale regret figures and every other number here are
+unaffected, because they use ceiling minus stale, where a larger number
+correctly means worse. It was found on 19 October 2026 while the final report
+was being written, by reading the prose and the line of code that produced it
+side by side.
+
+---
+
 ## 1. Faults in the data collection
 
 ### L-007: the 45 day download hung for 1 h 44 m
