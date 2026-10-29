@@ -1,0 +1,67 @@
+delay_h,column,n,mean,lo95,hi95,panel,machine,label
+1,random,970,0.7363053625263029,0.7161647620714238,0.750390994909109,mean fidelity,all three,EXPLORATORY (six arm comparison); A and B are the only confirmatory tests
+1,stale,970,0.9124323135870175,0.8915679013550109,0.9251333529097895,mean fidelity,all three,EXPLORATORY (six arm comparison); A and B are the only confirmatory tests
+1,window_mean,970,0.907005513032949,0.8867223920092782,0.9190727646310316,mean fidelity,all three,EXPLORATORY (six arm comparison); A and B are the only confirmatory tests
+1,std_adjusted,970,0.9076063101362271,0.8878813866068266,0.918719681764884,mean fidelity,all three,EXPLORATORY (six arm comparison); A and B are the only confirmatory tests
+1,shrinkage,970,0.9125812403248494,0.8929957003783159,0.9243429826264923,mean fidelity,all three,EXPLORATORY (six arm comparison); A and B are the only confirmatory tests
+1,ceiling,970,0.9181241783350118,0.8982944058216228,0.9288884947198011,mean fidelity,all three,EXPLORATORY (six arm comparison); A and B are the only confirmatory tests
+3,random,960,0.732843221970437,0.72277072563755,0.7424384246821061,mean fidelity,all three,EXPLORATORY (six arm comparison); A and B are the only confirmatory tests
+3,stale,960,0.9070308771675322,0.8948491439826373,0.9167950584963691,mean fidelity,all three,EXPLORATORY (six arm comparison); A and B are the only confirmatory tests
+3,window_mean,960,0.9107431158952193,0.899813848125282,0.9181616302509442,mean fidelity,all three,EXPLORATORY (six arm comparison); A and B are the only confirmatory tests
+3,std_adjusted,960,0.9089490754912523,0.8982493071842272,0.9160711640279489,mean fidelity,all three,EXPLORATORY (six arm comparison); A and B are the only confirmatory tests
+3,shrinkage,960,0.9100279070304222,0.8988134293959084,0.9188491621845544,mean fidelity,all three,EXPLORATORY (six arm comparison); A and B are the only confirmatory tests
+3,ceiling,960,0.9234328842402743,0.9130518046756975,0.9295339083027239,mean fidelity,all three,EXPLORATORY (six arm comparison); A and B are the only confirmatory tests
+6,random,954,0.737433006245072,0.7322771294671815,0.742816616401542,mean fidelity,all three,EXPLORATORY (six arm comparison); A and B are the only confirmatory tests
+6,stale,954,0.9065288109251242,0.899916866192252,0.9129772770813457,mean fidelity,all three,EXPLORATORY (six arm comparison); A and B are the only confirmatory tests
+6,window_mean,954,0.9151623762956423,0.9119489268343237,0.9181991565858048,mean fidelity,all three,EXPLORATORY (six arm comparison); A and B are the only confirmatory tests
+6,std_adjusted,954,0.9105790231151994,0.9053581620435245,0.9152457649401207,mean fidelity,all three,EXPLORATORY (six arm comparison); A and B are the only confirmatory tests
+6,shrinkage,954,0.9098256545591611,0.9049556874200346,0.9145338825430179,mean fidelity,all three,EXPLORATORY (six arm comparison); A and B are the only confirmatory tests
+6,ceiling,954,0.9286444172931646,0.9268641472440858,0.9302084374354035,mean fidelity,all three,EXPLORATORY (six arm comparison); A and B are the only confirmatory tests
+12,random,945,0.7320235468256152,0.7208197085742636,0.742005335676444,mean fidelity,all three,EXPLORATORY (six arm comparison); A and B are the only confirmatory tests
+12,stale,945,0.898809365294755,0.8872117438506323,0.9081596850934639,mean fidelity,all three,EXPLORATORY (six arm comparison); A and B are the only confirmatory tests
+12,window_mean,945,0.9046223855095109,0.8924661475902176,0.914490405102547,mean fidelity,all three,EXPLORATORY (six arm comparison); A and B are the only confirmatory tests
+12,std_adjusted,945,0.9030615296794366,0.8913822134691628,0.9118123481834506,mean fidelity,all three,EXPLORATORY (six arm comparison); A and B are the only confirmatory tests
+12,shrinkage,945,0.9014065920422538,0.889644141808901,0.9105926449605095,mean fidelity,all three,EXPLORATORY (six arm comparison); A and B are the only confirmatory tests
+12,ceiling,945,0.9238655268096984,0.9133726727293918,0.9298694718347584,mean fidelity,all three,EXPLORATORY (six arm comparison); A and B are the only confirmatory tests
+24,random,930,0.7318754177329726,0.7237657924822378,0.7395585118107603,mean fidelity,all three,EXPLORATORY (six arm comparison); A and B are the only confirmatory tests
+24,stale,930,0.9040784877539079,0.8968317642646404,0.9100924511669086,mean fidelity,all three,EXPLORATORY (six arm comparison); A and B are the only confirmatory tests
+24,window_mean,930,0.9101153027424972,0.904806773477526,0.9150475842346973,mean fidelity,all three,EXPLORATORY (six arm comparison); A and B are the only confirmatory tests
+24,std_adjusted,930,0.9059755305655413,0.8994394379467219,0.9113339706677003,mean fidelity,all three,EXPLORATORY (six arm comparison); A and B are the only confirmatory tests
+24,shrinkage,930,0.9040371688599884,0.8975962252073858,0.9101049556718598,mean fidelity,all three,EXPLORATORY (six arm comparison); A and B are the only confirmatory tests
+24,ceiling,930,0.9279541297839232,0.9258719194753816,0.9297129466728281,mean fidelity,all three,EXPLORATORY (six arm comparison); A and B are the only confirmatory tests
+48,random,889,0.7293932691902837,0.7176362413443287,0.7391314353685333,mean fidelity,all three,EXPLORATORY (six arm comparison); A and B are the only confirmatory tests
+48,stale,889,0.8861033558148571,0.8679938775215866,0.9007461897895431,mean fidelity,all three,EXPLORATORY (six arm comparison); A and B are the only confirmatory tests
+48,window_mean,889,0.9014197472547171,0.8885633304540881,0.9116851678097011,mean fidelity,all three,EXPLORATORY (six arm comparison); A and B are the only confirmatory tests
+48,std_adjusted,889,0.8934956361721123,0.8741402574653386,0.9084641539491706,mean fidelity,all three,EXPLORATORY (six arm comparison); A and B are the only confirmatory tests
+48,shrinkage,889,0.890576842855649,0.873657877337469,0.9038467269272941,mean fidelity,all three,EXPLORATORY (six arm comparison); A and B are the only confirmatory tests
+48,ceiling,889,0.9228419099692744,0.9117827039854814,0.9293485712172647,mean fidelity,all three,EXPLORATORY (six arm comparison); A and B are the only confirmatory tests
+1,regret_random,970,0.18181881580870887,0.1741770114045676,0.18941245461606376,regret vs ceiling,all three,EXPLORATORY (six arm comparison); A and B are the only confirmatory tests
+1,regret_stale,970,0.005691864747994299,0.0019270493302333894,0.010391196382334489,regret vs ceiling,all three,EXPLORATORY (six arm comparison); A and B are the only confirmatory tests
+1,regret_window_mean,970,0.01111866530206282,0.00845680627466325,0.014250862638962703,regret vs ceiling,all three,EXPLORATORY (six arm comparison); A and B are the only confirmatory tests
+1,regret_std_adjusted,970,0.010517868198784698,0.008745670451560723,0.012409816133381052,regret vs ceiling,all three,EXPLORATORY (six arm comparison); A and B are the only confirmatory tests
+1,regret_shrinkage,970,0.005542938010162404,0.0034524381221934498,0.008113171973875745,regret vs ceiling,all three,EXPLORATORY (six arm comparison); A and B are the only confirmatory tests
+3,regret_random,960,0.19058966226983728,0.18321697690646424,0.19751288200788927,regret vs ceiling,all three,EXPLORATORY (six arm comparison); A and B are the only confirmatory tests
+3,regret_stale,960,0.01640200707274229,0.009536367453175067,0.024423488274604027,regret vs ceiling,all three,EXPLORATORY (six arm comparison); A and B are the only confirmatory tests
+3,regret_window_mean,960,0.012689768345054902,0.00994478212526123,0.015823561651419384,regret vs ceiling,all three,EXPLORATORY (six arm comparison); A and B are the only confirmatory tests
+3,regret_std_adjusted,960,0.014483808749022047,0.012231499697786334,0.01679774044001639,regret vs ceiling,all three,EXPLORATORY (six arm comparison); A and B are the only confirmatory tests
+3,regret_shrinkage,960,0.013404977209852035,0.008347864930196049,0.01924308123475833,regret vs ceiling,all three,EXPLORATORY (six arm comparison); A and B are the only confirmatory tests
+6,regret_random,954,0.19121141104809247,0.18547864792977237,0.19688938170244424,regret vs ceiling,all three,EXPLORATORY (six arm comparison); A and B are the only confirmatory tests
+6,regret_stale,954,0.022115606368040393,0.016069276529863712,0.02879097211612201,regret vs ceiling,all three,EXPLORATORY (six arm comparison); A and B are the only confirmatory tests
+6,regret_window_mean,954,0.013482040997522227,0.01120620696096737,0.015602848416835478,regret vs ceiling,all three,EXPLORATORY (six arm comparison); A and B are the only confirmatory tests
+6,regret_std_adjusted,954,0.01806539417796522,0.014070428572849465,0.022261971158767185,regret vs ceiling,all three,EXPLORATORY (six arm comparison); A and B are the only confirmatory tests
+6,regret_shrinkage,954,0.01881876273400353,0.014936605697030605,0.022751730997831416,regret vs ceiling,all three,EXPLORATORY (six arm comparison); A and B are the only confirmatory tests
+12,regret_random,945,0.19184197998408317,0.18425190127099283,0.19875712595547013,regret vs ceiling,all three,EXPLORATORY (six arm comparison); A and B are the only confirmatory tests
+12,regret_stale,945,0.025056161514943266,0.019046853750034336,0.03184775675679384,regret vs ceiling,all three,EXPLORATORY (six arm comparison); A and B are the only confirmatory tests
+12,regret_window_mean,945,0.019243141300187495,0.013758074992524889,0.027085352267104047,regret vs ceiling,all three,EXPLORATORY (six arm comparison); A and B are the only confirmatory tests
+12,regret_std_adjusted,945,0.02080399713026174,0.01628035760044218,0.026185223299982855,regret vs ceiling,all three,EXPLORATORY (six arm comparison); A and B are the only confirmatory tests
+12,regret_shrinkage,945,0.022458934767444587,0.017368941571593258,0.028402555377209846,regret vs ceiling,all three,EXPLORATORY (six arm comparison); A and B are the only confirmatory tests
+24,regret_random,930,0.19607871205095048,0.1878585936848679,0.20406067632657057,regret vs ceiling,all three,EXPLORATORY (six arm comparison); A and B are the only confirmatory tests
+24,regret_stale,930,0.023875642030015208,0.01818685814456485,0.030482128512610868,regret vs ceiling,all three,EXPLORATORY (six arm comparison); A and B are the only confirmatory tests
+24,regret_window_mean,930,0.017838827041425868,0.013893790436140764,0.022080841947765217,regret vs ceiling,all three,EXPLORATORY (six arm comparison); A and B are the only confirmatory tests
+24,regret_std_adjusted,930,0.021978599218381873,0.01748409572648604,0.0270998435726039,regret vs ceiling,all three,EXPLORATORY (six arm comparison); A and B are the only confirmatory tests
+24,regret_shrinkage,930,0.023916960923934694,0.018517146841718766,0.03003231319464807,regret vs ceiling,all three,EXPLORATORY (six arm comparison); A and B are the only confirmatory tests
+48,regret_random,889,0.19344864077899068,0.18718430673876005,0.19943854189191915,regret vs ceiling,all three,EXPLORATORY (six arm comparison); A and B are the only confirmatory tests
+48,regret_stale,889,0.03673855415441715,0.025900853042362268,0.04891055715773882,regret vs ceiling,all three,EXPLORATORY (six arm comparison); A and B are the only confirmatory tests
+48,regret_window_mean,889,0.021422162714557342,0.015793297482240693,0.02953958766830828,regret vs ceiling,all three,EXPLORATORY (six arm comparison); A and B are the only confirmatory tests
+48,regret_std_adjusted,889,0.02934627379716208,0.01988442987907757,0.043864373052499,regret vs ceiling,all three,EXPLORATORY (six arm comparison); A and B are the only confirmatory tests
+48,regret_shrinkage,889,0.032265067113625416,0.023625025096212747,0.04279671170952764,regret vs ceiling,all three,EXPLORATORY (six arm comparison); A and B are the only confirmatory tests

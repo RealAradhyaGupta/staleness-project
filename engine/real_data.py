@@ -21,6 +21,7 @@ error at 0.9375, giving the identical channel above those and no warning. The
 team's ERR_CAP of 0.5 is far below that and would hide how bad a dead gate is,
 so it is NOT used for truth. Every clip is counted and reported.
 """
+import os
 import pickle
 from pathlib import Path
 
@@ -32,9 +33,14 @@ from qiskit.providers import QubitProperties
 import engine_config as cfg
 
 ROOT = Path(__file__).resolve().parent.parent      # the project root
-CLEAN = ROOT / "data/clean"
 TARGETS = ROOT / "data/targets"
-CACHE_DIR = ROOT / "data/cache"
+# ROUND 2, additive: the tables and the cache can be pointed somewhere else by
+# two environment variables. Unset, these are exactly the Round 1 paths, so
+# Round 1 behaviour is byte for byte unchanged. Round 2 needs a store that
+# spans BOTH windows, because a job submitted on 13 Oct must look back at the
+# development cards, and data/clean must stay as the Round 1 record.
+CLEAN = Path(os.environ.get("STALENESS_CLEAN_DIR", ROOT / "data/clean"))
+CACHE_DIR = Path(os.environ.get("STALENESS_CACHE_DIR", ROOT / "data/cache"))
 FIELDS = ["t1", "t2", "err_ro", "err_1q", "err_2q"]
 MISSING_T1_S = 10e-6        # the team's stand in for a missing T1, in seconds
 

@@ -1,0 +1,30 @@
+ROUND 2 FREEZE
+
+After this point the rule cannot change. Any edit to a file
+below changes its checksum and is therefore visible.
+
+frozen at (UTC): 2026-10-24T18:41:15.869712+00:00
+rule cross check: table matches outputs/round2/stage1_fitted_rule.json
+
+SHA-256:
+  b8c203bab1407369fc66cd172b4d8009ad01e81b14c4c690bf2970dee615ffa6  protocol_round2.md
+  2ebfae2a8ffd68ed1cfa5de636e950a117b9d7cba3cefeb5236354bac29bcb6a  scripts/30_hybrid_rule.py
+  6f79cbcd43f1d68d54995a7504d4ed537f5f0de99b0064a4a28908c34ecf5c9b  scripts/31_analyse_round2.py
+  b8cffca2856ac78056f64c074ef91e5eea20edbc8701451d1c710f1d641d02b5  scripts/33_round2_fit.py
+  467f82315089364ce18ae9bada56426abc062efe56888db96cc9ffee28896526  scripts/34_run_round2.py
+  c034342a878905bdb87cb7ab67b002ecbd26097ae04f153b64c37d11f5c0ec2d  scripts/35_build_round2_tables.py
+  68e265f71fd9544dbaa5146a998c30fce42fc402be2d17b96f03fc852a9a6ea5  scripts/36_freeze_tests.py
+  bc1683ae1bebad08b127473f12972294127b1dcb4bf6a12475ccd2693246f463  scripts/37_round2_freeze.py
+  e9b034d1f1fd5538c5d86921e577fabe8d0601fa988cc381274136807a4e10cc  engine/run_engine.py
+  9291487ae836cfc532de603f438d81cf90249964338485f5927ec5a02447aeed  engine/real_data.py
+  32d1d3690e1820e012cc710e99d248edaccb8f8f6d70026539d1b4d6f9961fe0  engine/strategies.py
+  288fef86a3e82de5565830d32e2d147ce642d61518d9a0116a548b49c6a03858  engine/jobs.py
+  c6f9f00c37d46fa76fe6de71e7f1c867356b3e5703b5965573d311d0dacb3cce  engine/circuits.py
+  5eafe54fbb96f126b10167bfbe07ec40d267e8adb521c8f97db6581576a4c0bf  engine/engine_config.py
+  516fd2ed14a8ae7526a33042040f05238ac108eda43ea906e37ba0846dea0c8a  engine/snapshot.py
+  f80460473706d9213da3a60cc6dce45e075b64a8ef1d3e28e666e81d24878b72  scripts/20_analyse_results.py
+
+the w(D) table itself, as canonical JSON:
+  fe3e3dee8c6bc65f81571fce12f88b067422a5f8be0afb966954cf2cae7d69b1  (sha256 of the table below)
+  {"GUARD_M": 1, "N_BY_GROUP": {"cz": 12, "readout": 12, "sx": 5, "times": 12}, "PERMANENT_DEFECTS": {"ibm_fez": [72], "ibm_kingston": [113, 121, 146], "ibm_marrakesh": [82, 94, 113, 130]}, "W_BY_GROUP_AND_DELAY": {"cz": {"1": 0.0, "3": 0.05, "6": 0.1, "12": 0.25, "24": 0.45, "48": 0.55}, "readout": {"1": 0.15, "3": 0.4, "6": 0.65, "12": 0.85, "24": 0.9, "48": 0.9}, "sx": {"1": 0.05, "3": 0.05, "6": 0.15, "12": 0.3, "24": 0.55, "48": 0.7}, "times": {"1": 0.0, "3": 0.1, "6": 0.15, "12": 0.35, "24": 0.8, "48": 0.9}}}
+

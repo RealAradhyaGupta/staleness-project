@@ -1,0 +1,36 @@
+========================================================================
+ROUND 2 FREEZE TESTS
+========================================================================
+  rule cross check: table matches outputs/round2/stage1_fitted_rule.json
+  store: ibm_fez, 313 states, probing state 300 (2026-10-11T01:35:00+00:00)
+
+(i) a field with weight 0 gives EXACTLY the stale numbers
+    the frozen table has 2 field-group and delay pairs at w = 0: [('cz', 1), ('times', 1)]
+  PASS  (i) every w = 0 field is bit for bit the stale value
+        2 pairs checked, exact float equality
+
+(ii) with every weight 0 and the guard off, hybrid equals stale
+  PASS  (ii) hybrid with all weights 0 equals stale, numbers and target
+        D=1 forbids 2; D=3 forbids 2; D=6 forbids 2; D=12 forbids 2; D=24 forbids 2; D=48 forbids 2
+  PASS  (ii-restore) the frozen weight table is back as written
+        readout w at D = 24 is 0.9
+
+(iii) the rule never reads a card newer than the submission time
+  PASS  (iii) no state newer than the submission time is ever read
+        D=1: read 282 states, newest index 300 of an allowed 300; D=3: read 282 states, newest index 300 of an allowed 300; D=6: read 282 states, newest index 300 of an allowed 300; D=12: read 282 states, newest index 300 of an allowed 300; D=24: read 282 states, newest index 300 of an allowed 300; D=48: read 282 states, newest index 300 of an allowed 300
+  PASS  (iii-strict) not one read above the submission index
+        reads above index 300: []
+
+(iv) at M = 1 the guard is what stale already removes
+  PASS  (iv) guard_only would be identical to stale, so it is not run
+        state 300: guard 2, stale 2, equal; state 250: guard 2, stale 2, equal; state 180: guard 1, stale 1, equal; state 312: guard 2, stale 2, equal
+
+extra, not a stop test: does the guard change anything for hybrid?
+  the guard adds at least one qubit that the hybrid's own blended
+  numbers would NOT have called dead in 178 of 400 checks.
+  That is why the guard is kept for hybrid even though it is a
+  no-op for stale: blending readout can pull a failed qubit back
+  under the 0.2 threshold and make it look usable again.
+
+========================================================================
+ALL 6 FREEZE TESTS PASSED

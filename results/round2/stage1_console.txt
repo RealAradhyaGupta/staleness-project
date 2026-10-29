@@ -1,0 +1,202 @@
+
+========================================================================
+STAGE 1: fit on development cards only (28 Aug to 12 Oct 2026)
+========================================================================
+  no card after 12 Oct is read; no transpiling and no simulation here
+  points kept: 2396 over 405 submissions and 46 calendar days
+  development window: 2026-08-28 to 2026-10-12
+  5 chronological blocks, ['2026-08-28..2026-09-06 (10d)', '2026-09-07..2026-09-15 (9d)', '2026-09-16..2026-09-24 (9d)', '2026-09-25..2026-10-03 (9d)', '2026-10-04..2026-10-12 (9d)']
+  purge between a test block and its training blocks: 48 h
+  w grid: 0 to 1 in steps of 0.05 (21 values); N grid [3, 5, 8, 12]
+
+========================================================================
+STAGE 1 PARTS A and B: blend weights per field group
+========================================================================
+
+  --- readout ---
+  readout: 373776 usable (point, qubit) values at N=3, 0 dropped for a changed field shape
+
+  [readout] choosing N by pooled training MSE averaged over the six delays:
+    N = 12   pooled training MSE 0.212054  <-- chosen
+    N =  8   pooled training MSE 0.217887
+    N =  5   pooled training MSE 0.230650
+    N =  3   pooled training MSE 0.254198
+  [readout] w by delay at N = 12, chosen on the held-out blocks:
+     D (h)    w raw  w isotonic  w final    MSE at w  MSE at w=0  drop in MSE
+         1     0.15      0.1500     0.15    0.063367    0.067212     0.003845
+         3     0.40      0.4000     0.40    0.166782    0.200487     0.033704
+         6     0.65      0.6500     0.65    0.223882    0.317563     0.093681
+        12     0.85      0.8500     0.85    0.260191    0.424099     0.163908
+        24     0.90      0.9000     0.90    0.277427    0.462730     0.185303
+        48     0.90      0.9000     0.90    0.283682    0.478383     0.194701
+  [readout] clustered standard error of the best w (400 day resamples):
+     D (h)   w best  boot mean  clustered SE  w - SE > 0
+         1     0.15      0.129         0.026        True
+         3     0.40      0.379         0.031        True
+         6     0.65      0.634         0.030        True
+        12     0.85      0.836         0.023        True
+        24     0.90      0.894         0.017        True
+        48     0.90      0.907         0.018        True
+    delays where w is above 0 by more than one clustered SE: 6 of 6
+    -> readout gets its own w(D)
+
+  --- sx ---
+  sx: 373776 usable (point, qubit) values at N=3, 0 dropped for a changed field shape
+
+  [sx] choosing N by pooled training MSE averaged over the six delays:
+    N =  5   pooled training MSE 0.090578  <-- chosen
+    N =  8   pooled training MSE 0.090709
+    N = 12   pooled training MSE 0.092651
+    N =  3   pooled training MSE 0.093452
+  [sx] w by delay at N = 5, chosen on the held-out blocks:
+     D (h)    w raw  w isotonic  w final    MSE at w  MSE at w=0  drop in MSE
+         1     0.05      0.0500     0.05    0.010046    0.010115     0.000069
+         3     0.05      0.0500     0.05    0.024535    0.025113     0.000578
+         6     0.15      0.1500     0.15    0.047826    0.049927     0.002100
+        12     0.30      0.3000     0.30    0.096886    0.108809     0.011922
+        24     0.55      0.5500     0.55    0.161976    0.205055     0.043079
+        48     0.70      0.7000     0.70    0.198917    0.261639     0.062722
+  [sx] clustered standard error of the best w (400 day resamples):
+     D (h)   w best  boot mean  clustered SE  w - SE > 0
+         1     0.05      0.035         0.023        True
+         3     0.05      0.064         0.022        True
+         6     0.15      0.128         0.025        True
+        12     0.30      0.303         0.033        True
+        24     0.55      0.573         0.038        True
+        48     0.70      0.691         0.040        True
+    delays where w is above 0 by more than one clustered SE: 6 of 6
+    -> sx gets its own w(D)
+
+  --- cz ---
+  cz: 420816 usable (point, qubit) values at N=3, 880 dropped for a changed field shape
+
+  [cz] choosing N by pooled training MSE averaged over the six delays:
+    N = 12   pooled training MSE 0.077872  <-- chosen
+    N =  8   pooled training MSE 0.077992
+    N =  5   pooled training MSE 0.078129
+    N =  3   pooled training MSE 0.079530
+  [cz] w by delay at N = 12, chosen on the held-out blocks:
+     D (h)    w raw  w isotonic  w final    MSE at w  MSE at w=0  drop in MSE
+         1     0.00      0.0000     0.00    0.005678    0.005678     0.000000
+         3     0.05      0.0500     0.05    0.020114    0.020575     0.000461
+         6     0.10      0.1000     0.10    0.038473    0.039971     0.001497
+        12     0.25      0.2500     0.25    0.084103    0.093226     0.009122
+        24     0.45      0.4500     0.45    0.144127    0.178048     0.033920
+        48     0.55      0.5500     0.55    0.172888    0.219826     0.046938
+  [cz] clustered standard error of the best w (400 day resamples):
+     D (h)   w best  boot mean  clustered SE  w - SE > 0
+         1     0.00      0.002         0.009       False
+         3     0.05      0.051         0.009        True
+         6     0.10      0.099         0.014        True
+        12     0.25      0.238         0.024        True
+        24     0.45      0.453         0.033        True
+        48     0.55      0.536         0.034        True
+    delays where w is above 0 by more than one clustered SE: 5 of 6
+    -> cz gets its own w(D)
+
+  --- times ---
+  times: 741906 usable (point, qubit) values at N=3, 0 dropped for a changed field shape
+
+  [times] choosing N by pooled training MSE averaged over the six delays:
+    N = 12   pooled training MSE 0.065778  <-- chosen
+    N =  8   pooled training MSE 0.066432
+    N =  5   pooled training MSE 0.068808
+    N =  3   pooled training MSE 0.073804
+  [times] w by delay at N = 12, chosen on the held-out blocks:
+     D (h)    w raw  w isotonic  w final    MSE at w  MSE at w=0  drop in MSE
+         1     0.00      0.0000     0.00    0.005933    0.005933     0.000000
+         3     0.10      0.1000     0.10    0.019601    0.020298     0.000697
+         6     0.15      0.1500     0.15    0.033156    0.035419     0.002263
+        12     0.35      0.3500     0.35    0.076760    0.091911     0.015151
+        24     0.80      0.8000     0.80    0.124949    0.197301     0.072353
+        48     0.90      0.9000     0.90    0.132056    0.224107     0.092050
+  [times] clustered standard error of the best w (400 day resamples):
+     D (h)   w best  boot mean  clustered SE  w - SE > 0
+         1     0.00      0.018         0.024       False
+         3     0.10      0.085         0.023        True
+         6     0.15      0.143         0.021        True
+        12     0.35      0.370         0.031        True
+        24     0.80      0.801         0.024        True
+        48     0.90      0.901         0.005        True
+    delays where w is above 0 by more than one clustered SE: 5 of 6
+    -> times gets its own w(D)
+
+========================================================================
+STAGE 1 PART C: the dead qubit guard
+========================================================================
+  rule under test: a qubit dead in ANY of the last M distinct states is treated as dead at run time
+  permanent defects are excluded from both sides, because they are removed for every arm anyway
+  permanent defects over the whole development window, ibm_fez: 1 qubits [72]
+  permanent defects over the whole development window, ibm_kingston: 3 qubits [113, 121, 146]
+  permanent defects over the whole development window, ibm_marrakesh: 4 qubits [82, 94, 113, 130]
+
+  pooled over machines and delays:
+      M  precision   recall      F1   healthy removed per card   truth dead per card
+      1     0.4767   0.4637  0.4701                     0.6093                1.1970
+      2     0.3651   0.5021  0.4228                     1.0451                1.1970
+      4     0.2706   0.5338  0.3592                     1.7220                1.1970
+      8     0.1761   0.5962  0.2719                     3.3393                1.1970
+
+  at D = 24 h, pooled over machines (this is the choosing rule):
+      M  precision   recall      F1   healthy removed per card
+      1     0.2424   0.2342  0.2382                     0.8741
+      2     0.2046   0.2806  0.2367                     1.3023
+      4     0.1681   0.3312  0.2230                     1.9572
+      8     0.1335   0.4515  0.2061                     3.4987
+    best F1 at D = 24 h is 0.2382; ties go to the smaller M
+    -> M = 1
+
+  full table, every M and every D:
+      M  D (h)  precision   recall      F1   healthy removed per card
+      1      1     0.9012   0.8813  0.8911                     0.1185
+      1      3     0.6730   0.6605  0.6667                     0.3846
+      1      6     0.4701   0.4741  0.4721                     0.6169
+      1     12     0.2931   0.2725  0.2825                     0.8200
+      1     24     0.2424   0.2342  0.2382                     0.8741
+      1     48     0.2409   0.2350  0.2379                     0.8586
+      2      1     0.6485   0.8873  0.7494                     0.5901
+      2      3     0.5045   0.6977  0.5856                     0.8213
+      2      6     0.3646   0.5194  0.4284                     1.0448
+      2     12     0.2481   0.3267  0.2820                     1.2350
+      2     24     0.2046   0.2806  0.2367                     1.3023
+      2     48     0.1990   0.2772  0.2317                     1.2931
+      4      1     0.4603   0.8974  0.6085                     1.2914
+      4      3     0.3613   0.7143  0.4798                     1.5136
+      4      6     0.2637   0.5388  0.3541                     1.7363
+      4     12     0.1981   0.3747  0.2592                     1.8925
+      4     24     0.1681   0.3312  0.2230                     1.9572
+      4     48     0.1610   0.3237  0.2150                     1.9563
+      8      1     0.2704   0.9054  0.4165                     2.9975
+      8      3     0.2204   0.7474  0.3404                     3.1687
+      8      6     0.1749   0.6121  0.2720                     3.3333
+      8     12     0.1412   0.4569  0.2157                     3.4675
+      8     24     0.1335   0.4515  0.2061                     3.4987
+      8     48     0.1104   0.3836  0.1715                     3.5835
+
+========================================================================
+STAGE 1 PART D: window mean minus stale on the existing Round 1 rows
+========================================================================
+  gain = F_window_mean minus F_stale (positive means window mean is better). Pooled over D = 6, 12, 24 and 48 h. All jobs are included, gap jobs among them, as PROTOCOL.md section 10 requires.
+
+    subset                        n jobs   mean gain    95% low   95% high     days
+    all jobs                        3718    0.008865   0.004389   0.015157       22
+    stale used a dead qubit           61    0.196080   0.128799   0.267599       14
+    stale used no dead qubit        3657    0.005742   0.001797   0.011749       22
+
+========================================================================
+STAGE 1 RESULT: the rule to be frozen
+========================================================================
+  N (one value for every delay and every field group):
+    readout    N = 12
+    sx         N = 5
+    cz         N = 12
+    times      N = 12
+  w(D) table, the weight on the median of the last N distinct values:
+    group          D=1     D=3     D=6    D=12    D=24    D=48   blended?
+    readout       0.15    0.40    0.65    0.85    0.90    0.90   yes
+    sx            0.05    0.05    0.15    0.30    0.55    0.70   yes
+    cz            0.00    0.05    0.10    0.25    0.45    0.55   yes
+    times         0.00    0.10    0.15    0.35    0.80    0.90   yes
+  dead qubit guard: M = 1 (dead in any of the last 1 distinct states)
+
+  written to <project root>/outputs/round2/stage1_fitted_rule.json

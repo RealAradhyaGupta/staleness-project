@@ -1,0 +1,47 @@
+FREEZE_HARDWARE.txt
+Stage 6 Part A, hardware validation. Written BEFORE any quantum job was
+submitted, including the pilot.
+
+frozen at (UTC, from the clock): 2026-10-25T16:32:09Z
+device decided:                  ibm_kingston (Online at 2026-10-25T16:12:10Z)
+instance:                        open-instance, plan open
+account usage at freeze time:    0 s consumed of 600 s allocated
+cap for this stage:              180 s of QPU usage in total
+
+This freeze does not change the rule, protocol_round2.md, FREEZE.txt or
+any Round 2 result. scripts/30_hybrid_rule.py is listed here only so that
+the record shows WHICH frozen rule was used, unchanged.
+
+SHA-256:
+  protocol_hardware.md               5ad555c88459bfb8a78c0bf033231fd30a32cf856aaad898370ddfeae5b184ff
+  scripts/40_hw_probe.py             fbecf76aae7b449691ee8ea1b9ff3fe6606af004c7c9ea1741023656910cddc9
+  scripts/41_build_hw_tables.py      260e0dda2b46933db8e38d7ac6710470c6fd95cd101c0119b416d8e1de6676cc
+  scripts/42_hw_run.py               a971a9187806431ba1f204ff70045787b0a061ec1e306622850b983bae841089
+  scripts/43_hw_analyse.py           123193155d2db6dcfefb777c4709e48691a2d6b04ca71d580ed89181cb8a6115
+  scripts/44_stage6_explore.py       59cd5d1faef78bc164084b321c60e3b428eaa327621a18a23723075e7a003fc7
+  scripts/30_hybrid_rule.py          2ebfae2a8ffd68ed1cfa5de636e950a117b9d7cba3cefeb5236354bac29bcb6a
+  engine/real_data.py                9291487ae836cfc532de603f438d81cf90249964338485f5927ec5a02447aeed
+  engine/circuits.py                 c6f9f00c37d46fa76fe6de71e7f1c867356b3e5703b5965573d311d0dacb3cce
+  engine/strategies.py               32d1d3690e1820e012cc710e99d248edaccb8f8f6d70026539d1b4d6f9961fe0
+  engine/run_engine.py               e9b034d1f1fd5538c5d86921e577fabe8d0601fa988cc381274136807a4e10cc
+  engine/engine_config.py            5eafe54fbb96f126b10167bfbe07ec40d267e8adb521c8f97db6581576a4c0bf
+
+The pre-stated choices, so they cannot be reread later as if they were
+chosen after the data:
+  primary comparison    window_mean minus stale
+  secondary comparison  hybrid minus stale
+  arms                  stale, window_mean, hybrid (3 PUBs in ONE job)
+  circuits              ghz5, ghz8, bv8, qft5 (4 peak input)
+  compile times         t0, t0+2h, t0+4h
+  local hold            D = 6 h, so submissions at t0+6h, t0+8h, t0+10h
+  jobs                  12 Sampler jobs, 1000 shots per PUB
+  transpile             optimization level 2, seed_transpiler 11
+  hybrid weights at D=6 readout 0.65, sx 0.15, cz 0.10, times 0.15
+  guard                 M = 1, as frozen
+  ties                  identical transpiled circuits run ONCE, both arms
+                        given that result, paired difference exactly 0,
+                        and counted (never dropped)
+  bootstrap             4000 resamples of the jobs, seed 20261025
+  stop rules            no device Online; pilot above 10 s; projection
+                        for 12 jobs above 150 s; usage unreadable (fail
+                        closed); under 480 s left on the account

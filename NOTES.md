@@ -1032,3 +1032,129 @@ posted anywhere. Measured on qiskit-aer 0.17.2, qiskit 2.5.2, Python 3.12.4.
   reproduces the fault alone.
 - NOT reproduced from invented numbers. The synthetic attempt builds 95 single
   term Kraus entries, more than the 18 in the real model, and runs clean.
+
+<!-- Appended 2026-10-29 from outputs/protocol_headline/PREPARED_correction_NOTES.md.
+     Appended at the end of the file, not inserted below the
+     L-049 block, so no existing line is reworded. -->
+
+## CORRECTION (L-053), 24 October 2026
+
+The headline below was computed on 5288 jobs. The frozen protocol specifies
+5648. See PROGRESS_LOG.md entries L-052 and L-053. The headline text below this
+block is left exactly as it was first written and is superseded on this one
+point only.
+
+`scripts/20_analyse_results.py` runs both confirmatory comparisons on
+`main_set = w[~w.touches_gap]`, dropping the 360 jobs that straddle a 22 to 23
+September publishing gap. PROTOCOL.md section 10 says that gap "stays in",
+results are "reported with it included", and the straddling jobs are "reported
+separately so its effect is visible". Amendment A1.6 reaffirmed it. The
+separate reporting was done; the inclusion was not.
+
+Nothing was overwritten. Script 20 is unchanged and every reported number
+stands. The protocol-faithful figures come from
+`scripts/28_protocol_headline.py`, which imports the bootstrap, the seed
+20261014 and the 4000 resamples from script 20, so only the job selection
+differs, and which asserts that the 5288-job selection still reproduces every
+reported number inside 0.0005.
+
+Comparison A, mean stale regret against the ceiling:
+
+    D       reported (5288)   protocol (5648)   protocol 95 pct interval
+     1 h    +0.0059           +0.0057           [+0.0019, +0.0104]
+     3 h    +0.0171           +0.0164           [+0.0096, +0.0242]
+     6 h    +0.0230           +0.0221           [+0.0159, +0.0285]
+    12 h    +0.0259           +0.0251           [+0.0192, +0.0319]
+    24 h    +0.0245           +0.0239           [+0.0182, +0.0307]
+    48 h    +0.0367           +0.0367           [+0.0263, +0.0494]
+
+Comparison B on all 5648 jobs, gain = shrinkage minus stale, positive means
+shrinkage is better:
+
+      at  6 h   +0.00330   [-0.00037, +0.00694]
+      at 24 h   -0.00004   [-0.00288, +0.00255]
+      pooled    +0.00165   [-0.00126, +0.00458]
+
+The 360 gap jobs on their own: Comparison A +0.0000, +0.0000, +0.0050, +0.0138,
++0.0166, +0.0375 by delay; Comparison B +0.00027 at 6 h, -0.00017 at 24 h.
+
+NO VERDICT CHANGES. Comparison A is still positive at every delay with every
+interval above zero and still grows with delay. Comparison B is still NULL at
+6 h, at 24 h and pooled. The two sets of numbers are consistent with each
+other, differing by at most 0.0008 of fidelity.
+
+The headline moves slightly DOWN, not up, because during a publishing gap few
+or no new states appear, so a stale card is often still correct. The no-change
+share among the 360 gap jobs is 87.5 percent at 1 and 3 hours against 72.6 and
+39.7 percent in the non-gap set, and their stale regret at those delays is
+exactly 0.0000.
+
+Second departure, recorded and not fixed: PROTOCOL.md section 11 defines
+Comparison B "at D = 6 hours and D = 24 hours, pooled over machines and
+circuits", which is two numbers, while script 20 headlines a third number that
+also pools the two delays. Both are given above and the verdict is the same
+either way.
+
+The dead-qubit row share changes slightly because the stale arm now carries all
+81 of its dead rows instead of 76: 20.99 percent of summed stale regret sits in
+them, against the 20.41 percent recorded for the 5288-job set.
+
+## Stage 6 Part A, real hardware, ibm_kingston, 25 to 26 Oct 2026
+
+- Account: instance open-instance, open plan, 600 s allocated, 0 s used before.
+- Freeze: FREEZE_HARDWARE.txt at 2026-10-25T16:32:09Z, before the pilot.
+- t0 2026-10-25T16:32:39Z. 3 compile slots 2 h apart, 6 h hold, 12 jobs.
+- Live cards fetched: 70, 2026-10-24T01:05:39Z to 2026-10-25T16:16:28Z.
+- Store data/clean_hw: 376 distinct states, both reference checks IDENTICAL.
+- Pilot Bell 100 shots: 2.000 s. Overhead 1.975 s per job.
+- Projection for 12 jobs 32.825 s, actual 35.000 s. Guard was 150 s.
+- Usage: 12 jobs DONE, 0 MISSED, 0 SKIPPED_FOR_CAP, 0 retries, 0 late compiles.
+- TOTAL 37.000 s of the 180 s cap (20.6 percent). Account counter moved 34.0 s.
+- Fidelity means: stale 0.8845, window_mean 0.8720, hybrid 0.8847.
+- PRIMARY window_mean minus stale: -0.01256, SD 0.04382, 95 pct -0.03906 to +0.00710.
+- secondary hybrid minus stale: +0.00018, SD 0.02246, 95 pct -0.01253 to +0.01151.
+- extra hybrid minus window_mean: +0.01274, 95 pct -0.00276 to +0.03903.
+- Bootstrap 4000 resamples of jobs, seed 20261025.
+- Ties: 29 PUBs for 36 arm results. wm=stale 1/12, hyb=stale 1/12, hyb=wm 6/12.
+- By circuit, wm minus stale: bv8 -0.04400, ghz5 +0.00753, ghz8 +0.00705, qft5 -0.02081.
+- By circuit, hyb minus stale: bv8 +0.01367, ghz5 +0.00082, ghz8 +0.00705, qft5 -0.02081.
+- Queue wait: median 1.6 s, range 1.2 to 354.6 s, 12/12 under 1 h.
+- Actual hold D: 9 jobs 6.00 to 6.02 h, s3_ghz8 6.098, s3_bv8 6.102, s3_qft5 6.185.
+- Slot 3 card 2026-10-25T16:35:15Z, 4.0113 h old at compile (no newer card existed).
+- Post hoc: s1_bv8 alone is -0.1330. Drop it and PRIMARY moves to -0.00161.
+  Leave one out range for PRIMARY: -0.01712 to -0.00161.
+
+## Corrected Round 1 pack, all 5,648 jobs, no gap exclusion, 29 Oct 2026
+
+- Source outputs/test_full/all_rows.csv, read only. 33,888 rows, 5,648 jobs, 22 days.
+- Gap jobs: 360 of 5,648 overlap a gap window. Old pack headlined 5,288 only.
+- Script scripts/45_round1_corrected_pack.py. Seeds unchanged: 20261017 figures,
+  20261016 prereg, 20261014 Comparison A and sanity.
+- Comparison A mean stale regret, old then new, by D:
+  1 h 0.005937 -> 0.005692; 3 h 0.017115 -> 0.016402; 6 h 0.022962 -> 0.022116;
+  12 h 0.025887 -> 0.025056; 24 h 0.024511 -> 0.023876; 48 h 0.036653 -> 0.036739.
+- Comparison A n, old then new: 930->970, 920->960, 909->954, 880->945, 855->930,
+  794->889.
+- FAULT in old fig_d: it computed stale minus shrinkage under a label saying
+  "positive = shrinkage better". Same fault L-049 fixed in script 20; the figure
+  script never got the fix. Corrected to F_shrinkage minus F_stale.
+- Comparison B, right sign, all jobs: 6 h n=954 +0.003297 [-0.000166, +0.006938];
+  24 h n=930 -0.000041 [-0.002750, +0.002560];
+  pooled n=1884 +0.001649 [-0.001391, +0.004533].
+- All three intervals include zero. Verdict unchanged from L-039.
+- Sanity checks on all jobs all PASS and reproduce the old numbers exactly:
+  1,305 no-new-state jobs, largest absolute regret 0.0; ceiling minus stale
+  +0.0057 at 1 h to +0.0367 at 48 h; random 0.7334 vs stale 0.9027; fixture sha ok.
+- D1 to D6 byte identical to the originals: script 25 never excluded gap jobs.
+- COMPARE.md holds 2,698 old vs new number lines. Median absolute difference 0.000685.
+- Largest differences are counts, not estimates: P2b count +360, fig_b n +225.
+- Secret scan over 31 new files: 0 leaks. 3 pattern hits, all the fixture sha256.
+- No git repository exists, so nothing was committed or pushed.
+- FREEZE.txt recheck: 13 of 16 match. scripts/31_analyse_round2.py,
+  scripts/34_run_round2.py, scripts/35_build_round2_tables.py do NOT match.
+  Their mtimes are 25 Oct 2026, so they changed during Round 2, not in this work.
+- NOT DONE: the Round 1 report is not in the project, so report table and figure
+  numbers could not be mapped and COMPARE.md could not be keyed to the abstract,
+  conclusions, Section 4.3.6, Section 5.1, Table 7 or Table 19.
+- NOT DONE: the independent check on all jobs. Script 23 has no saved output on
+  any row set and was not rerun.

@@ -1,0 +1,186 @@
+==========================================================================
+STAGE 6 PART B: EXPLORATORY, READ ONLY, POST HOC
+==========================================================================
+  Every number below is EXPLORATORY and POST HOC. None of it is
+  confirmatory. None of it changes the rule, the protocol, any
+  frozen file or any Round 2 result. Nothing is simulated, no
+  quantum job is submitted and no IBM call is made.
+  store: data/clean_r2, 2026-08-28 to 2026-10-24
+  ibm_fez: 425 states, 2026-08-28 to 2026-10-23
+  ibm_kingston: 363 states, 2026-08-28 to 2026-10-23
+  ibm_marrakesh: 456 states, 2026-08-28 to 2026-10-23
+
+==========================================================================
+PART K: WINNER'S CURSE, WIDER (EXPLORATORY)
+==========================================================================
+  circuits ghz5, ghz10, bv8, bv10; groups readout, sx, cz, T1_T2; development window only (2026-08-28 to 2026-10-12)
+  Deviation is on the log scale and positive means WORSE, so a
+  NEGATIVE chosen deviation means the chosen set looked BETTER than
+  its own median of the last 8 distinct states.
+  pctile is where the chosen set sits inside 1000 random
+  same size sets drawn from the live qubits of the same card. Below
+  50 means the chosen set looked better than a random set.
+  For the cz group the random sets are CONNECTED patches, because an
+  unconnected random set induces no coupler at all.
+  rise = log change from the submission card to the run-time card,
+  positive again meaning it got worse.
+  The random sets and their statistics are cached per (machine,
+  submission state, run state, set size), so every row that shares
+  those four sees the SAME null. That is a speed choice only: the
+  chosen set is still scored row by row against that null.
+
+  4518 stale rows over 4 circuits, 105 distinct submission states
+    ...1000/4518 rows, 2028 cached nulls
+    ...2000/4518 rows, 4056 cached nulls
+    ...3000/4518 rows, 6168 cached nulls
+    ...4000/4518 rows, 8336 cached nulls
+
+  18048 row-group results from 9372 cached nulls
+
+  pooled over the four circuits
+  group        n  chosen dev  random dev   pctile  below 5th  chosen rise  random rise  rise gap
+  readout   4518     -0.1418     +0.0254    18.4%      34.7%      +0.1649      +0.0118   +0.1531
+  sx        4518     -0.0178     -0.0057    30.4%      37.9%      +0.0097      -0.0026   +0.0123
+  cz        4494     -0.0593     -0.0051    29.7%      28.2%      +0.0313      -0.0024   +0.0336
+  T1_T2     4518     +0.0066     +0.0047    27.7%      47.2%      +0.0006      +0.0001   +0.0006
+
+  by circuit and group: mean percentile of the chosen set
+  circuit       readout          sx          cz       T1_T2
+  ghz5            23.7%       32.3%       27.2%       28.2%
+  ghz10           26.6%       29.7%       28.5%       32.3%
+  bv8             13.3%       28.8%       32.0%       24.9%
+  bv10             9.9%       30.8%       30.9%       25.2%
+
+  by circuit and group: rise gap (chosen minus random), positive means the chosen set got worse faster
+  circuit       readout          sx          cz       T1_T2
+  ghz5          +0.1285     +0.0085     +0.0428     -0.0072
+  ghz10         +0.0955     +0.0046     +0.0322     -0.0021
+  bv8           +0.1886     +0.0192     +0.0221     +0.0048
+  bv10          +0.2000     +0.0170     +0.0375     +0.0067
+
+  rise gap by delay and group, the shape the hybrid was built for
+  D (h)       readout          sx          cz       T1_T2
+  1           +0.0322     +0.0008     +0.0008     +0.0004
+  3           +0.0913     +0.0007     +0.0055     +0.0024
+  6           +0.1658     +0.0031     +0.0140     +0.0033
+  12          +0.2153     +0.0091     +0.0293     -0.0015
+  24          +0.2086     +0.0341     +0.0650     -0.0054
+  48          +0.2141     +0.0278     +0.0928     +0.0043
+
+==========================================================================
+PART M: DO PARTS C AND D HOLD OUT OF TIME? (EXPLORATORY)
+==========================================================================
+  The SAME functions in scripts/29_diagnostics.py are called with
+  the window moved to the FRESH window, 2026-10-13 to 2026-10-24.
+  The code is not reimplemented, so a difference cannot come from
+  writing the calculation a second way.
+  The development numbers they are compared with are the ones in
+  outputs/diagnostics/C1_mean_reversion.csv and D2_*.csv.
+  NOTE: PART D's own printed header says 'development window'. That
+  text is its code, unchanged. The window really used here is the
+  fresh one, set just below.
+  ibm_fez: 112 states inside the fresh window of 425 stored
+  ibm_kingston: 87 states inside the fresh window of 363 stored
+  ibm_marrakesh: 124 states inside the fresh window of 456 stored
+
+==========================================================================
+PART C: MEAN REVERSION
+==========================================================================
+  For each field group, the NEXT change (log value at the next
+  distinct state minus the log value now) is regressed on the
+  CURRENT deviation (log value now minus the median of the last
+  8 distinct states, this series only).
+  A slope near -1 means a deviation is fully undone by the next
+  state. A slope near 0 means it persists. The interval is a 95
+  percent block bootstrap over whole CALENDAR DAYS, the same unit
+  PROTOCOL.md section 11 uses.
+
+  ibm_fez
+    readout n=  16224  slope -0.3021  [-0.4546, -0.0798]  corr -0.324  days 11   weak or none
+    sx      n=  16224  slope -0.0039  [-0.0120, +0.0000]  corr -0.007  days 11   no reversion detected
+    cz      n=  18304  slope -0.0001  [-0.0012, +0.0000]  corr -0.000  days 11   no reversion detected
+    T1_T2   n=  32344  slope -0.0059  [-0.0180, +0.0000]  corr -0.010  days 11   no reversion detected
+
+  ibm_kingston
+    readout n=  12324  slope -0.3321  [-0.4337, -0.2461]  corr -0.351  days 11   mean reversion
+    sx      n=  12324  slope -0.0000  [-0.0032, +0.0000]  corr -0.000  days 11   no reversion detected
+    cz      n=  13904  slope -0.0002  [-0.0032, +0.0001]  corr -0.000  days 11   no reversion detected
+    T1_T2   n=  24411  slope -0.0001  [-0.0013, -0.0000]  corr -0.000  days 11   weak or none
+
+  ibm_marrakesh
+    readout n=  18096  slope -0.3868  [-0.5191, -0.2554]  corr -0.380  days 10   mean reversion
+    sx      n=  18096  slope -0.0000  [-0.0006, +0.0000]  corr -0.000  days 10   no reversion detected
+    cz      n=  20416  slope -0.0001  [-0.0019, +0.0000]  corr -0.000  days 10   no reversion detected
+    T1_T2   n=  35500  slope -0.0171  [-0.0450, -0.0000]  corr -0.030  days 10   weak or none
+
+==========================================================================
+PART D: WINNER'S CURSE ON THE STALE ghz8 LAYOUT
+==========================================================================
+  For every ghz8 job, the qubits the STALE arm actually used are
+  compared with their own recent history, and then with 1000 random
+  same-size qubit sets drawn from the live qubits of the same card.
+  Deviation is on the log scale, and positive means WORSE, so a
+  NEGATIVE deviation means the qubit looked better than its own
+  median of the last 8 distinct states.
+  The rise is the log change from the submission card to the
+  run-time card, where positive again means it got worse.
+  All jobs used here are inside the development window; the job
+  list is Round 1's, which runs 21 September to 12 October.
+
+  ghz8 stale rows available: 549
+
+  1647 job-group rows computed
+
+  group     chosen dev  random dev   pctile  chosen rise  random rise  rise gap
+  readout      -0.1980     -0.0544    27.9%      +0.2186      +0.0405   +0.1781
+  sx           +0.0028     -0.0026    31.2%      +0.0124      +0.0002   +0.0121
+  T1_T2        +0.0011     -0.0043    23.6%      +0.0058      -0.0058   +0.0116
+
+  pctile is where the chosen set's mean deviation sits inside the
+  1000 random sets. Below 50 means the chosen qubits looked
+  better than a random set of the same size on the card the
+  strategy saw.
+    readout  share of jobs where the chosen set sat below the 5th percentile of random sets: 18.8%
+    sx       share of jobs where the chosen set sat below the 5th percentile of random sets: 48.8%
+    T1_T2    share of jobs where the chosen set sat below the 5th percentile of random sets: 55.0%
+
+  by delay, readout group, chosen rise against random rise
+    D=  1h  n=   98  chosen +0.0515   random +0.0010   gap +0.0504
+    D=  3h  n=   98  chosen +0.1174   random +0.0066   gap +0.1108
+    D=  6h  n=   97  chosen +0.2192   random +0.0349   gap +0.1843
+    D= 12h  n=   92  chosen +0.3056   random +0.0664   gap +0.2393
+    D= 24h  n=   85  chosen +0.3219   random +0.0466   gap +0.2753
+    D= 48h  n=   79  chosen +0.3378   random +0.1014   gap +0.2365
+
+==========================================================================
+M: OUT OF TIME COMPARISON
+==========================================================================
+
+  PART C, mean reversion slope. A slope near -1 means a
+  deviation is undone by the next state.
+  machine         group     dev slope        dev 95% interval  fresh slope      fresh 95% interval  overlap
+  ibm_fez         readout     -0.3670      [-0.3982, -0.3366]      -0.3021      [-0.4546, -0.0798]      yes
+  ibm_fez         sx          -0.0041      [-0.0117, +0.0000]      -0.0039      [-0.0120, +0.0000]      yes
+  ibm_fez         cz          -0.0034      [-0.0108, +0.0000]      -0.0001      [-0.0012, +0.0000]      yes
+  ibm_fez         T1_T2       -0.0068      [-0.0182, +0.0000]      -0.0059      [-0.0180, +0.0000]      yes
+  ibm_kingston    readout     -0.3151      [-0.3634, -0.2696]      -0.3321      [-0.4337, -0.2461]      yes
+  ibm_kingston    sx          -0.0028      [-0.0091, +0.0000]      -0.0000      [-0.0032, +0.0000]      yes
+  ibm_kingston    cz          -0.0026      [-0.0068, +0.0000]      -0.0002      [-0.0032, +0.0001]      yes
+  ibm_kingston    T1_T2       -0.0132      [-0.0266, -0.0031]      -0.0001      [-0.0013, -0.0000]       NO
+  ibm_marrakesh   readout     -0.4607      [-0.5099, -0.4136]      -0.3868      [-0.5191, -0.2554]      yes
+  ibm_marrakesh   sx          -0.0097      [-0.0236, -0.0000]      -0.0000      [-0.0006, +0.0000]      yes
+  ibm_marrakesh   cz          -0.0066      [-0.0171, -0.0000]      -0.0001      [-0.0019, +0.0000]      yes
+  ibm_marrakesh   T1_T2       -0.0136      [-0.0305, -0.0014]      -0.0171      [-0.0450, -0.0000]      yes
+
+    intervals overlap in 11 of 12 machine-group cells
+    mean slope: development -0.1005, fresh -0.0874
+    reading: an overlap is consistent with the same
+    behaviour out of time. It does not prove it.
+
+  PART D, winner's curse on the stale ghz8 layout.
+  group     dev pctile  fresh pctile  dev rise gap  fresh rise gap  same sign
+  readout        26.7%         27.9%       +0.1139         +0.1781        yes
+  sx             32.8%         31.2%       -0.0004         +0.0121         NO
+  T1_T2          29.4%         23.6%       -0.0037         +0.0116         NO
+
+  files written to <project root>/outputs/stage6_explore

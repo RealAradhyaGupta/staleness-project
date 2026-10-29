@@ -83,6 +83,18 @@ output recorded in NOTES.md. I did not reconstruct anything from memory alone.
 | L-048 | 2026-10-18 20:31 | DONE | Built report_pack: 141 files, 9.17 MB, zipped; secret scan 198 hits and 0 secrets; one team engine file changed, circuits.py |
 | L-049 | 2026-10-19 00:11 | FAULT | Correction to L-039: the Comparison B gain had the wrong sign, shrinkage is +0.00176 not -0.00176, and the null verdict is unchanged |
 | L-050 | 2026-10-19 00:19 | CHANGE | Correction block added to DISCLOSURES.md too: its section 8 carried the same wrong sign as L-039 |
+| L-051 | 2026-10-24 21:56 | RESULT | Row check of the 1025 dead-qubit rows: stale regret survives all four views, Comparison B stays null, and the marrakesh excess is mostly those rows |
+| L-052 | 2026-10-24 22:18 | FAULT | Audit checks: the 360 missing jobs are the gap jobs and script 20 drops them against PROTOCOL section 10; at level 2 only the GHZ circuits get an error-chosen layout |
+| L-053 | 2026-10-24 22:26 | RESULT | Protocol-faithful headline on all 5648 jobs: stale regret 0.0057 to 0.0367, Comparison B still null, and a second departure found in the B pooling rule |
+| L-054 | 2026-10-24 22:52 | RESULT | Checkpoint 2 diagnostics: readout is the only field that mean-reverts and the only one with a winner's curse, every variogram rises with lag, and the 4-peak QFT ceiling is 0.58 at 10 qubits |
+| L-055 | 2026-10-25 00:12 | RESULT | Round 2 Stages 0 to 2: checks, the fitted rule, and the freeze |
+| L-056 | 2026-10-25 01:32 | RESULT | Round 2 Stage 3 fetch and Stage 4 pilot: 1184 fresh cards, one gap, a fez readout episode, no compute cut |
+| L-057 | 2026-10-25 04:36 | RESULT | Round 2 Stages 4 and 5: H1 and H2 both failed, the guard hurt, the plain window mean won |
+| L-058 | 2026-10-25 22:08 | DONE | Stage 6 set up: hardware protocol frozen, pilot 2.000 s, 12 jobs projected at 32.8 s, run launched; Part B exploratory done |
+| L-059 | 2026-10-26 08:25 | RESULT | Stage 6 Part A on real hardware: 12 of 12 jobs done, 37.000 s of the 180 s cap, neither corrected rule beat stale |
+| L-060 | 2026-10-29 15:04 | RESULT | Corrected Round 1 pack on all 5,648 jobs, no gap exclusion: stale regret barely moves, the fig_d sign was wrong and is fixed, Comparison B verdict unchanged |
+| L-061 | 2026-10-29 15:28 | FOUND | Housekeeping: Round 2 report correction appended, the three H2 intervals are one seed stream, hardware sensitivity post hoc, correction blocks appended to the clone uncommitted |
+| L-062 | 2026-10-29 15:58 | REVIEW | Chased the four freeze mismatches: all four are logged bug fixes, no frozen copy survives anywhere, every saved output reproduces byte for byte, and script 35's third checksum was never written down |
 
 ## Glossary
 
@@ -4041,3 +4053,1890 @@ silently rewrote its own mistakes would be worth nothing.
 
 Next: Round 2 under L-041, starting with a probe of whether IBM still serves
 cards older than 28 August 2026.
+
+---
+
+## L-051 | 2026-10-24 21:56 IST (2026-10-24 16:26 UTC) | RESULT | Row check of the 1025 dead-qubit rows: stale regret survives all four views, Comparison B stays null, and the marrakesh excess is mostly those rows
+
+**What I asked for and why.** L-044 counted 1025 rows where an arm chose a
+qubit its own card called alive but the truth device calls dead, 729 of them
+on ibm_marrakesh. Counting them was not enough: I wanted to know whether the
+stale-regret result depends on those rows. So I asked Claude Code to write one
+new script that re-reads the frozen results four different ways and also works
+out how many jobs a future round would need to detect a small effect. This is
+EXPLORATORY and POST-HOC. It is not confirmatory and it does not headline.
+
+**What was NOT done.** No new simulation was run. No IBM call was made.
+Nothing in `data/raw` was touched. No confirmatory number and no file already
+reported was changed: `PROTOCOL.md`, `PROTOCOL_AMENDMENTS.md`, `engine/`,
+`NOTES.md`, `docs/DISCLOSURES.md`, `outputs/prereg/` and `outputs/figures/`
+are all untouched by this entry. No existing log entry was edited.
+
+**Sign convention, stated in every file the script writes.** Regret = ceiling
+minus strategy, so positive means the strategy is worse. Gain = F_strategy
+minus F_stale, so positive means the strategy is better. This is the direction
+fixed in L-049.
+
+**Sanity checks first.** The script refuses to report anything unless every
+check passes. All of them passed: 33888 rows, 5648 jobs, 6 strategies, 1025
+dead-qubit rows in 842 jobs, split random 786, stale 81, window mean 42,
+std-adjusted 50, shrinkage 66, ceiling 0, and 729 on ibm_marrakesh. It then
+reproduced the reported stale regret table and all three Comparison B numbers
+inside the 0.0005 tolerance, using the bootstrap function, the seed 20261014
+and the 4000 resamples imported from `scripts/20_analyse_results.py` rather
+than copied.
+
+**The four views, mean stale regret by delay.** Gap jobs are excluded in all
+four, as the confirmatory numbers already do.
+View 1, all rows, 5288 jobs: +0.0059, +0.0171, +0.0230, +0.0259, +0.0245,
++0.0367 at 1, 3, 6, 12, 24 and 48 hours.
+View 2a, dropping every job with a dead-qubit row in any arm, 4480 jobs:
++0.0015, +0.0101, +0.0151, +0.0201, +0.0208, +0.0295.
+View 2b, dropping only jobs where an informed arm had one, 5148 jobs:
++0.0024, +0.0119, +0.0172, +0.0210, +0.0211, +0.0316.
+View 3, every dead-qubit row forced to fidelity 0, 5288 jobs: +0.0101,
++0.0236, +0.0350, +0.0350, +0.0311, +0.0501.
+In all four views every 95 percent interval is above zero and regret still
+grows with delay. The smallest number anywhere is View 2a at 1 hour, +0.0015
+with interval [+0.0008, +0.0024]. So the stale-regret conclusion does not
+depend on these rows. The size of the effect does: dropping the dead-qubit
+jobs cuts it by roughly a quarter to a third at the longer delays, and the
+1 hour number falls to about a quarter of what View 1 shows.
+
+**Comparison B stayed a null in every view.** Shrinkage minus stale, pooled
+over 6 and 24 hours: View 1 +0.00176 [-0.00139, +0.00484], View 2a +0.00174
+[-0.00043, +0.00464], View 2b +0.00093 [-0.00131, +0.00366], View 3 +0.00139
+[-0.00695, +0.00891]. Every interval includes zero.
+
+**How much regret the dead rows carry.** In View 1 the stale arm has 76 dead
+rows out of 5288 and they carry 20.4 percent of its summed regret. For window
+mean it is 42 rows and 15.2 percent, for shrinkage 64 rows and 17.0 percent.
+By machine, the stale share is 33.9 percent on ibm_marrakesh, 7.3 percent on
+ibm_fez and 0.0 percent on ibm_kingston, which has no dead row in any informed
+arm at all. The reason so few rows matter so much is that a dead-qubit row is
+a very bad row: mean simulated fidelity 0.5941 against 0.9065 for the other
+stale rows.
+
+**ibm_marrakesh.** This is the part that changed my reading. Pooled mean stale
+regret per machine in View 1 is ibm_fez +0.0088, ibm_kingston +0.0195,
+ibm_marrakesh +0.0365. In View 2a it is +0.0074, +0.0199 and +0.0186, so
+ibm_marrakesh falls below ibm_kingston. Dropping the dead-qubit jobs removes
+essentially the whole of ibm_marrakesh's excess. That is consistent with
+ibm_marrakesh's larger stale regret being mostly about qubits that died
+between the card and the run, rather than a machine that drifts more in
+general. I cannot separate a remeasurement that moved from a qubit that moved,
+so I say consistent with, not proved.
+
+**A caveat Claude Code found in the engine that I had not noticed.** In
+`engine/run_engine.py` the random arm averages its fidelity over
+RANDOM_DRAWS = 5 separate layouts but writes the UNION of the qubits all 5
+layouts touched into `dead_qubits_used`. So the random arm's 786 rows are not
+comparable with the single-layout arms' counts, and that is why View 2a drops
+808 jobs while View 2b drops only 145. I am recording this, not changing the
+engine, which is frozen.
+
+**Power calibration, from View 1 only.** Per-job paired SD pooled over 6, 12,
+24 and 48 hours, n = 3438 jobs: shrinkage minus stale 0.060751, window mean
+minus stale 0.071532. Pooled naive SE for shrinkage minus stale 0.001036,
+against 0.001409 from a bootstrap resampling whole calendar days within
+machine and 0.001242 from one resampling whole (machine, submission time)
+clusters, so design effects 1.850 and 1.436. For window mean minus stale the
+same three are 0.001220, 0.002885 and 0.002832, design effects 5.592 and
+5.387. ICC by (machine, day) on the pooled gain: 0.01603 for shrinkage minus
+stale, 0.08364 for window mean minus stale. Using
+n = DE * (z_0.975 + z_power)^2 * SD^2 / delta^2, paired and two-sided at alpha
+0.05 with DE = 1.850, shrinkage minus stale needs 2144 jobs for 80 percent
+power and 2870 for 90 percent at an effect of 0.005, or 536 and 718 jobs at an
+effect of 0.010. At the Round 1 shape of 60 jobs per machine-day over three
+machines, 2144 jobs is 36 machine-days, which is 12 calendar days.
+
+**What this means for Round 2.** My Round 1 Comparison B used 1764 jobs. The
+calibration says that was enough to detect 0.010 but not 0.005, so the null in
+L-039 and L-049 is consistent with either no effect or an effect smaller than
+about 0.01. I am planning Round 2 for about 16 fresh calendar days, which
+gives 90 percent power at 0.005 with the measured design effect and leaves
+room for lost days.
+
+**The study window, checked because I was asked to.** 3826 calibration cards
+and 921 distinct calibration states between 28 August and 12 October 2026,
+with card timestamps from 2026-08-28T00:35:09Z to 2026-10-12T19:53:05Z. Of the
+4031 raw card files, 205 are dated before 28 August, left over from the earlier
+120 day download, 3826 are inside the window and 0 are after 12 October.
+`data/clean/qubits.csv` and `data/clean/pairs.csv` reach back to
+2026-06-15T22:19:12Z but stop at 2026-10-12T19:53:05Z. In the results file the
+latest submission time is 2026-10-12T17:36:21Z and the latest run time is
+2026-10-12T19:12:14Z. No file I checked holds any data dated after 12 October
+2026, so Round 2 under L-041 still needs genuinely fresh days.
+
+**Files written.** New script `scripts/26_row_check.py`, written by Claude Code
+at my direction. New outputs in `outputs/row_check/`: `REPORT.md`,
+`console_output.txt`, `views_stale_regret.csv`,
+`views_regret_all_strategies.csv`, `views_comparison_b.csv`,
+`views_window_mean_vs_stale.csv`, `views_by_machine.csv`,
+`dead_row_regret_share.csv`, `dead_vs_other_fidelity.csv`,
+`power_sd_se_designeffect.csv`, `power_required_n.csv`, `window_facts.csv`.
+
+**What I did myself, and what I asked Claude Code to do.** I set the task: the
+four views, which arms count as informed, the worst-case zero view, and the
+power question. I decided that gap jobs stay excluded in every view so View 1
+reproduces the headline exactly, and I decided the four views are reported side
+by side rather than one replacing the others. Claude Code wrote
+`scripts/26_row_check.py`, ran it, wrote `outputs/row_check/REPORT.md` and
+drafted this entry, which I read and checked against the console output before
+appending.
+
+**One fault to record.** Claude Code could not commit the new script: this
+project folder is not a git repository, there is no `.git` directory, so there
+was no diff to show and nothing was committed. Nothing was pushed. I have not
+decided yet whether to run `git init` here.
+
+Next: decide on `git init`, then start Round 2 under L-041 with the fresh-day
+target of about 16 calendar days from this calibration.
+
+---
+
+## L-052 | 2026-10-24 22:18 IST (2026-10-24 16:48 UTC) | FAULT | Audit checks: the 360 missing jobs are the gap jobs and script 20 drops them against PROTOCOL section 10; at level 2 only the GHZ circuits get an error-chosen layout
+
+**What I asked for and why.** After L-051 I had two loose ends. First, my own
+row check used 5288 jobs while the results file holds 5648, and it found 76
+stale dead-qubit rows against the 81 that L-044 counted. I wanted that
+reconciled exactly, not explained away. Second, I had never checked what the
+Qiskit transpiler actually does with our circuits. The whole project rests on a
+stale card steering the choice of qubits, so I wanted to know which layout
+passes really read the error numbers. I asked Claude Code for three read-only
+checks in one script.
+
+**What was NOT done.** No IBM call. The engine was NOT re-run on the 5648 jobs.
+Nothing in `data/raw` was written. No confirmatory file was changed:
+`PROTOCOL.md`, `PROTOCOL_AMENDMENTS.md`, `engine/`, `NOTES.md`,
+`docs/DISCLOSURES.md`, `outputs/prereg/`, `outputs/figures/` and
+`outputs/row_check/` are all untouched. Check C compiles circuits only: no
+simulator was built and no shot was taken. Only development-period cards, 28
+August to 12 October 2026, were read. This is EXPLORATORY and POST-HOC.
+
+**Check A, the 360 jobs.** They are the publishing-gap jobs, and they are all
+on 21, 22 and 23 September: 130, 110 and 120 jobs. By machine, ibm_fez 130,
+ibm_kingston 140, ibm_marrakesh 90. By circuit it is exactly 72 each for ghz5,
+ghz8, ghz10, bv8 and bv10. By delay it climbs with the delay, 40 at 1 h, 40 at
+3 h, 45 at 6 h, 65 at 12 h, 75 at 24 h and 95 at 48 h, which makes sense
+because a longer submission-to-run interval is more likely to straddle a gap.
+What drops them is `main_set = w[~w.touches_gap]` in
+`scripts/20_analyse_results.py`, with the flag built in `load()` from the
+three GAPS windows measured in L-033.
+
+**A fault I have to record against myself.** That exclusion is NOT in the
+frozen protocol. PROTOCOL.md section 10 says, word for word, "The 22 to 23
+September publishing gap stays in. It is not deleted or patched. Results are
+reported with it included, and the jobs that straddle it are reported
+separately so its effect is visible." My own Amendment A1.6 then reaffirmed it:
+"Section 10 of the protocol says that gap stays in and is reported separately,
+and that still holds. But it now sits in the test days, so it will affect the
+headline numbers." So the protocol asks for those jobs to be in the headline
+AND also shown separately. Script 20 instead drops them from the primary
+comparison, and the comment I wrote above that line says it is doing so "as
+PROTOCOL.md section 10 requires". That comment is wrong. Section 10 requires
+the opposite. The 5288-job headline in L-039, as corrected by L-049, is
+therefore computed on a set the frozen protocol did not specify, and
+`scripts/26_row_check.py` inherited the same exclusion in all four of its
+views, so L-051's numbers carry it too.
+
+I have changed nothing. `scripts/20_analyse_results.py` and every reported
+number stay exactly as they are, and L-039, L-049 and L-051 stand as written.
+I am recording the departure here and deciding what to do about it as a
+separate step, because recomputing the headline with the gap jobs included is a
+change to a confirmatory number and this task forbade that. I am not going to
+quietly pick whichever version I prefer after seeing both.
+
+**Check A, the 5 missing stale dead rows.** All 5 are inside the 360 gap jobs.
+81 in the file, 5 in gap jobs, 76 in the kept set, so the 81 against 76 is
+fully explained. All five are ibm_marrakesh at delay 48 h on 21 September. The
+same split for the other arms: window mean 42 with 0 in gap jobs, std-adjusted
+50 with 0, shrinkage 66 with 2, random 786 with 30.
+
+**Check A, the random arm.** Confirmed from `engine/run_engine.py`: inside the
+draw loop it accumulates `used |= set(isa.layout.final_index_layout())`, then
+collapses the 5 draws with `fid, esp_v, used = float(np.mean(fs)),
+float(np.mean(es)), sorted(used)`. So the fidelity is the MEAN over draws and
+the qubit list is the UNION over draws, which is what L-051 already flagged.
+Per-draw data is NOT stored: `fs`, `es` and the per-draw layouts are local
+variables that are averaged or unioned and then go out of scope, and there is
+no draw index and no per-draw column in the results file. So I cannot give a
+per-draw dead rate from stored data, and I am saying so instead of estimating
+one. What I can measure is the size of the union: the random arm lists a median
+of 38 distinct physical qubits per row, about 4.4 to 4.8 times the width of one
+layout for every circuit.
+
+**Check B, by circuit.** Stale regret stays positive at every delay for every
+one of the five circuits, in both View 1 and View 2b, and all 60 intervals are
+above zero. In View 1 at 24 h it runs ghz5 +0.0126, ghz8 +0.0237, ghz10
++0.0254, bv8 +0.0217, bv10 +0.0392. ghz5 is the smallest everywhere. Pooled
+over 6, 12, 24 and 48 h, window mean minus stale is positive with the interval
+above zero in four of the five circuits (ghz5 +0.00329, ghz8 +0.01642, ghz10
++0.01301, bv8 +0.00571, bv10 +0.00759 with an interval that includes zero),
+while shrinkage minus stale only clears zero on ghz8 (+0.00474) and is actually
+negative on ghz5 (-0.00584). Layouts ARE stored, in `qubits_used`. The stale
+layout differs from the ceiling layout in 66.4 percent of jobs overall, rising
+from 17.0 percent at 1 h to 92.1 percent at 48 h.
+
+**Check C, what the transpiler really does.** Versions: python 3.12.4, qiskit
+2.5.2, qiskit-aer 0.17.2, which is `team_code/.venv`, the environment Round 1
+ran in. The engine uses OPT_LEVEL 2 and SEED_TRANSPILE 11, and there is NO
+`layout_trials` override anywhere in `engine/`. The finding that matters: at
+level 2 the three GHZ circuits have a path-shaped interaction graph of max
+degree 2, VF2Layout finds a perfect embedding, and the layout is chosen by
+scoring the card's error numbers over the whole device. SabreLayout never runs
+for them and VF2PostLayout is skipped. For bv8 and bv10 the interaction graph
+is star-like with max degree 5 and 6, above the heavy-hex limit of 3, so
+VF2Layout returns "nonexistent solution", SabreLayout picks the qubits by swap
+count alone, and only then does VF2PostLayout move the routed circuit to a
+better-scoring spot. Exact QFT on 5, 8 and 10 qubits behaves like bv, with max
+degree 4, 7 and 9. Level 3 does not change which pass succeeds, because that
+depends on the interaction graph and not the level. It adds a VF2PostLayout
+attempt to the GHZ circuits, which succeeds and moves them without changing
+depth or cz count (16/4, 25/7, 31/9 at both levels), and for bv8 and bv10
+VF2PostLayout finds no solution at level 3 while routing gets better instead
+(bv8 depth 35 to 24, cz 12 to 9). Over 20 pairs of different development cards
+on ibm_fez the chosen physical qubit set moved in 80 to 100 percent of pairs for
+every circuit at both levels, so the layout does follow the card. I am
+recording the confound honestly: in 8 of those 20 pairs the forbidden-qubit set
+also differed, so the coupling map changed too and an error-blind pass could
+move for that reason alone.
+
+**What this means for Round 1.** The five circuits are not all measuring the
+same mechanism. GHZ gets an error-chosen layout, BV gets a swap-chosen layout
+with an error repair, and the protocol pools the five together. That is
+consistent with the per-circuit split being worth reporting beside the pooled
+number, and Check B now provides it. It does not overturn any Round 1 result:
+no number changed, and the per-circuit stale regret keeps the same sign and
+direction as the pooled figure in both views. The thing that does need a
+decision is the Check A gap-job departure, which has nothing to do with the
+transpiler.
+
+**A bug Claude Code hit and fixed in front of me.** The first run reported the
+QFT interaction graph as max degree 0, which is obviously wrong for a QFT. The
+cause was that `QFTGate` arrives as one opaque instruction on n qubits, so a
+scan for two-qubit gates found none. The fix decomposes the circuit until
+nothing acts on more than two qubits before counting, and the QFTs then come
+out as complete graphs of degree 4, 7 and 9, which is right. The first,
+incorrect numbers were never written to a file I kept: the console output in
+`outputs/row_check_2/` is from the corrected run.
+
+**Files written.** New script `scripts/27_audit_checks.py`, written by Claude
+Code at my direction. New outputs in `outputs/row_check_2/`: `REPORT.md`,
+`console_output.txt`, `A1_excluded_by_delay.csv`,
+`A2_excluded_by_machine.csv`, `A3_excluded_by_circuit.csv`,
+`A4_excluded_by_day.csv`, `A5_excluded_jobs_full_list.csv`,
+`A6_stale_dead_rows_in_gap_jobs.csv`, `B1_stale_regret_by_circuit.csv`,
+`B2_pooled_gains_by_circuit.csv`, `B3_stale_vs_ceiling_layout.csv`,
+`C1_interaction_degree.csv`, `C2_layout_passes.csv`,
+`C3_error_sensitivity.csv`, `C4_card_pairs_used.csv`.
+
+**What I did myself, and what I asked Claude Code to do.** I set the three
+checks and insisted the count reconciliation name the exact jobs rather than
+describe them. I decided that nothing gets recomputed or corrected in response
+to the gap-job finding inside this step, and that the finding is written down
+before I choose what to do about it. Claude Code wrote
+`scripts/27_audit_checks.py`, found the protocol contradiction while reading
+section 10 and A1.6, ran the script, found and fixed the QFT degree bug, wrote
+`outputs/row_check_2/REPORT.md` and drafted this entry, which I read against
+the console output before appending.
+
+Next: decide how to handle the gap-job departure found in Check A, which means
+choosing between reporting the headline with the gap jobs in, as section 10
+says, or writing an amendment that justifies excluding them. Then Round 2 under
+L-041, with the fresh-day target from L-051.
+
+---
+
+## L-053 | 2026-10-24 22:26 IST (2026-10-24 16:56 UTC) | RESULT | Protocol-faithful headline on all 5648 jobs: stale regret 0.0057 to 0.0367, Comparison B still null, and a second departure found in the B pooling rule
+
+**Why I did this.** L-052 found that `scripts/20_analyse_results.py` runs both
+confirmatory comparisons on `main_set = w[~w.touches_gap]`, which drops the 360
+jobs that straddle the 22 to 23 September publishing gap, while PROTOCOL.md
+section 10 says that gap "stays in", results are "reported with it included",
+and the straddling jobs are "reported separately so its effect is visible".
+Amendment A1.6 reaffirmed it. So the headline I reported in L-039 and corrected
+in L-049 was computed on a set the frozen protocol did not specify. I decided to
+fix this FORWARD: compute the protocol-faithful headline in a new file and
+overwrite nothing.
+
+**What was NOT done.** I did not edit `scripts/20_analyse_results.py`. I did not
+replace or delete any existing output. No confirmatory file already reported was
+changed: `PROTOCOL.md`, `PROTOCOL_AMENDMENTS.md`, `engine/`, `NOTES.md`,
+`docs/DISCLOSURES.md`, `outputs/prereg/`, `outputs/figures/`,
+`outputs/row_check/` and `outputs/row_check_2/` are untouched. No IBM call, no
+new simulation, nothing written into `data/raw`. L-039, L-049, L-051 and L-052
+stand exactly as written.
+
+**How I kept the method identical.** `scripts/28_protocol_headline.py` IMPORTS
+the loader, the reshape and the block bootstrap from script 20, with its seed
+20261014 and its 4000 resamples, and imports the power helpers from
+`scripts/26_row_check.py`. Nothing was copied. The only thing that differs is
+which jobs go in. The script asserts that the non-gap selection reproduces all
+nine reported numbers inside 0.0005, and it did: the largest difference was
+0.00005, which is bootstrap jitter from the generator being re-seeded per block.
+
+**Comparison A, the protocol-faithful headline on all 5648 jobs.** +0.0057,
++0.0164, +0.0221, +0.0251, +0.0239, +0.0367 at 1, 3, 6, 12, 24 and 48 hours.
+Against the reported 5288-job numbers (+0.0059, +0.0171, +0.0230, +0.0259,
++0.0245, +0.0367) the changes are -0.0002, -0.0007, -0.0008, -0.0008, -0.0006
+and +0.0001. Every 95 percent interval is still above zero and regret still
+grows with delay.
+
+**Why the headline goes slightly DOWN, which I did not expect.** I assumed
+putting the gap jobs back would make staleness look worse, because a publishing
+gap means old numbers. It is the opposite. During a gap few or no new states
+appear, so a stale card is often still the right card. Among the 360 gap jobs
+the no-change share is 87.5 percent at both 1 and 3 hours, against 72.6 and
+39.7 percent in the non-gap set, and their stale regret at those two delays is
+exactly 0.0000. By 48 hours they look like everything else, +0.0375 against
++0.0367. So the gap jobs are a block of easy short-delay jobs that dilute the
+mean. That is a real property of the data and not a mistake.
+
+**Comparison B on all jobs, and a pooling point I had not noticed.** Section 11
+defines B as "at D = 6 hours and D = 24 hours, pooled over machines and
+circuits", which is TWO numbers. Script 20 headlines a THIRD number that also
+pools the two delays together. Both are printed by script 20, so nothing was
+hidden, but the figure I headlined is not the one the protocol defines. The
+protocol-faithful numbers on all jobs are +0.00330 [-0.00037, +0.00694] at 6 h
+and -0.00004 [-0.00288, +0.00255] at 24 h. The across-delay number is +0.00165
+[-0.00126, +0.00458]. Every interval includes zero, in every selection, so
+Comparison B is still a null. I am recording this second departure and NOT
+fixing it, the same way as the first.
+
+**The gap jobs reported separately, as section 10 asks.** 360 jobs over 3 days.
+Comparison A: +0.0000, +0.0000, +0.0050, +0.0138, +0.0166, +0.0375 by delay.
+Comparison B: +0.00027 at 6 h, -0.00017 at 24 h, -0.00001 pooled.
+
+**The four dead-qubit views, recomputed on all jobs.** View 1 5648 jobs, View 2a
+4806, View 2b 5503, View 3 5648. Comparison A keeps every interval above zero in
+all four views and Comparison B keeps every interval including zero in all four,
+which is the same verdict L-051 gave on the 5288-job set. The stale arm now
+carries its full 81 dead rows instead of 76, and they hold 20.99 percent of its
+summed regret, against the 20.41 percent I reported in L-051. By machine the
+stale share is 35.35 percent on ibm_marrakesh, 6.82 on ibm_fez and 0.00 on
+ibm_kingston.
+
+**Design effect and power on all jobs.** Pooled over 6, 12, 24 and 48 hours,
+n = 3718: paired SD 0.059340 for shrinkage minus stale, naive SE 0.000973
+against 0.001369 resampling days within machine and 0.001228 resampling
+(machine, submission time) clusters, so design effects 1.979 and 1.592, and ICC
+by (machine, day) 0.0178. At effect 0.005 that needs 2188 jobs for 80 percent
+power and 2929 for 90 percent, which is 13 and 17 calendar days at 60 jobs per
+machine-day over three machines. The L-051 figures were 2144 and 2870 jobs, 12
+and 16 days, so my Round 2 target of about 16 fresh days does not move.
+
+**Step 3, the full protocol re-read.** I checked 15 places where the analysis
+code makes a choice against what PROTOCOL.md and the amendments say, quoting
+both, in `outputs/protocol_headline/H8_protocol_conformance.csv`. Two
+departures, both listed above and neither fixed. Conforming: the six delays,
+the five circuits, the test-days window (every row is label TEST and the
+earliest t_s is 2026-09-21), the whole-calendar-day bootstrap unit with section
+17 risk 4 declining machine-days, the dead qubit rule and thresholds, all four
+section 12 sanity checks with exit 1 on failure, the no-change share per delay,
+and the exploratory labelling. Conforming via amendment: the split dates
+(A1.6), permanent defects from training days (A1.5) and the shrinkage tie-break
+(A2, with A2.2 and A3.1). Three obligations are met by
+`scripts/24_prereg_outputs.py` rather than by the headline script, which I am
+recording because script 20 read alone looks as if it skips them: the per-delay
+dropped job counts (section 3 and A1.7, as P7), the cz age and separate readout
+age axes (section 9, as P1, P1b, P2 and P2b), and ESP alongside fidelity
+(section 8, as P3).
+
+**Does any conclusion change? No.** Comparison A stays positive, grows with
+delay, and keeps every interval above zero. Comparison B stays a null at 6
+hours, at 24 hours and pooled. The protocol-faithful numbers are consistent
+with the reported ones, differing by at most 0.0008 of fidelity.
+
+**Files written.** New script `scripts/28_protocol_headline.py`, written by
+Claude Code at my direction. New outputs in `outputs/protocol_headline/`:
+`REPORT.md`, `console_output.txt`, `H1_comparisons_by_selection.csv`,
+`H2_old_vs_new.csv`, `H3_window_mean_vs_stale_all_jobs.csv`,
+`H4_dead_qubit_views_all_jobs.csv`, `H5_dead_row_regret_share_all_jobs.csv`,
+`H6_power_sd_se_all_jobs.csv`, `H7_power_required_n_all_jobs.csv`,
+`H8_protocol_conformance.csv`.
+
+**Not yet applied.** A correction block for `docs/DISCLOSURES.md` and for the
+top of `NOTES.md`, in the style of L-049 and L-050, has been drafted and shown
+to me as text but NOT written into either file. I will apply it as its own
+logged step once I have read it properly. I am saying so here so the log does
+not imply those two files already carry the correction.
+
+**What I did myself, and what I asked Claude Code to do.** I decided this is a
+fix-forward and that script 20 and every reported number stay untouched, and I
+required the new script to import the bootstrap from script 20 rather than
+re-implement it, so a method difference could not hide inside a selection
+difference. I also required the assertion that the non-gap set reproduces the
+old numbers, because without it I could not tell a selection change from a code
+change. Claude Code wrote `scripts/28_protocol_headline.py`, ran it, did the
+full protocol re-read for step 3, found the second departure in the Comparison B
+pooling rule, wrote `outputs/protocol_headline/REPORT.md`, drafted the
+correction block, and drafted this entry, which I read against the console
+output before appending.
+
+**Still true, and worth repeating.** This project folder is NOT a git
+repository: there is no `.git` directory, so nothing was committed, no diff
+exists and nothing was pushed.
+
+Next: read the drafted correction block, then apply it to
+`docs/DISCLOSURES.md` and `NOTES.md` as its own logged step. After that, decide
+whether to write an amendment that records the Comparison B pooling choice, and
+then Round 2 under L-041.
+
+---
+
+## L-054 | 2026-10-24 22:52 IST (2026-10-24 17:22 UTC) | RESULT | Checkpoint 2 diagnostics: readout is the only field that mean-reverts and the only one with a winner's curse, every variogram rises with lag, and the 4-peak QFT ceiling is 0.58 at 10 qubits
+
+**What I asked for and why.** Checkpoint 2. I wanted to know WHY the staleness
+effect exists rather than just how big it is, so I asked for seven diagnostics
+on development cards only: when cards change, whether card-to-card differences
+are noise or drift, whether a deviation comes back, whether the compiler picks
+unusually lucky qubits, whether the layout really follows the error numbers once
+the dead list is held fixed, whether a QFT job is even usable on these machines,
+and the design effect for the window mean contrast.
+
+**What was NOT done.** Only cards dated 28 August to 12 October 2026 were read,
+and the script asserts it: 313 states on ibm_fez, 276 on ibm_kingston, 332 on
+ibm_marrakesh, 0 excluded, nothing after 12 October anywhere. `data/raw` was not
+written. No IBM call. Aer was used in Part F ONLY, on 18 compiled circuits; the
+engine was NOT re-run on the 5648 jobs. No confirmatory file was changed:
+`PROTOCOL.md`, `PROTOCOL_AMENDMENTS.md`, `engine/`, `NOTES.md`,
+`docs/DISCLOSURES.md` and every earlier `outputs/` folder are untouched. All of
+this is EXPLORATORY and post-hoc.
+
+**Part A, schedule.** Readout changes on 100, 97.8 and 100 percent of days on
+fez, kingston and marrakesh, several times a day (median 4 to 5 changes per
+changing day). sx, cz and T1/T2 change on 82 to 91 percent of days, about once
+each. The hours are NOT tight: the first-change hour runs from 0 to 23 for every
+group, and no single hour carries a change on more than about 26 percent of days.
+So there is no narrow publication slot to aim a submission at, which kills an
+idea I had been holding. Around the gap, 22 and 23 September still carry changes
+in almost every machine-group pair (kingston sx and cz each have one of the two
+days with none), and the median first-change hour moves in both directions by
+different amounts per machine, which is consistent with hour-to-hour scatter
+rather than a schedule that shifted on a date.
+
+**Part B, variogram.** All twelve curves, three machines by four field groups,
+RISE with lag. Last bin over first bin, each machine on its own then averaged:
+readout x2.32, sx x3.67, cz x5.35, T1/T2 x2.93. So the card-to-card difference
+is consistent with real drift accumulating, not with measurement noise plus the
+odd jump. Two details I am recording because they matter. The median absolute
+difference is EXACTLY 0.0000 in the 0 to 6 h and 6 to 12 h bins for sx, cz and
+T1/T2, because more than half of those comparisons are between two cards
+carrying the identical number, those fields being remeasured about once a day.
+That matches what L-017 measured from the value dates by a different route.
+Readout is different: it already shows a large difference in the very first bin
+(0.1397 on fez, 0.4821 on marrakesh) and then grows least in relative terms, so
+it looks like a big fast-moving component sitting on top of slower drift.
+
+**Part C, mean reversion. This is the sharpest result of the set.** Regressing
+the next log change on the current deviation from the trailing median of 8
+distinct states, readout mean-reverts strongly on every machine: slope -0.3670
+[-0.3982, -0.3366] on fez, -0.3151 [-0.3634, -0.2696] on kingston, -0.4607
+[-0.5099, -0.4136] on marrakesh. So about a third to a half of any readout
+deviation is undone by the very next state. sx, cz and T1/T2 give slopes of
+-0.003 to -0.014, that is essentially nothing, even where an interval just
+excludes zero.
+
+**Why that matters to me.** The tuned setting in `engine_config.py`, fixed on
+training days in Amendments A2 and A3 before any test day was touched, is
+`SHRINK_W_BY_GROUP = {"readout": 0.5, "gate": 0.0, "times": 0.0}`. The tuning
+put weight on exactly the one field group that reverts and zero on the three
+that do not, and it did that by minimising ESP regret, never by looking at a
+reversion slope. Two independent routes landing on the same answer is consistent
+with the rule's shape being right rather than fitted to noise. I want to be
+careful not to oversell this: it is agreement, not a test.
+
+**Part D, winner's curse.** 1130 ghz8 stale jobs against 1000 random same-size
+qubit sets each. Readout shows a clear curse: the chosen qubits sat at -0.0918
+against +0.0257 for random sets, the 26.7th percentile of the random
+distribution, and then their readout error rose +0.1254 on the log scale by the
+run-time card while random sets rose only +0.0115, a gap of +0.1139. The gap
+grows with delay: +0.0256 at 1 h, +0.0658 at 3 h, +0.1327 at 6 h, +0.1536 at
+12 h, +0.1532 at 24 h, +0.1587 at 48 h. sx and T1/T2 show no curse at all, gaps
+-0.0004 and -0.0037. So the mechanism is specific to readout, the same field
+that reverts in Part C.
+
+**Part E, clean layout sensitivity.** This is the honest version of the L-052
+number, because there the dead list was free to move and a layout could shift
+just because a qubit died. Holding the removed set fixed at the union of both
+cards' dead qubits plus the permanent defects, on ibm_fez with 20 pairs at level
+2 and seed 11: the chosen qubit set still changed in 90 percent of pairs for
+ghz5 and ghz8, 100 percent for bv8 and bv10, and 70, 90 and 85 percent for qft5,
+qft8 and qft10. The removed set was small, size 1 to 3, so holding it fixed
+changed little and the shares stay in the band L-052 reported. The cz count never
+changed in any pair, so the compiler is relocating the circuit around the lattice
+rather than routing it differently.
+
+**Part F, the 4-peak QFT job.** I needed an input whose ideal output is exactly 4
+equal peaks and nothing else. The answer is the comb of every whole number that
+divides by 4, which in circuit terms is one H on each qubit from 2 upward with
+qubits 0 and 1 left alone. A comb of spacing 4 going in gives a comb of spacing
+N/4 coming out, so exactly 4 outcomes survive, at 0, N/4, N/2 and 3N/4, each at
+probability exactly 1/4. Verified: for n = 5 the ideal distribution is 00000,
+01000, 10000, 11000 at 0.250000 each, and the same shape at n = 8 and n = 10. I
+also checked my hand-built QFT against `qiskit.circuit.library.QFTGate` and they
+agree to 1e-16.
+
+The approximate QFT, dropping every rotation smaller than pi/2^3, gives the
+IDENTICAL ideal answer, exactly 4 peaks at exactly 1/4. That is not luck: the
+surviving outcomes are multiples of N/4, so they depend only on the two most
+significant output bits, and the dropped rotations only set the finer bits. The
+logical controlled-phase count falls from 10 to 9 at n = 5, 28 to 18 at n = 8
+and 45 to 24 at n = 10.
+
+Simulated on one mid-period development card per machine, compiled at level 2
+against that card's own target and run in Aer with the same card as truth, 4000
+shots, which makes it a ceiling with no staleness. Means over the three
+machines: qft5 exact cz 28.7 depth 94.0 fidelity 0.9236, qft5 approx 27.3 / 84.0
+/ 0.9280, qft8 exact 109.3 / 312.3 / 0.7236, qft8 approx 70.3 / 182.0 / 0.7961,
+qft10 exact 192.7 / 557.3 / 0.5775, qft10 approx 100.7 / 253.0 / 0.7174.
+
+**The stop condition was NOT triggered.** Exact 10 qubit fidelity is 0.5555 on
+fez, 0.6425 on kingston and 0.5347 on marrakesh, all far above the 0.20 line I
+was told to stop at. So exact qft10 has usable headroom. The approximate version
+is better on every count at every size: same ideal answer, about half the cz
+gates at n = 10, and higher fidelity by +0.14 at n = 10 and +0.07 at n = 8.
+
+**Part G, design effects.** Window mean minus stale, all 5648 jobs, pooled over
+6, 12, 24 and 48 h, n = 3718: paired SD 0.070478, naive SE 0.001156, SE 0.002648
+resampling days within machine over 63 clusters and 0.002679 resampling
+machine-submission clusters over 182, so design effects 5.247 and 5.373, and ICC
+by (machine, day) +0.08291. A design effect above 5 means the naive interval is
+about 2.3 times too narrow, so any Round 2 target for this contrast has to be
+built on the clustered SE.
+
+**What this all suggests for the rule.** Parts C and D point the same way and at
+the same field. Readout error is the one group that both reverts to its own
+median and inflicts a winner's curse on the chosen layout, and it is the only
+group the tuned rule shrinks. Part B is a caution in the other direction: real
+drift accumulates, so the latest card is still the most informative single
+source and heavy averaging would throw information away, which argues for a
+small shrinkage weight rather than a large one. Part E says the layout really
+does follow the error numbers, so a better prediction can change the choice.
+Part A says there is no timing trick available. Part F gives a usable new test
+circuit with a readable right answer.
+
+**Two faults I hit and fixed, recorded because the first numbers were wrong.**
+First, my summary of Part B initially divided one machine's last lag bin by
+ANOTHER machine's first bin, because it took the first and last rows of a pooled
+table. It printed cz as x9.19 when the real per-machine average is x5.35. Fixed
+to form the ratio within each machine and only then average; the per-machine
+table was always right, only the summary line was wrong. Second, the first
+version measured the QFT interaction degree as 0, carried over from the same bug
+class as L-052, and more importantly my shape ratio for the median absolute
+difference printed `inf` because the first bin's median is exactly 0. That is now
+reported as not defined, with the zero explained, and the verdict rests on the
+mean squared difference, which is defined in every bin. Only the corrected run
+is in `outputs/diagnostics/`.
+
+**Files written.** New script `scripts/29_diagnostics.py`, written by Claude Code
+at my direction. New outputs in `outputs/diagnostics/`: `REPORT.md`,
+`console_output.txt`, `A1_schedule_summary.csv`, `A2_schedule_by_hour.csv`,
+`A3_schedule_by_day.csv`, `A4_pattern_shift.csv`, `B1_variogram.csv`,
+`B2_variogram_shape.csv`, `C1_mean_reversion.csv`, `D1_winners_curse_rows.csv`,
+`D2_winners_curse_summary.csv`, `D3_winners_curse_by_delay.csv`,
+`E1_clean_layout_sensitivity.csv`, `F1_ideal_distributions.csv`,
+`F2_qft_ceilings.csv`, `G1_design_effects_all_jobs.csv`.
+
+**What I did myself, and what I asked Claude Code to do.** I set the seven
+diagnostics and the stop threshold on exact qft10. I decided the removed-qubit
+set must be held fixed in Part E so a layout change could not be blamed on a
+dead qubit, which is the confound I had left open in L-052. I also decided that
+T1 and T2 get their logs negated so every field group sits on one "positive is
+worse" scale, because mixing directions is how I would misread my own table
+later. Claude Code wrote `scripts/29_diagnostics.py`, worked out the 4-peak QFT
+input and verified it against QFTGate, ran everything, found and fixed the two
+faults above, wrote `outputs/diagnostics/REPORT.md` and drafted this entry,
+which I read against the console output before appending.
+
+**Still true.** This project folder is NOT a git repository: there is no `.git`
+directory, so nothing was committed and nothing was pushed.
+
+Next: the correction block for `docs/DISCLOSURES.md` and `NOTES.md` drafted
+under L-053 is still NOT applied, and that remains the next step. After that,
+decide whether the Part C and D evidence is worth an amendment that states the
+readout-only reasoning explicitly, and whether the approximate 4-peak QFT joins
+the circuit set for Round 2.
+
+---
+
+## L-055 | 2026-10-25 00:12 IST (2026-10-24 18:42 UTC) | RESULT | Round 2 Stages 0 to 2: checks, the fitted rule, and the freeze
+
+**What I set out to do.** Round 2, in one unattended run: fit a blend rule on
+the data I already have, freeze it, fetch a window of cards that did not exist
+when I froze it, run the engine once, analyse once. This entry covers Stage 0
+(checks), Stage 1 (the fit) and Stage 2 (the freeze). Nothing had been fetched
+when I wrote it.
+
+**Stage 0, checks.** On `team_code/.venv`: Python 3.12.4, qiskit 2.5.2,
+qiskit-aer 0.17.2, qiskit-ibm-runtime 0.50.0, numpy 2.5.4, pandas 3.0.6, 8
+cores, optimization level 2, seed_transpiler 11, seed_simulator base 3, 4000
+shots. I checked that no file on disk already held a card dated after 12 Oct
+2026: the newest card is 2026-10-12T16:22:41Z on fez, 17:47:16Z on kingston,
+19:53:05Z on marrakesh, and the newest row in every clean table is
+2026-10-12T19:53:05Z. So the fit could not have seen the fresh window. I then
+asked IBM, for each machine, only whether a card exists near 13, 18 and 23 Oct,
+and printed only yes or no and the timestamp. All nine answers were yes. No
+value from any of those cards was read, saved or printed. The Stage 0 stop rule
+did not fire.
+
+**Stage 1, the fit, on development cards only.** I decided that for Round 2 the
+whole 28 Aug to 12 Oct window counts as development data, because Round 1 is
+finished and reported and Round 2's test set is a genuinely new window. That
+decision is written into protocol_round2.md section 2 so it cannot be quietly
+forgotten.
+
+For each delay, each qubit and each of 405 usable submission times (2396
+points over 46 calendar days) I predicted the run-time log value as
+(1-w) * newest + w * median of the last N distinct values of that same field,
+for N in 3, 5, 8, 12 and w from 0 to 1 in steps of 0.05. Scoring used 5
+chronological blocks of calendar days with a 48 h purge, so a test block never
+shares a run-time card with its training folds. N was picked once per field
+group on pooled training mean squared error, then w per delay on the held-out
+blocks, then forced non-decreasing in delay by pool adjacent violators.
+
+Result, N: readout 12, sx 5, cz 12, times 12. Result, w by delay
+(1, 3, 6, 12, 24, 48 h):
+
+    readout  0.15  0.40  0.65  0.85  0.90  0.90
+    sx       0.05  0.05  0.15  0.30  0.55  0.70
+    cz       0.00  0.05  0.10  0.25  0.45  0.55
+    times    0.00  0.10  0.15  0.35  0.80  0.90
+
+Every group cleared zero by more than one clustered standard error at 5 or 6
+of the 6 delays, so by the pre-stated rule every group gets its own w(D). The
+held-out mean squared error fell a lot at long delay: readout at D=24 went from
+0.462730 at w=0 to 0.277427 at w=0.90, and times at D=24 from 0.197301 to
+0.124949.
+
+**This is a real difference from Round 1 and I want it on the record.** Round 1
+tuned one weight per group by lowest mean ESP regret and got readout 0.5, gate
+0.0, times 0.0, with Amendment A2.2 noting that the analytic ESP is blind to
+T1 and T2 so "times" was settled by a tie-break and not by evidence. Fitting by
+directly predicting the card is not blind to T1 and T2, and it says times
+should carry a lot of weight at long delay. So the two methods disagree, and
+the disagreement has an explanation I had already written down. Round 2 also
+splits Round 1's "gate" group into sx and cz because they fitted differently.
+
+**The dead qubit guard.** The rule "dead in any of the last M distinct states
+predicts dead at run time" was scored for M in 1, 2, 4, 8. At D=24 h, pooled
+over machines, F1 was 0.2382, 0.2367, 0.2230, 0.2061, so M=1 wins and ties go
+to the smaller M anyway. M=1 it is. Precision and recall at D=24 are only 0.24
+and 0.23: a qubit that was dead a day ago is mostly not dead now. At D=1 h the
+same rule scores F1 0.8911. Healthy qubits removed per card runs from 0.12 at
+M=1, D=1 to 3.58 at M=8, D=48.
+
+**A consequence of M=1 I did not expect.** At M=1 the guard removes exactly the
+qubits that were dead on the card at submission time, which is already what the
+stale arm removes. So the pre-stated ablation "guard_only", meaning stale plus
+the guard, is identical to stale, value for value. I did not spend simulation
+rediscovering that; freeze test (iv) proves the two forbidden sets are equal at
+four different states. The guard is NOT a no-op for the hybrid arm, because
+blending readout error with a trailing median can pull a qubit that has just
+failed back under the 0.2 threshold and make it look usable. I measured that:
+the guard adds at least one qubit the blended numbers would not have rejected
+in 178 of 400 checks. That is why the guard stays on for hybrid.
+
+**Stage 1 part D, on the existing Round 1 rows.** Window mean minus stale,
+pooled over D = 6 to 48 h, all 3718 jobs included with the gap jobs among them:
+mean gain 0.008865, 95 percent interval 0.004389 to 0.015157, 22 calendar days.
+In the 61 jobs where stale used a dead qubit: 0.196080, interval 0.128799 to
+0.267599. In the 3657 where it did not: 0.005742, interval 0.001797 to
+0.011749. So most of the headline gain sits on a small number of jobs where
+stale picked a qubit that had since failed, which is consistent with what the
+dead-row views in L-051 showed.
+
+**Stage 2, the freeze.** I wrote `protocol_round2.md`, 327 lines, with the rule,
+the circuits, the arms, the job design, the fresh window, the hypotheses in
+order, the bootstrap, the compute cut order, and the rule that jobs touching a
+publishing gap stay in and are reported separately. H1 (no harm) is hybrid
+minus stale pooled over 1 and 3 h with a lower bound above -0.002. H2 (primary)
+is hybrid minus stale pooled over 6, 12, 24 and 48 h with a lower bound above
+0.
+
+The analysis in `scripts/31_analyse_round2.py` is written from the protocol text
+and imports `block_boot` from `scripts/20_analyse_results.py`, so the bootstrap
+is literally Round 1's function with the same seed 20261014 and the same 4000
+resamples. It dry-ran end to end on the Round 1 rows, loudly labelled as a
+mechanical dry run with meaningless numbers, because Round 1 rows do not hold
+the Round 2 arms.
+
+The conformance table has 51 protocol items, each quoting the protocol line and
+the code line that carries it out, both pulled from the files rather than
+retyped. All 51 resolved.
+
+All 6 freeze tests passed: a field at w=0 gives bit for bit the stale value
+(which matters because exp(log(x)) is not exactly x); hybrid with every weight
+set to 0 equals stale in both the numbers and the compiled device description;
+the rule never reads a state newer than the submission index, checked by
+wrapping the store in a recorder; and the M=1 guard equals stale's own removal
+set. The Stage 2 stop rule did not fire.
+
+`FREEZE.txt` holds the SHA-256 of the protocol, the rule, the analysis, the
+runner, the table builder, the tests, six engine files and script 20, plus the
+sha256 of the w(D) table as canonical JSON,
+fe3e3dee8c6bc65f81571fce12f88b067422a5f8be0afb966954cf2cae7d69b1. After this
+the rule cannot change.
+
+**Faults and fixes during these stages.** Three of my own, all mine and all
+caught by running the code. First, `scripts/33_round2_fit.py` called
+`M20.load()` with no path and then unpacked `block_boot` into two values when it
+returns four; both crashed and both were fixed. Second, I piped a run through
+`head`, which killed the writer and left a truncated console file; I reran it
+whole. Third, three conformance needles matched text that wraps across two
+lines in the markdown, so they reported NOT FOUND; I fixed the needles and
+reran, and the freeze hashes are of the corrected files.
+
+**Files written.** New: `protocol_round2.md`, `FREEZE.txt`,
+`scripts/32_round2_stage0.py`, `scripts/33_round2_fit.py`,
+`scripts/30_hybrid_rule.py`, `scripts/31_analyse_round2.py`,
+`scripts/34_run_round2.py`, `scripts/35_build_round2_tables.py`,
+`scripts/36_freeze_tests.py`, `scripts/37_round2_freeze.py`, and the tables in
+`outputs/round2/`. Changed, all additive and all with Round 1 behaviour
+unchanged by default: `engine/circuits.py` gained qft5, qft8 and qft10 on the
+4-peak input; `engine/real_data.py` gained two environment variables so the
+tables and cache can be pointed at the combined store; `engine/jobs.py` gained
+two optional window arguments on `all_submission_times`, which with no
+arguments reproduces the Round 1 draws exactly. I checked that: the first
+Round 1 submission is still 2026-08-28T09:20:29.246734Z.
+
+**What I did myself, and what I asked Claude Code to do.** I set the stages, the
+hypotheses and their order, the compute cut order, and the decision that the
+whole Round 1 window is development data for Round 2. I decided the fresh cards
+go to a new gitignored folder and that the combined store must be built
+somewhere new so `data/clean` stays as the Round 1 record. Claude Code wrote
+every file listed above, ran them, found and fixed the three faults above, and
+drafted this entry, which I read against the console output before appending.
+
+**Still true.** This project folder is NOT a git repository: there is no `.git`
+directory, so nothing was committed and nothing was pushed. `FREEZE.txt` and
+the checksums are doing the job a commit would have done.
+
+Next: Stage 3, fetch every card from 13 Oct 00:00 UTC to 24 Oct 00:00 UTC into
+`data/fresh`, report cards and distinct states per machine and per day and
+every date with no cards, fill no gaps, then Stage 4 run and Stage 5 analyse.
+
+---
+
+## L-056 | 2026-10-25 01:32 IST (2026-10-24 20:02 UTC) | RESULT | Round 2 Stage 3 fetch and Stage 4 pilot: 1184 fresh cards, one gap, a fez readout episode, no compute cut
+
+**What I did.** Stage 3 of Round 2: fetched every calibration card in the fresh
+window, built the combined state store, and reported what the window contains.
+Then Stage 4's timed pilot and the compute decision. I am writing this BEFORE
+the full engine run, because protocol_round2.md section 11 says the compute
+decision is logged before the run starts.
+
+**The fetch.** I used Round 1's collector, `scripts/13_download_all_snapshots.py`,
+imported with its `main()` stripped and its folders and window moved, so the
+walk is the same code: ask IBM for the newest card at or before time T, read
+the last_update_date it returns, then ask again one second before that. It
+started at 24 Oct 00:00 UTC and walked backwards to 13 Oct 00:00 UTC. Cards
+went to `data/fresh/<machine>` as gzip, never to `data/raw`.
+
+Result: 1184 cards, 0 timeouts, 0 requests given up on, no skip log written.
+Per machine: fez 387 cards covering 13 Oct 00:36 to 23 Oct 23:33; kingston 411
+covering 13 Oct 00:57 to 23 Oct 23:47; marrakesh 386 covering 13 Oct 00:04 to
+23 Oct 21:28. Each machine stopped correctly at the start date. Kingston
+published MORE cards than fez in this window, which is the opposite of Round 1,
+where fez had 1449 and kingston 1230.
+
+**What the window contains.** 1184 cards collapse to 323 distinct states: fez
+112, kingston 87, marrakesh 124. Cards per state are 3.46, 4.72 and 3.11, so
+the pattern from L-017 holds in the fresh window too, that a card is a
+publication and not a measurement. Cards per day per machine ran from 17 to 60.
+Distinct states per day ran from 1 to 40.
+
+**Every machine published on every one of the 11 days. There is no date with no
+cards.** Nothing was filled in and nothing was invented.
+
+**One publishing gap, and it stays in.** marrakesh has one interval longer than
+the 18 h threshold I fixed in protocol_round2.md section 9 before fetching
+anything: 22 Oct 20:25:11 to 23 Oct 19:17:54, which is 22.88 h. Jobs that
+straddle it stay in the headline and are reported separately, which is
+PROTOCOL.md section 10 carried forward. Round 1's headline script dropped such
+jobs and that departure is recorded in L-052 and L-053; I am not repeating it.
+
+**A real event I found and am NOT patching.** On 15 Oct, fez had a readout
+failure episode lasting about 10 hours, from 05:44:28 to 15:37:18. In 16
+consecutive states, 72 to 75 of its 156 qubits had readout_error above 0.2 and
+so count as dead by the PROTOCOL.md section 7 rule. That is 16 of 323 fresh
+states, 5.0 percent. Outside the episode fez has a median of 3 dead qubits per
+state, against 1 in the development window. kingston and marrakesh are
+unchanged from development: medians 3 and 7, maxima 6 and 15.
+
+I am keeping it. Section 9 of protocol_round2.md says nothing is excluded
+except the validity rule, and this is exactly the kind of event the study is
+about: a card from before 05:44 does not know that two thirds of the machine
+has gone bad, and a card from after 15:37 does not know it has come back. 81
+qubits stay live in the worst state, and the largest circuit needs 10, so every
+job is still runnable. I found it because the pilot showed n_forbidden reaching
+72 for the ceiling arm on fez, against a maximum of 13 anywhere in Round 1, and
+I chased the number instead of accepting it.
+
+**The combined store.** The engine needs one continuous chain from 28 Aug to
+24 Oct, because a job submitted on 13 Oct looks back at the last 12 distinct
+values of each field and those sit in the development window. I built it in
+`data/clean_r2` and `data/cache_r2` from a folder of symlinks to both card
+folders, so no card was copied and `data/raw` and `data/clean` were only read.
+1244 states in total, 921 development and 323 fresh.
+
+The builder refuses to continue unless the development part of the combined
+tables reproduces `data/clean` exactly. qubits.csv matched on all 628836 rows
+and pairs.csv on all 708576. states.csv matched on all 921 rows except two
+columns on two rows, which I explain below.
+
+**Deviation 1, and why it is not a change to the numbers.** The strict check
+first failed on `states.csv`, on `last_card_utc` and `n_cards`, in 2 of 921
+rows. Both were the LAST development state of their machine. A state is a run
+of neighbouring cards carrying the same five fields, and those two columns
+record how long the run lasted. Fez's final development state kept being
+republished unchanged until 13 Oct 00:57 and kingston's until 13 Oct 00:57, so
+in the combined view those two runs are genuinely longer: fez n_cards 3 to 5,
+kingston 6 to 7. The state did not change, the record of how long it was
+republished did. I narrowed the check so those two columns may GROW on the
+boundary state only, must not shrink, and must be identical on every other
+state, while everything else including `first_seen_utc`, which is the clock the
+engine actually reads, must still be identical everywhere. I verified
+separately that `first_seen_utc` is identical on all 921 development states and
+that every value column and every dead qubit column is identical.
+
+This edited `scripts/35_build_round2_tables.py`, which is a file FREEZE.txt
+pins. Its SHA-256 went from
+c034342a878905bdb87cb7ab67b002ecbd26097ae04f153b64c37d11f5c0ec2d to
+be900b19c90588d8c3e6185cb899e9dbfd2fcb61fc370c3d36c8cc7566f5c188 for that
+change, and then to a third value after the fault below. The rule was not
+touched. I am leaving FREEZE.txt as written so the original freeze record
+stands, and recording the new checksums here instead.
+
+**Fault 1, mine.** Rewriting that check, I replaced a pandas `.equals`
+comparison with a numpy one and broke missing value handling: pandas keeps a
+missing value missing through `astype(str)`, and `NaN != NaN` in numpy, so 918
+identical rows of the `short_section` column were flagged as different. The
+original code had never reached that column because it returned on the first
+difference it found. I fixed it so both sides missing counts as the same, and
+confirmed against a separate check using `.equals` that `short_section` is in
+fact identical on all 921 rows. Nothing about the data was wrong; my comparison
+was.
+
+**Fault 2, mine.** The first pilot died in one second with all six workers
+failing. On macOS multiprocessing uses "spawn", so every worker re-imports the
+runner module, and I had written `sys.exit(main())` at module level with no
+`if __name__ == "__main__":` guard, so each child tried to start its own
+workers and raised "An attempt has been made to start a new process before the
+current process has finished its bootstrapping phase". `engine/run_engine.py`
+has that guard, which is why Round 1 never hit this. I added the guard with a
+comment saying why it is required and not decoration. `scripts/34_run_round2.py`
+SHA-256 went from
+467f82315089364ce18ae9bada56426abc062efe56888db96cc9ffee28896526 to
+a949b6bcceac9879490562d8ece0730839f860d77492868788b29dcae0cb1de5. The rule was
+not touched.
+
+**I checked that Round 2 did not change any Round 1 number.** Round 2 added
+three things to the engine, all additive with the Round 1 path unchanged by
+default: the QFT circuits in `circuits.py`, two environment variables for the
+table and cache folders in `real_data.py`, and two optional window arguments on
+`all_submission_times` in `jobs.py`. I re-ran a slice of the Round 1 test-day
+jobs with the edited engine and compared every column against
+`outputs/test_full/all_rows.csv`, the file Round 1 was reported from. 144 rows
+matched on fidelity, esp, info_state, truth_state, new_states, n_forbidden,
+job_seed, qubits_used, dead_qubits_used, both ages and both times. The largest
+absolute fidelity difference is exactly 0.0. That is in
+`outputs/round2/r1_reproduction_check.txt`.
+
+**Stage 4, the timed pilot and the compute decision.** The full run is 4392
+jobs and 26352 arm rows. Every dropped job was dropped for the pre-stated
+reason, that its run time is past the newest state on disk, and the drops are
+counted per delay: 13 for fez, 17 for kingston, 15 for marrakesh, rising with
+the delay as expected. The pilot of 30 jobs per circuit, 240 jobs, finished in
+478 s on 6 workers with no worker failures. Scaling that wall time linearly
+gives 2.43 h for the full run, and the steady state per worker rate of about 5
+to 6 s per job suggests nearer 1.5 h.
+
+**Decision: NO COMPUTE CUT.** The projection is under the 5 hour threshold
+protocol_round2.md section 11 sets, so none of the three cuts applies. All 8
+circuits, all 6 arms and all 3 submissions per machine-day are run. In
+particular qft10 stays and both ablations stay.
+
+**The pilot also proved the frozen rule reached the engine.** Every job carried
+exactly 6 arm rows. The readout weight written into the rows is 0.15, 0.40,
+0.65, 0.85 and 0.90 at D = 1, 3, 6, 12 and 24, matching the frozen table at
+every delay. The guard added a qubit the blended numbers would not have
+rejected in 120 of 240 hybrid rows, and added nothing on any hybrid_no_guard
+row, which is what those two arms are meant to differ by. Fidelity ran from
+0.021000 to 0.964730 with no non finite value. I did not compute a single gain
+or regret from the pilot.
+
+**Files written.** New: `scripts/38_fetch_fresh.py`,
+`scripts/39_fresh_window_report.py`, `data/fresh/` (1184 gzipped cards, not
+committed and never printed in full), `data/round2_cards/` (symlinks only),
+`data/clean_r2/`, `data/cache_r2/`, `outputs/round2_pilot/`,
+`outputs/r1_recheck/`, and in `outputs/round2/`: `stage3_build_tables.txt`,
+`stage3_report.txt`, `stage3_per_day.csv`, `stage4_pilot.txt`,
+`r1_reproduction_check.txt`. Changed: `scripts/35_build_round2_tables.py` and
+`scripts/34_run_round2.py`, as the two deviations above.
+
+**What I did myself, and what I asked Claude Code to do.** I decided the fresh
+cards go to a new gitignored folder and the combined store to new folders so
+`data/clean` stays as the Round 1 record, and I set the rule that the builder
+must refuse to continue unless it reproduces `data/clean`. That rule is what
+caught the boundary state, so it earned its place. I decided the 15 Oct fez
+episode stays in rather than being excluded. Claude Code wrote the two new
+scripts, ran the fetch, the build, the report and the pilot, found and fixed the
+two faults above, chased the n_forbidden number that surfaced the fez episode,
+and drafted this entry, which I read against the console output before
+appending.
+
+**Still true.** This project folder is NOT a git repository: there is no `.git`
+directory, so nothing was committed and nothing was pushed. FREEZE.txt and the
+checksums recorded here are doing the job a commit would have done.
+
+Next: Stage 4's full run of 4392 jobs with checkpoint and resume, then Stage 5,
+run `scripts/31_analyse_round2.py` once and write the report.
+
+---
+
+## L-057 | 2026-10-25 04:36 IST (2026-10-24 23:06 UTC) | RESULT | Round 2 Stages 4 and 5: H1 and H2 both failed, the guard hurt, the plain window mean won
+
+**What I did.** Stages 4 and 5 of Round 2: ran the engine once with the frozen
+code, then ran the analysis once. Both are done. The result is a null result on
+both pre-registered hypotheses, and I am recording it as the main finding.
+
+**The run.** 4392 jobs, 6 arms each, 26352 rows, in 10357 s which is 2.88 h on
+6 workers. No worker failed and no dead qubit assertion fired. 186 distinct
+machine and truth state groups, so each noise model was built once. My pilot
+projection was 2.43 h, so I was about 18 percent optimistic, but it stayed well
+under the 5 hour threshold and the no-cut decision in L-056 stands. Rows were
+appended as they finished, so the run was resumable throughout; it never needed
+to be.
+
+**Sanity checks, all passed.** Stale regret is EXACTLY 0 on the 920 jobs where
+no new state appeared. Ceiling regret is exactly 0. Every job carries all 6
+arms. 771 rows picked a qubit that was dead on the run-time card, which is a
+real outcome and is reported rather than suppressed.
+
+**H1 and H2 both FAILED.**
+
+    H1 no harm, hybrid minus stale, D = 1 and 3 h, 1568 jobs over 11 days:
+       mean -0.000758, 95 percent interval -0.003269 to 0.001220.
+       Needs the lower bound above -0.002. FAIL.
+    H2 primary, hybrid minus stale, D = 6 to 48 h, 2824 jobs over 11 days:
+       mean 0.000151, 95 percent interval -0.008865 to 0.007510.
+       Needs the lower bound above 0. FAIL.
+
+H1 deserves a careful reading and I do not want to overstate it. The rule did
+not measurably harm anything at short delay: the point estimate is -0.000758,
+under a tenth of a percent of fidelity. H1 failed because the interval is wide,
+not because harm was measured. That is a failure to demonstrate no harm, which
+is not the same thing as harm. H2 is a clean null, point estimate essentially
+zero.
+
+By delay, hybrid minus stale ran -0.000480, -0.001036, -0.002282, -0.004916,
+0.002968, 0.006010 at D = 1, 3, 6, 12, 24, 48. The SHAPE is the one the rule
+was built for, negative when the card is fresh and positive when it is old, and
+6 h is -0.002282 and 24 h is 0.002968. But every interval crosses zero.
+
+**Why the intervals are wide, and this is my own design fault.** The design
+effect is 9.400 on 2824 jobs over 11 calendar days: paired SD 0.071575, naive
+standard error 0.001347, honest clustered standard error 0.004130. The naive
+interval would have been about three times too narrow and would have called H2
+a win. Round 1 measured 5.247 on 22 days. With 11 days there are only 11
+effectively independent units. The fresh window was too short to settle an
+effect this small, and the power calibration I did myself in L-051 said so. I
+chose an 11 day window anyway.
+
+**The secondary results matter more than the primary ones here.** Every arm
+against stale, pooled over D = 6 to 48 h: window_mean 0.005346 with interval
+0.001584 to 0.008923; hybrid_no_guard 0.001897 from -0.007345 to 0.008998;
+shrinkage_r1 0.000843 from -0.000495 to 0.002100; hybrid 0.000151 from
+-0.008739 to 0.007228. The plain window mean is the ONLY arm whose interval
+clears zero, and the carefully fitted hybrid came last of the four. Mean regret
+against the ceiling agrees: window_mean 0.038707, hybrid_no_guard 0.042156,
+shrinkage_r1 0.043209, hybrid 0.043901, stale 0.044053.
+
+**The guard hurt, and that is the one clear finding in the run.** Hybrid minus
+hybrid_no_guard is -0.001745 with interval -0.003642 to -0.000065, which does
+not cross zero. Turning the guard off made the rule better. This is consistent
+with what my own fit had already shown and I froze anyway: at D = 24 h the
+guard's precision was 0.2424 and recall 0.2342, so a qubit dead at submission
+time is usually alive at run time and removing it throws away a working qubit
+about three times in four. The pre-stated criterion was best F1, and best F1
+chose a rule that is mostly wrong. Choosing M on F1 was my mistake, and the
+engine did exactly what I told it to.
+
+**By machine and circuit.** kingston 0.003800 from 0.000652 to 0.007485, which
+clears zero; fez -0.001342; marrakesh -0.001979. By family GHZ -0.002678, BV
+0.001808, QFT 0.001876, all crossing zero. Best circuit qft5 0.006993, worst
+ghz8 -0.005530, both crossing zero. The new QFT circuits with the 4-peak input
+behaved normally and produced nothing anomalous.
+
+**The publishing gap stayed in.** marrakesh, 22 Oct 20:25:11 to 23 Oct
+19:17:54, 22.88 h. 192 jobs straddle it, 96 in the D = 6 to 48 h pool, and on
+those hybrid minus stale is -0.027813 with interval -0.062299 to 0.074353,
+which spans over thirteen points of fidelity on 3 days and says almost nothing.
+Excluding them would move the headline from 0.000151 to 0.001136, still inside
+a wide interval. So the gap did not drive the verdict, and keeping it in cost
+nothing.
+
+**The dead qubit views, and the fez episode.** H2 fails under all three views,
+so the verdict does not depend on how dead rows are treated: view 1 0.000151,
+view 2 (dropping jobs with a dead row in any arm, 2554 jobs) -0.001588, view 3
+(dead rows forced to fidelity 0) 0.001669. But the dead-row share of stale
+regret is 0.4389 in view 1 and 0.6283 in view 3, against 0.1733 in Round 1.
+Dropping those jobs turns the point estimate negative, which says whatever
+little the rule gains, it gains on exactly those jobs.
+
+The cause is the 15 Oct fez readout episode I reported in L-056: about ten
+hours in which 72 to 75 of 156 qubits had readout error above 0.2. I kept it
+in, as the protocol says. Reasoning after the fact and NOT a pre-registered
+test: a sudden ten hour failure is the worst case for this rule, because at
+D = 24 and 48 h it puts weight 0.90 on the median of the last 12 readout
+values, and during a real failure the newest card is right while the trailing
+median is wrong. Heavy smoothing then discards the correct answer. The
+development fit could not see this, because it scored how well a blend predicts
+the next card ON AVERAGE, and an average over 46 quiet days does not price in a
+rare sharp break. I am stating this as consistent with the numbers, not as
+proved.
+
+**Fault, mine, found and fixed.** The first run of
+`scripts/31_analyse_round2.py` printed the SEPTEMBER publishing gaps and
+reported zero fresh jobs straddling a gap, which contradicted my own Stage 3
+report. The cause: that script imports `real_data` without setting the two
+store environment variables, so its gap scan fell back to the Round 1 default
+`data/clean` and scanned the development window. The engine was always reading
+the right store; only the analysis script's gap scan was not. I set the two
+variables at the top of the file with a comment saying why, and re-ran. The
+corrected run found the marrakesh gap and 192 straddling jobs. H1, H2 and every
+arm comparison are unchanged by this, because they come from the rows file and
+not from the store; the bootstrap intervals moved in the fourth decimal because
+the gap test now draws from the shared random stream. The first run is kept at
+`outputs/round2/stage5_console_FIRST_RUN_gap_bug.txt` and the corrected run is
+the authoritative one. SHA-256 of that script went from
+6f79cbcd43f1d68d54995a7504d4ed537f5f0de99b0064a4a28908c34ecf5c9b to
+74ecc570e67efab06eae51317a64afd4d17f2255e4d7d100feb933f623baea0f. The rule was
+not touched.
+
+**What this changes.** Nothing in the rule, which is frozen, and nothing in
+Round 1, which stands. What changes is the conclusion. Round 1 found that a per
+field shrinkage fix moved the number a little. Round 2 asked whether a properly
+fitted version beats the newest card on data that did not exist when the rule
+was fixed, and on these 11 days it does not. The simple window mean remains the
+only strategy that beats the newest card by a margin an honest interval can
+see, and the more machinery I added, the worse it got.
+
+Three things point the same way and are consistent with each other: fitting a
+blend weight to predict the average next card does not optimise the thing I
+actually care about, which is the qubit choice; choosing the guard on F1 picked
+a rule that is wrong three times out of four; and 11 calendar days at a design
+effect of 9.4 cannot resolve an effect of half a percent.
+
+**Files written.** New: `outputs/round2_run/` (6 part files plus
+`all_rows.csv`, 26352 rows), and in `outputs/round2/`: `REPORT.md`,
+`stage4_run.txt`, `stage5_console.txt`,
+`stage5_console_FIRST_RUN_gap_bug.txt`, `r2_results.csv`, `r2_jobs_wide.csv`,
+`r2_publishing_gaps.csv`, `r2_design_effects.csv`,
+`r2_analysis_console.txt`. Changed: `scripts/31_analyse_round2.py`, the one
+deviation above.
+
+**What I did myself, and what I asked Claude Code to do.** I set the
+hypotheses, their order and their thresholds before any fresh card existed, and
+I decided the 15 Oct fez episode and the marrakesh gap both stay in. I decided
+to report the null result as the headline rather than leading with the window
+mean finding, which would have been a secondary result promoted after seeing
+it. Claude Code ran the engine and the analysis, found and fixed the gap store
+fault, wrote `outputs/round2/REPORT.md` and drafted this entry, which I read
+against the console output before appending.
+
+**Still true.** This project folder is NOT a git repository: there is no `.git`
+directory, so nothing was committed and nothing was pushed.
+
+Next, and all of it needs my decision rather than more code: whether to run a
+longer fresh window, since the honest reading is that 11 days was too short;
+whether to refit the guard on something other than F1, or drop it; and whether
+to test the window mean properly, since it is now the strategy with the best
+evidence and it has never been the pre-registered one. The L-053 correction
+block for `docs/DISCLOSURES.md` and `NOTES.md` is still NOT applied.
+
+## L-058 | 2026-10-25 22:08 IST (2026-10-25 16:38 UTC) | DONE | Stage 6 set up: the hardware protocol frozen before any job, the pilot at 2.000 s, 12 jobs projected at 32.8 s, the run launched, and Part B exploratory finished
+
+**What I asked for.** Stage 6: a new and separately pre-stated hardware
+validation on a real IBM machine under a 180 s QPU cap, plus a set of read-only
+exploratory analyses. Round 2 is final. I changed no rule, no protocol, no
+frozen file and no Round 2 result, and I checked that at the end.
+
+**What Claude Code wrote for me.** New files: `protocol_hardware.md`,
+`FREEZE_HARDWARE.txt`, `scripts/40_hw_probe.py`, `scripts/41_build_hw_tables.py`,
+`scripts/42_hw_run.py`, `scripts/43_hw_analyse.py`,
+`scripts/44_stage6_explore.py`. It also appended four lines to `.gitignore` for
+the new card folders. It did not touch `engine/`, `PROTOCOL.md`,
+`protocol_round2.md`, `FREEZE.txt`, `NOTES.md` or anything in
+`outputs/round2*`.
+
+**The account and the device, checked before anything else.** Instance name
+`open-instance`, plan `open`, 0 s consumed of 600 s allocated, 600 s remaining.
+`ibm_kingston` was active and operational with 4 pending jobs, so it is the
+device. `ibm_fez` was also active and is the written-down fallback.
+`ibm_marrakesh` was never queried and is never used. The API key and the CRN
+stay in `.env`; every line the scripts print goes through a `hide()` filter
+first, and I grepped the outputs afterwards to confirm.
+
+**Checks I made before freezing, so a bug could not waste QPU time.** The
+stored base target for kingston matches the LIVE device exactly: 156 qubits,
+352 couplers, and the base target's gate set is a subset of the live one. The
+combined store built and both of its reference checks passed: cut to before
+13 Oct it is identical to `data/clean` (191880 qubit rows, 215600 pair rows,
+276 states), and cut to before 24 Oct it is identical to `data/clean_r2`
+(255996, 287936, 363). The only difference either time is the boundary state's
+run length growing, which is that state genuinely continuing to be
+republished, and the check allows it to grow and never to shrink. I then
+compiled all 12 arm targets offline and checked all 595 instruction placements
+against the live device: 0 unsupported.
+
+**The freeze.** `protocol_hardware.md` and the scripts were hashed into
+`FREEZE_HARDWARE.txt` at 2026-10-25T16:32:09Z, BEFORE any job including the
+pilot. The protocol fixes the primary comparison as window mean minus stale and
+the secondary as hybrid minus stale. That order is the opposite of Round 2's and
+I wrote down why: Round 2 found the window mean was the only arm clearing zero.
+Choosing it now is legitimate only because this is a new pre-statement made
+before any hardware data existed, and I said so in the protocol itself.
+
+**The pilot and the projection.** One 2 qubit Bell circuit at 100 shots used
+**2.000 s**. The device reports a 250 microsecond rep delay and the Bell ISA
+duration is 2.312 microseconds, so the pilot's own sampling time was 0.0252 s
+and the remaining 1.975 s is per job overhead. ISA durations at level 2:
+ghz5 2.612, ghz8 2.912, bv8 3.516, qft5 5.128 microseconds. The projection for
+all 12 jobs is 12 x 1.975 s overhead plus 9.128 s sampling = **32.825 s**,
+under the 150 s guard, so the run continued. The projection model was written
+into the protocol before the pilot ran, so it could not be chosen to suit the
+answer.
+
+**The run.** t0 = 2026-10-25T16:32:39Z. Compiles at 16:32, 18:32 and 20:32 UTC;
+submissions after a 6 h local hold at 22:32, 00:32 and 02:32 UTC. It runs
+detached under `caffeinate` and `nohup` and survives this session ending.
+Compile slot 1 is done. Ties showed up immediately: for ghz8 all three arms
+produced the IDENTICAL transpiled circuit, and for qft5 the window mean and the
+hybrid did. Those are submitted once and both arms are given that one result,
+with a paired difference of exactly 0 that still counts, as the protocol
+requires.
+
+**DEVIATION 1, logged.** After the freeze I corrected `part_j` of
+`scripts/44_stage6_explore.py`. My first version printed a "circular SD" of the
+clock hour and then compared it with a claimed maximum of 6.93 h. That ceiling
+is wrong: the circular SD is not bounded, and as changes spread evenly round
+the clock it grows without limit. The fez readout row already showed 10.48 h,
+above the claimed maximum, which is how I noticed. I replaced the printed
+column with the resultant length R, which runs from 0 to 1, and added the share
+of changes falling in the busiest 6 hour block of the day, which is 25 percent
+when the clock hour is spread evenly. The unbounded number is still in the CSV
+and the text now says plainly that it cannot be compared with a fixed ceiling.
+This is Part B only, which is exploratory; no Part A file and no hardware
+number is affected. Hash of `scripts/44_stage6_explore.py`
+`59cd5d1faef78bc164084b321c60e3b428eaa327621a18a23723075e7a003fc7` -> `c044da565fc9fbcbd92cdf60e18eee7ece0c3d1678b9b469b1b5b84ce3b3dd91`.
+
+**PART J, change intervals, EXPLORATORY.** Over all 58 days in the store, for
+each machine and field group, the hours between consecutive changes of that
+group. The answer to the question is yes for three of the four groups. sx, cz
+and T1/T2 change about every 25 hours with a tight spread: median intervals
+25.05, 25.03 and 24.83 h, mean IQR widths 1.85, 3.57 and 2.45 h, and 66.3,
+65.1 and 68.3 percent of intervals inside 24 plus or minus 3 h. Their clock
+hour is far less regular: mean R only 0.367, 0.366 and 0.364, and the busiest
+6 hour block of the day holds about half the changes against 25 percent for an
+even spread. A median interval slightly ABOVE 24 h is what makes the clock hour
+drift forward by roughly an hour a day. Readout is a different process
+altogether: it changes every 4.71 h on average, only 0.9 percent of its
+intervals land in the 24 plus or minus 3 h band, and its clock hour is close to
+uniform at R = 0.096.
+
+**PART K, winner's curse, wider, EXPLORATORY.** 4518 stale rows over ghz5,
+ghz10, bv8 and bv10, development window only, each chosen set scored against
+1000 random same size sets. For the cz group the random sets are CONNECTED
+patches, because an unconnected random set of 5 qubits induces no coupler at
+all and so cannot serve as a comparison; I wrote that choice down rather than
+quietly using a null that guarantees the answer.
+
+The readout curse is large and it replicates on every circuit: chosen deviation
+-0.1418 against random +0.0254, chosen sets at the 18.4th percentile of the
+random sets, 34.7 percent of them below the 5th percentile, and a rise gap of
++0.1531, meaning the chosen qubits got worse by the run-time card far faster
+than random ones. cz also carries it clearly: chosen deviation -0.0593,
+percentile 29.7, rise gap +0.0336. sx is weak at +0.0123 and T1/T2 is
+essentially absent at +0.0006. By delay the readout rise gap saturates near
++0.21 by D = 12 h, while the cz gap keeps growing: +0.0008, +0.0055, +0.0140,
++0.0293, +0.0650, +0.0928 at D = 1, 3, 6, 12, 24 and 48 h. BV shows the
+strongest readout curse of the four circuits (bv10 at the 9.9th percentile, rise
+gap +0.2000).
+
+**PART M, out of time, EXPLORATORY.** The same functions in
+`scripts/29_diagnostics.py` were called with the window moved to 13 to 24 Oct,
+so the code was not rewritten and a difference cannot come from writing the
+calculation twice. Mean reversion holds: the readout slope is -0.3021,
+-0.3321 and -0.3868 on fez, kingston and marrakesh in the fresh window against
+-0.3670, -0.3151 and -0.4607 in development, and 11 of the 12 machine-group
+intervals overlap. The one that does not is kingston T1/T2, where both slopes
+are tiny (-0.0132 against -0.0001). The readout winner's curse also holds and is
+if anything stronger out of time: rise gap +0.1139 in development against
++0.1781 in the fresh window, same sign. The sx and T1/T2 rise gaps flip sign
+(-0.0004 to +0.0121 and -0.0037 to +0.0116) but both are near zero in both
+windows, so I read that as noise about zero and not a real reversal. This is
+consistent with the development picture; it does not prove it.
+
+**PART N, why did the hybrid lose, EXPLORATORY, Round 2 rows only.** This is
+the part that actually explains Round 2, and it changes what I think happened.
+
+The hybrid is NOT the worse rule at short delay. At D = 1 h the hybrid is
+-0.000480 and the window mean is -0.008416 with an interval of [-0.012258,
+-0.004930]; at D = 3 h the hybrid is -0.001036 and the window mean is -0.005270
+[-0.010084, -0.000569]. So the plain window mean HARMS at short delay, clearly
+and with intervals below zero, and the hybrid's tapering of the weight towards
+0 at short delay does exactly the job it was designed for. The window mean would
+have failed the H1 no-harm test far worse than the hybrid did.
+
+At long delay the order reverses: at D = 24 h the window mean is +0.008774
+[0.002547, 0.014848] against the hybrid's +0.002968, and at D = 48 h it is
++0.012173 [0.004863, 0.020044] against +0.006010. Same sign, but the hybrid
+captures only about a third to a half of it. So the hybrid lost the pooled
+6 to 48 h test because its weights are too timid at long delay, not because
+blending is the wrong idea.
+
+Where the hybrid's gain actually sits: of the 2824 pooled jobs, the 270 where
+some arm used a qubit dead at run time (9.6 percent of jobs) carry +4.4838 of
+the summed difference while the total is only +0.4277, so the other 2554 jobs
+sum to about -4.06 and average -0.001588. In other words the hybrid has no edge
+at all except where a dead qubit is involved. The window mean is much less
+dependent on that: those same 270 jobs hold 47.4 percent of its total, and it
+still averages +0.003107 on the clean majority.
+
+The fez readout episode of 15 Oct 05:44 to 15:37 UTC touches 136 pooled jobs.
+Excluding it, the hybrid falls from +0.000151 to -0.000617 and the window mean
+from +0.005346 to +0.004998. Inside the episode the hybrid gains +0.015334
+[0.004746, 0.042191].
+
+**CORRECTION to my own reasoning in L-057.** In L-057 I speculated, and
+labelled it as reasoning after the fact, that a sharp readout failure is the
+worst case for a rule that leans on a trailing median, because the newest card
+is right and the median is wrong. Part N shows the opposite: inside the episode
+the hybrid GAINED +0.015334, and removing the episode makes the hybrid worse,
+not better. The episode was helping it. Looking at it again, the failure lasted
+about 10 hours, so for most of these jobs the run-time card had already
+recovered, which makes the trailing median the better picture and the newest
+card the misleading one. My guess had the sign backwards and I am recording
+that rather than leaving it standing.
+
+**What Parts K, M and N say together, which is new.** Only readout
+mean-reverts, with slopes of -0.30 to -0.46, and only readout and cz carry a
+real winner's curse. sx, and especially T1/T2, show slopes near zero and a rise
+gap of +0.0006, which is to say no reversion and no curse. But the Stage 1 fit
+gave T1/T2 a weight of 0.90 at D = 48 h, the joint highest of the four groups,
+and cz only 0.55 even though the cz curse is the one still growing at 48 h. The
+fit chose its weights by the mean squared error of PREDICTING the run-time
+value, and shrinking a noisy series towards its own median lowers that error
+whether or not the series mean-reverts. The layout DECISION only benefits when
+the deviation is transient. So the fit put its heaviest weight on the group
+with the least to gain and was too cautious on the group with the most. That
+is a concrete, testable explanation for the null in Round 2, and it is
+exploratory and post hoc: I did not pre-state it.
+
+**What is still running.** Part A, the 12 hardware jobs, finishes about
+02:45 UTC on 26 Oct. Its results, the usage total against the cap and
+`outputs/hardware/REPORT.md` are not written yet and will go in the next entry.
+Nothing about Part A's numbers is in this entry.
+
+**What is next.** Wait for Part A, then analyse it once with
+`scripts/43_hw_analyse.py` and write `outputs/hardware/REPORT.md`.
+
+---
+
+## L-059 | 2026-10-26 08:25 IST (2026-10-26 02:55 UTC) | RESULT | Stage 6 Part A finished on real hardware: 12 jobs, 37.000 s of the 180 s cap, neither corrected rule beat stale
+
+**What I did.** I waited for the hardware run I launched in L-058 to finish on
+its own, which it did without me touching it. It submitted the last job at
+02:47 UTC and printed HARDWARE RUN FINISHED at 02:53:16 UTC. Then I asked
+Claude Code to run the analysis script once and write the report. The script
+`scripts/43_hw_analyse.py` was already frozen in `FREEZE_HARDWARE.txt` before
+the pilot job, so it could not have been written to suit the numbers. Claude
+Code wrote `outputs/hardware/REPORT.md` and `outputs/hardware/analysis_console.txt`.
+I did not change any engine file, any frozen file, any protocol or any Round 2
+result in this step.
+
+**What happened, in real numbers.** All 12 jobs reached DONE. Nothing was
+MISSED, nothing was SKIPPED_FOR_CAP, and no IBM call ever needed its retry
+loop, because no network error happened. QPU usage was 2.000 s for the pilot
+plus 3.000 s for each job except s1_ghz8 which cost 2.000 s, giving a total of
+37.000 s against the 180 s cap, which is 20.6 percent of it. IBM's own account
+counter moved from 0.0 s to 34.0 s. The guard uses whichever figure is larger,
+so it treated the total as 37.000 s. My pre-run projection was 32.825 s for the
+12 jobs and the real figure for those 12 was 35.000 s, so the projection was
+about 7 percent low. The cap was never close to being reached and no guard ever
+had to stop a submission.
+
+**The result.** Hellinger fidelity against the ideal distribution, 1,000 shots
+per arm, bootstrap of 4,000 resamples over the 12 jobs with seed 20261025:
+
+- PRIMARY, window_mean minus stale: mean -0.01256, SD 0.04382, interval
+  -0.03906 to +0.00710.
+- secondary, hybrid minus stale: mean +0.00018, SD 0.02246, interval
+  -0.01253 to +0.01151.
+- extra, hybrid minus window_mean: mean +0.01274, interval -0.00276 to
+  +0.03903.
+
+Mean fidelity was 0.8845 for stale, 0.8720 for window_mean and 0.8847 for
+hybrid. So on real hardware neither corrected rule beat the plain stale choice,
+and every interval contains zero. I want to be careful about what that means.
+The primary comparison came out NEGATIVE on hardware, which is the opposite
+sign to the +0.005346 the same window mean showed on Round 2's 2,824 simulated
+jobs. I am not entitled to call that a contradiction. Twelve jobs cannot
+separate -0.013 from +0.005 when the paired SD is 0.044. The honest statement
+is that this run did not reproduce the window mean's simulated advantage, and
+that it is consistent with the hybrid being near neutral at a 6 hour delay,
+which is also what Round 2 found at that delay, -0.002282.
+
+**What I found, looking after the fact.** One job sets most of the primary
+number. s1_bv8 has a difference of -0.1330 while the other 11 jobs all sit
+between -0.046 and +0.038. Dropping s1_bv8 moves the primary mean from -0.01256
+to -0.00161. Leaving each job out in turn moves it between -0.01712 and
+-0.00161, so no single job flips its sign, but a single job sets most of its
+size. In that job the window mean moved the layout to physical qubits
+45 41 134 42 56 154 44 43 while stale and hybrid both stayed in the 108 to 129
+region, and the new region ran worse. The hybrid's taper kept it near the stale
+choice and so it did not pay that cost. This is one observation on one circuit
+and I take no rule from it. I have labelled it post hoc in the report because
+it was not in the protocol.
+
+**The ties.** 29 PUBs were submitted for 12 jobs and 36 arm results came back,
+so 7 arm results were served by a circuit another arm had already produced.
+window_mean and stale gave the identical transpiled circuit in 1 of 12 jobs,
+hybrid and stale in 1 of 12, and hybrid and window_mean in 6 of 12. Every tie
+was counted as a paired difference of exactly 0 and none was dropped, which is
+what the protocol fixed in advance. So the arms really were picking different
+qubits in 11 of 12 jobs and the result is not a tie artefact.
+
+**The delays, honestly.** Three jobs went out slightly late: s3_ghz8 at
+6.098 h, s3_bv8 at 6.102 h and s3_qft5 at 6.185 h instead of 6 h. The cause is
+my own no overrun rule. Jobs go out strictly one at a time and each one waits
+for the previous job to finish and for its usage to be read from IBM before the
+next is allowed, and in slot 3 that queueing pushed the later jobs a few
+minutes past their nominal time. The analysis uses the actual D for every job,
+not the planned 6 h. Slot 3 also used the 16:35:15Z card, which was 4.0113 h
+old at compile time instead of about 2 h, because the device had simply not
+published a newer card by 20:35Z. That is recorded for every job rather than
+quietly ignored. The real queue wait was tiny all night: median 1.6 s, range
+1.2 s to 354.6 s, all 12 under an hour. That makes it important to repeat that
+the 6 hour delay in this stage is a deliberate hold on my own laptop, not a
+natural queue delay.
+
+**A fault, cosmetic, which I am recording rather than hiding.**
+`outputs/hardware/STATUS.txt` says "jobs finished 13 of 12". It counts the
+entries in the per job usage record, and that record also holds the pilot. The
+real job count is 12 and the 37.000 s total is correct. I decided not to let
+Claude Code edit the runner while it was executing, because that script was in
+the freeze list and changing it mid run would have broken its hash for the sake
+of one status line. It is written up in section 8 of the report instead.
+
+**What changed.** Claude Code wrote `outputs/hardware/REPORT.md` (256 lines)
+and `outputs/hardware/analysis_console.txt`, and the frozen analysis script
+wrote `outputs/hardware/hw_jobs.csv` (36 rows) and
+`outputs/hardware/hw_summary.json`. I appended this entry and one Timeline row.
+No file in `data/raw`, `data/clean`, `data/clean_r2`, `engine/` or any frozen
+file was changed. The live card store stays gitignored.
+
+**A deviation from CLAUDE.md that I should own.** My own project rules say
+Claude Code should explain each step in 3 to 5 plain sentences before it and
+ask me 2 questions after it. Stage 6 ran unattended for ten hours overnight,
+which is the whole point of running it as a standalone script, so that did not
+happen for most of this stage. I am recording it rather than pretending the
+rule was followed.
+
+**What is next.** These are decisions for me, not for Claude Code, and they are
+still open from L-053 and L-057: apply the prepared L-053 correction block,
+decide whether to make this folder a git repository, decide on a longer fresh
+window, decide whether to refit or drop the guard, decide whether to
+pre-register the plain window mean as a named arm, settle the Comparison B
+pooling amendment, and fix the `scripts/26_*` prefix clash. I have not asked
+Claude Code to do any of them.
+
+
+---
+
+## L-060 | 2026-10-29 15:04 IST (2026-10-29 09:34 UTC) | RESULT | Corrected Round 1 pack on all 5,648 jobs: stale regret barely moves, the fig_d sign was wrong and is fixed, Comparison B verdict unchanged
+
+**What I asked for.** I asked for the Round 1 test-period tables to be rebuilt
+on all 5,648 jobs with no gap exclusion, because PROTOCOL.md section 10 says
+the 22 to 23 September publishing gap stays in and the straddling jobs are
+reported separately. The old pack did report them separately but it ALSO
+dropped them from every headline, which is not what section 10 says. I said no
+IBM calls, no hardware jobs, read-only on the frozen files, new scripts and
+new folders only. Partway through I changed the output format: no PNG figures,
+and instead replacement CSVs with exactly the same file names and columns as
+the originals in the report pack.
+
+**What I did myself.** I set the rule that the sign conventions do not change
+(regret = ceiling minus strategy, gain = F_strategy minus F_stale), that
+Comparison B must be reported at 6 h and at 24 h separately with the pooled
+figure only as a labelled extra, and that anything not reproducible from the
+saved files must be said out loud and not estimated. I chose the file list for
+the addendum and I decided the gap jobs must stay in P5 on their own as well as
+going inside every other file.
+
+**What Claude Code wrote.** One new file, `scripts/45_round1_corrected_pack.py`.
+It loads the bootstrap and loader functions out of `scripts/26_report_figures.py`,
+`scripts/24_prereg_outputs.py` and `scripts/20_analyse_results.py` by parsing
+their source and dropping the bare `main()` call at the bottom, so the
+arithmetic is literally theirs and none of those files was edited. I checked
+that afterwards: `scripts/20_analyse_results.py` still matches its FREEZE.txt
+checksum. Nothing in `engine/` was touched. Everything new went to
+`outputs/round1_corrected_pack/`.
+
+**What happened: real numbers.**
+
+Jobs: 5,648 with 33,888 rows over 22 days. 360 jobs overlap a gap window. The
+old pack headlined 5,288 of 5,648, so 360 jobs were missing from every old
+headline number.
+
+Comparison A, mean stale regret against the ceiling, old then new:
+
+| D | old n | new n | old mean | new mean | difference |
+| --- | --- | --- | --- | --- | --- |
+| 1 h | 930 | 970 | 0.005937 | 0.005692 | -0.000245 |
+| 3 h | 920 | 960 | 0.017115 | 0.016402 | -0.000713 |
+| 6 h | 909 | 954 | 0.022962 | 0.022116 | -0.000847 |
+| 12 h | 880 | 945 | 0.025887 | 0.025056 | -0.000831 |
+| 24 h | 855 | 930 | 0.024511 | 0.023876 | -0.000636 |
+| 48 h | 794 | 889 | 0.036653 | 0.036739 | +0.000085 |
+
+So adding the 360 jobs back changes stale regret by under 0.0009 everywhere.
+The shape is the same, it still rises with delay, and the intervals still stay
+clear of zero. The point estimate drops slightly at five of six delays because
+most gap jobs crossed no new state and so carry zero stale regret.
+
+**The fault I found.** The old `fig_d_shrinkage_minus_stale.csv` computed
+`stale - shrinkage` while its own axis label and its own `label` column said
+"positive = shrinkage better". The direction was the wrong way round. This is
+the same fault `scripts/20_analyse_results.py` already fixed on 19 October
+under L-049, but the figure script never got the fix, so the saved figure CSV
+still carried the wrong sign. Corrected here to `F_shrinkage minus F_stale`,
+and I added a `sign` column spelling it out so it cannot be misread again.
+
+Comparison B, shrinkage minus stale, old (wrong sign, 5,288 jobs) then new
+(right sign, 5,648 jobs):
+
+| row | old n | new n | old mean | new mean |
+| --- | --- | --- | --- | --- |
+| 6 h | 909 | 954 | -0.003447 | +0.003297 |
+| 24 h | 855 | 930 | +0.000030 | -0.000041 |
+| pooled, labelled extra | 1764 | 1884 | -0.001762 | +0.001649 |
+
+New intervals: 6 h [-0.000166, +0.006938], 24 h [-0.002750, +0.002560],
+pooled [-0.001391, +0.004533].
+
+**The verdict does not change.** Every interval still includes zero at 6 h, at
+24 h and pooled, so on the test days the pre-registered fix still did not beat
+using the newest card. What changes is how the point estimate reads: the old
+file made shrinkage look worse than stale at 6 h, and with the sign the right
+way round the 6 h point estimate is positive. I am not calling that a win. The
+lower bound is -0.00017, which is consistent with no difference, and I will not
+write it up as shrinkage beating stale.
+
+**The four sanity checks all PASS on all jobs**, and they reproduce the old
+numbers exactly: 1,305 no-new-state jobs with largest absolute regret 0.0,
+ceiling minus stale +0.0057 at 1 h rising to +0.0367 at 48 h, random lowest at
+0.7334 against 0.9027 for stale, fixture checksum unchanged. They match because
+`scripts/20_analyse_results.py` always ran its sanity checks before the gap
+exclusion, so they were already all-jobs numbers.
+
+**D1 to D6, the dead-qubit tables, came out byte identical** to the originals.
+`scripts/25_dead_qubit_rows.py` never applied a gap exclusion, so those six
+were already on all 5,648 jobs. I had them regenerated and compared byte for
+byte rather than assumed unchanged.
+
+**What changed (file names).** New: `scripts/45_round1_corrected_pack.py` and
+32 files under `outputs/round1_corrected_pack/`, which are 7 figure CSVs, 17
+prereg CSVs, `comparison_A_stale_regret_all_jobs.csv`,
+`sanity_checks_all_jobs.txt`, `COMPARE.md`, `README.md`,
+`READABLE_TABLES.txt`, `console_output.txt` and
+`secret_scan_new_files.txt`. No existing file was edited. Column names and the
+`label` column text are identical to the originals in all 24 replacement CSVs;
+the only added column anywhere is `sign` in `fig_d`, which I asked for.
+
+**Checks.** The secret scan over the 31 new files found 0 leaks: the two real
+.env values were read into memory and searched for without being printed, and
+neither appears in any new file. The only pattern hits are 3 copies of the
+teammates' fixture sha256, which is a checksum printed by sanity check 4 and
+not a credential. Nothing was committed or pushed; the project is not a git
+repository and has no `.git` directory anywhere.
+
+**A separate fault I did not cause, and did not fix.** While verifying that I
+had left the frozen files alone, I checked every checksum in FREEZE.txt. Three
+do not match: `scripts/31_analyse_round2.py`, `scripts/34_run_round2.py` and
+`scripts/35_build_round2_tables.py`. Their modification times are 25 October,
+four days before today, so they were changed during the Round 2 work and not by
+me. The rest of FREEZE.txt matches, including the whole engine and
+`scripts/20_analyse_results.py`. I am recording this and nothing more; I have
+not edited those three files and I have not decided what it means for Round 2.
+
+**What I could not do.** The Round 1 report itself is not in this project.
+There is no document anywhere with an abstract, a conclusions section, a
+Section 4.3.6, a Section 5.1, or tables and figures numbered 7 to 25, in any
+format. So I could not map each output file to a report table number, and I
+could not key COMPARE.md to those specific locations. Instead COMPARE.md
+compares every number in the saved Round 1 CSV files, 2,698 of them, old
+against new, so whichever ones the report quotes are covered. I did not guess a
+mapping and I did not estimate a single old value. Also, section 2 of the old
+sanity file, the independent check, is not reproduced on all jobs:
+`scripts/23_independent_check.py` was written for the gap-excluded set and was
+never run with `--json-out`, so no saved output exists for it on any row set. I
+did not rerun it and did not estimate it.
+
+**Next.** Get the Round 1 report into the project so the table and figure
+numbers can be mapped and COMPARE.md can be keyed to the abstract, the
+conclusions, Section 4.3.6, Section 5.1, Table 7 and Table 19. Separately,
+decide what to do about the three Round 2 scripts whose checksums no longer
+match FREEZE.txt.
+
+
+---
+
+## L-061 | 2026-10-29 15:28 IST (2026-10-29 09:58 UTC) | FOUND | Housekeeping: Round 2 report correction appended, the three H2 intervals are one seed stream, hardware sensitivity post hoc, correction blocks appended to the clone uncommitted
+
+**What I asked for.** Five housekeeping items plus checks, all local, no IBM
+calls, no hardware jobs, read-only on the frozen files. I set the rules again:
+new scripts and new folders only, next free script and L numbers, UTC from the
+`date` command, append-only log, no em dashes, "consistent with" and never
+"proved", and the sign conventions unchanged.
+
+**H1, the Round 2 report correction. Done.** I had a new section called
+"Correction (L-058)" appended to the end of `outputs/round2/REPORT.md`. Nothing
+above it was edited or reworded: I checked the diff and it is 91 lines added, 0
+removed. It corrects two things, using only the Part N files
+`outputs/stage6_explore/N1_hybrid_vs_window.csv` and `N2_dead_qubit_share.csv`.
+
+First, the paragraph saying a sudden ten hour failure is the worst possible case
+for the rule has the direction backwards. Inside the 15 October fez readout
+episode the hybrid GAINED +0.015334 [+0.004746, +0.042191] on 136 jobs over 3
+days, and removing the episode makes the hybrid worse, from +0.000151 to
+-0.000617. The episode was helping it. The failure lasted about ten hours, so
+for most of those jobs the run-time card had already recovered, which makes the
+trailing median the better picture and the newest card the misleading one. I
+had already recorded this in L-058; the report text was written without it.
+
+Second, the report says the plain window mean is the only arm whose interval
+clears zero, which is true only in the D = 6 to 48 h pool it was computed on. At
+D = 1 h the window mean is -0.008416 [-0.012258, -0.004930] and at D = 3 h
+-0.005270 [-0.010084, -0.000569]. Both intervals lie entirely below zero, so
+the window mean is clearly harmful at short delay. The hybrid is not: -0.000480
+[-0.002631, +0.001098] at 1 h and -0.001036 [-0.004219, +0.001726] at 3 h. H1
+failed on a lower bound of -0.003269 against a threshold of -0.002, while the
+window mean's point estimate alone is more than twice that at 1 h. So the window
+mean would have failed H1 far worse. Neither verdict changes; what changes is
+the recommendation, and I said so in the section.
+
+**H2, the three intervals. Answered.** The cause is neither the row set nor the
+job order. It is the position each test holds in ONE shared random number
+stream. `scripts/31_analyse_round2.py` creates a single generator at line 283
+and threads it through every test, so the second, twentieth and fortieth
+computation of the same quantity each get different day draws.
+
+The proof is that all three report n = 2824 over 11 days and the same mean to
+all 17 digits, `0.00015143555252041018`. A mean agreeing to the last digit
+cannot come from different rows. I then started a fresh generator at seed
+20261014, made the script's first two calls, H1 then H2, and reproduced the
+headline interval to 15 decimal places. Repeating the identical computation at
+later stream positions gave intervals wandering from -0.009348 to -0.008108 on
+the low bound over 200 repeats, standard deviation 0.000295. All three reported
+intervals sit inside that pure Monte Carlo range, and the spread between the
+three low bounds is 0.000414, about 1.4 standard deviations of the noise. Same
+effect L-042 measured in Round 1.
+
+The pre-registered H2 interval is the headline H1/H2 table one, -0.008865 to
+0.007510. It is the output of the pre-registered `one_test` call, it is the only
+one of the three carrying the `bound` and `passes` fields in
+`r2_results.csv`, and it is computed before any exploratory cut has touched the
+stream. I wrote `outputs/round2/NOTE_three_intervals.md` and changed no other
+file. My advice to myself for the paper: quote the headline one, rounded to
+[-0.0089, +0.0075], do not present the other two as separate evidence, and note
+that the verdict is identical under all three.
+
+**H3, hardware sensitivity. Done, labelled POST HOC.** New script
+`scripts/46_hw_sensitivity.py`, reading only `outputs/hardware/hw_jobs.csv` and
+`hw_summary.json`. The frozen analysis stays as the reported number and
+`scripts/43_hw_analyse.py` was not touched.
+
+By compile time the three slot means for window mean minus stale are -0.025398,
+-0.000279 and -0.011999, and for hybrid minus stale +0.009675, +0.003431 and
+-0.012567. By circuit the window mean spans -0.044000 on bv8 to +0.007529 on
+ghz5. Leave one job out moves window mean minus stale from -0.012559 across a
+range of -0.017121 to -0.001609; dropping `s1_bv8` alone moves it to -0.001609,
+a change of +0.010949. The hybrid changes sign under leave-one-out, from -0.003224
+to +0.004393. One job in twelve moving the headline that far is the finding.
+
+**And I got something wrong here and had it fixed before writing the file.** I
+first had the script say the cluster bootstrap showed the frozen interval was
+too narrow. It does not. Resampling the 3 whole compile times gives
+[-0.025398, -0.000279] for the window mean, which is NARROWER than the frozen
+job-level interval, 0.54x its width. Worse, both endpoints land exactly on the
+smallest and largest of the three slot means, which is the degeneracy I should
+have expected: with 3 clusters there are only 10 distinct multisets of 3 draws,
+so the percentile interval is just the range of 3 numbers. The clustered
+standard error is the more informative comparison, and it is 0.007257 against a
+naive 0.012649 for the window mean, 0.57x, and 0.006623 against 0.006484 for the
+hybrid, 1.02x. That is the OPPOSITE of Round 1 and Round 2, where the design
+effects were 5.247 and 9.400. Most of the variation in these 12 jobs sits within
+a compile time, not between compile times, because the four circuits inside a
+slot disagree far more than the three slots do. So I am NOT claiming the frozen
+interval is too narrow. It is consistent with the clustering mattering little
+here, and 3 clusters cannot establish it either way.
+
+On (e): the frozen analysis treated the 12 jobs as independent and did NOT group
+by compile time. `scripts/43_hw_analyse.py` line 59 resamples the 12 job-level
+differences one at a time, and `FREEZE_HARDWARE.txt` recorded that before any
+job ran as "bootstrap 4000 resamples of the jobs, seed 20261025". Its docstring
+correctly argues the job and not the row is the unit, because three arms share
+one queue position and one calibration epoch, but it does not take the same step
+one level up to the shared card. That was pre-stated, so it is a limitation of
+the frozen design and not a departure from the protocol.
+
+**H4, the correction blocks. Done, uncommitted.** I searched every `.git`
+directory under my home folder and found exactly one clone whose remote is the
+staleness-project repository:
+`/Users/aradhyagupta/staleness-repo-export`, remote
+`https://github.com/RealAradhyaGupta/staleness-project.git`. No other repository
+on this machine has that remote, so the "exactly one" condition held and I did
+not have to stop.
+
+I had the two prepared L-053 blocks appended, 80 lines to `DISCLOSURES.md` and
+66 to `NOTES.md`, 146 insertions and 0 deletions. Both files already carried the
+L-049 correction and neither carried L-053, so nothing was duplicated. The
+changes are left modified and unstaged: `git status` shows ` M` on both, HEAD
+equals origin/main, 0 unpushed commits, and the reflog shows no new commit.
+
+**One thing I decided differently from the prepared text, and I want it on the
+record.** Both prepared files say in their own preamble that they should be
+inserted directly below the existing L-049 block and above the original body,
+so that corrections sit above the text they supersede. I asked for them to be
+appended and not to rewrite anything, so they went to the end of each file
+instead. The consequence is that the L-053 correction now sits BELOW the
+headline it corrects, which is the opposite of the placement the prepared text
+intended, and a reader meeting the headline first will not see the correction
+until the end. I also had a short HTML comment added above each block recording
+the date, the source file and the fact that the placement is an append. If I
+want the intended placement I have to say so; I am not going to let a script
+reposition text in those files without asking.
+
+**H5, NOTES.md line 819. Read, not edited.** Line 819 reads "mean gain -0.00176,
+95 pct [-0.00482, +0.00147]. Includes zero." That sign is wrong: gain is
+shrinkage minus stale, so it should be +0.00176 [-0.00147, +0.00482]. Lines 820
+and 821 carry the same flip. But this is NOT an unflagged error and it does not
+contradict the log: the CORRECTION (L-049) block at lines 5 to 37 of the same
+file states the sign is wrong, gives the corrected numbers, and says the text
+below is left exactly as first written. That is the project's own practice of
+not rewording.
+
+What IS stale in that block with no correction above it is the gap exclusion.
+Line 805 says "gap jobs excluded", and lines 808 to 813 carry n = 930, 920, 909,
+880, 855, 794, which is the 5288-job set. PROTOCOL.md section 10 says the gap
+stays in, and L-052, L-053 and L-060 all record that. The L-053 correction block
+exists as PREPARED text and I have now appended it to the CLONE, but the working
+copy of NOTES.md still has no correction above that headline. Two smaller things:
+line 800 says 1305 no-new-state jobs, which is the all-jobs figure, while line
+815 says 0 states n = 1205, which is the gap-excluded figure, and the two sit in
+the same block with nothing saying they are different row sets. And line 818
+headlines "D = 6 and 24 h pooled", which is the third number PROTOCOL.md section
+11 does not define; it defines two, one at each delay. I edited nothing.
+
+**H6, checks.** The secret scan covered 267 files, 264 under `outputs/` plus
+`scripts/46_hw_sensitivity.py` and the two changed clone files. The two real
+.env values were read into memory and searched for without being printed: 0
+leaks. 0 high-risk credential-shaped patterns. `data/fresh`,
+`data/hardware_cards` and every new store folder are ignored: the working
+project's `.gitignore` names them one by one, and the real clone ignores `data/`
+and `outputs/` wholesale, with 0 data files tracked. Nothing was committed or
+pushed anywhere.
+
+**What changed (file names).** New: `scripts/46_hw_sensitivity.py`,
+`outputs/round2/NOTE_three_intervals.md`, `outputs/hardware/SENSITIVITY.md`,
+`outputs/hardware/SENSITIVITY_paired_differences.csv`,
+`SENSITIVITY_by_compile_time.csv`, `SENSITIVITY_by_circuit.csv`,
+`SENSITIVITY_leave_one_out.csv`, `SENSITIVITY_cluster_bootstrap.csv` and
+`SENSITIVITY_standard_errors.csv`. Appended to: `outputs/round2/REPORT.md` (91
+lines, 0 removed), and in the clone `DISCLOSURES.md` and `NOTES.md`. Read only
+and unchanged: the engine, `scripts/31_analyse_round2.py`,
+`scripts/43_hw_analyse.py`, `FREEZE.txt`, `FREEZE_HARDWARE.txt`, every protocol
+file, both rows files and the working copy of NOTES.md.
+
+**Next.** Decide whether the L-053 blocks in the clone should be moved up to sit
+below the L-049 block, as their own preamble intended, rather than at the end.
+Decide whether the working copy of NOTES.md should get the same L-053 block
+above its headline. And the three Round 2 scripts whose checksums no longer
+match FREEZE.txt, recorded in L-060, are still unresolved.
+
+
+---
+
+## L-062 | 2026-10-29 15:58 IST (2026-10-29 10:28 UTC) | REVIEW | Chased the four freeze mismatches: all four are logged bug fixes, no frozen copy survives anywhere, every saved output reproduces byte for byte, and script 35's third checksum was never written down
+
+**Why I did this.** In L-060 and L-061 I recorded that four pinned scripts no
+longer match their freeze checksums: `scripts/31_analyse_round2.py`,
+`scripts/34_run_round2.py` and `scripts/35_build_round2_tables.py` against
+FREEZE.txt, and `scripts/44_stage6_explore.py` against FREEZE_HARDWARE.txt. I
+left it unresolved then. This entry closes it. Investigation only: I said no
+file was to be edited, moved or deleted and nothing committed, and nothing was.
+
+**What I asked Claude Code to do.** Hunt for any surviving copy of the frozen
+versions, rerun the current scripts on the frozen inputs in a scratch folder
+outside the project, compare every number against the saved result files, and
+say whether any edit could have moved a reported number. I set the rule that a
+rerun must not write anywhere inside `outputs/` or `data/`, and that anything
+not determinable had to be said out loud rather than argued around.
+
+**Finding 1: no copy of any frozen version exists on this machine.** Checked
+the git clone's working tree (it tracks only scripts 01 to 26, so none of the
+four), every one of the 107 blobs in that clone's git history with their
+contents hashed, `scripts/__pycache__` (only 30, 41 and 42 are there), both
+project zips (neither contains any of the four, and both predate Round 2), the
+Trash (empty), VS Code local history (667 files, no entry for any of the four),
+the JetBrains caches (4616 files), and every `.py`, `.bak`, `*~`, `.orig`,
+`.save`, `.swp` and `.tmp` under my home folder hashed against all five frozen
+and intermediate checksums. Nothing matched. **So no diff against a frozen
+original is possible for any of the four, and I am not going to pretend
+otherwise.** What the freeze files preserved is the checksum, not the bytes.
+
+**Finding 2: the mtimes give a clean timeline.** FREEZE.txt was written at
+00:11:15 and FREEZE_HARDWARE.txt at 22:02:09 on 25 October. Then: 35 modified
+01:18:59 and run 01:20; 34 modified 01:21:23 and its run finished 04:24:46; 31
+modified 04:34:11 and rerun 04:34:16; 44 run for parts J and N at 22:03:36 to
+22:03:47, modified 22:05:10, then run for parts K and M at 22:06:10 to
+22:06:28. Every edit is immediately followed by a run, which is the shape of
+finding a fault and fixing it, not of quiet drift.
+
+**The most useful fact I got out of that timeline.** Script 44's parts J and N
+were written at 22:03, two minutes BEFORE the 22:05 edit, so `J1`, `N1` and
+`N2` were produced by the FROZEN version. The current version reproduces all
+three byte for byte. That is the only before-and-after evidence in the whole
+investigation, and it says the edit changed nothing numeric there.
+
+**Finding 3: three of the four are already logged with both checksums.**
+
+Script 31, L-057: it imported `real_data` without setting the two store
+environment variables, so its publishing-gap scan fell back to `data/clean` and
+scanned the development window. First run reported 0 straddling jobs and missed
+the ibm_marrakesh gap; the fix found 192 straddling jobs, 96 in the D = 6 to
+48 h pool, and the gap of 2026-10-22T20:25:11 to 2026-10-23T19:17:54, 22.88 h.
+I had kept `stage5_console_FIRST_RUN_gap_bug.txt` deliberately, and the diff
+against `stage5_console.txt` shows exactly that.
+
+Script 34, L-056 Fault 2: `sys.exit(main())` sat at module level with no
+`if __name__ == "__main__":` guard, and on macOS spawn every worker re-imported
+the module and tried to start its own workers, so the first pilot died in one
+second. The guard was added with a comment. It is at lines 294 to 301 now and
+matches the logged description.
+
+Script 44, L-058: Part J printed a circular standard deviation of the clock
+hour against a claimed maximum of 6.93 h, but the circular SD is unbounded, so
+the ceiling was wrong. The printed column was replaced with the resultant
+length R and the busiest-6-hour share.
+
+**Finding 4, and this is the real gap: script 35's third checksum was never
+written down.** L-056 records the hash going from
+`c034342a878905bdb87cb7ab67b002ecbd26097ae04f153b64c37d11f5c0ec2d` to
+`be900b19c90588d8c3e6185cb899e9dbfd2fcb61fc370c3d36c8cc7566f5c188` and then
+says "and then to a third value after the fault below", without ever giving
+that value. The file on disk is
+`094233a4bf441fe7d561141cf2a254b726b26c3ad008a9896a71983368740cdf`, and that
+string appears nowhere in PROGRESS_LOG.md or NOTES.md. The intermediate
+`be900b19...` version is gone too. So the record describes the change but does
+not account for the file that resulted. That is my sloppiness in L-056 and I am
+recording it rather than quietly adding the hash to an old entry.
+
+**Finding 5: every saved output reproduces byte for byte.**
+
+Script 31, rerun on `outputs/round2_run/all_rows.csv` into scratch: all five
+saved files identical, `r2_results.csv`, `r2_jobs_wide.csv`,
+`r2_design_effects.csv`, `r2_publishing_gaps.csv` and
+`r2_analysis_console.txt`. Zero differences.
+
+Script 35, rerun with LINKS, CLEAN_R2 and CACHE_R2 redirected into scratch,
+which mattered because `build_links()` and `main()` call `shutil.rmtree` on
+three `data/` folders. I checked entry counts and mtimes on all three before
+and after and they are untouched. `qubits.csv` identical at 93,758,263 bytes
+and 628,836 rows, `pairs.csv` identical at 60,543,708 bytes and 708,576 rows,
+`states.csv` identical at 360,699 bytes and 921 development rows, and all three
+npz caches identical array for array once missing values are compared as equal.
+The rerun's own check reported the same two boundary-state growths L-056
+described, fez `n_cards` 3 to 5 and kingston 6 to 7.
+
+Script 44, both groups rerun into scratch: all 12 outputs identical, J and N as
+well as K, M and the six `M_fresh/` files, and the printed console reproduces
+`KM_console.txt` exactly apart from the final path line.
+
+Script 34 I did NOT fully rerun: that is 4392 jobs and about 2.88 hours. I ran
+a 96-row slice with `--pilot 2 --workers 2` into scratch. All 16 jobs matched a
+saved row on identity, and 14 of 16 columns are exactly identical including
+`fidelity`, `esp`, `qubits_used`, `info_state`, `truth_state`, `job_seed`,
+`hybrid_w_readout` and `guard_removed`. `label` differs only because I passed
+`--label verify34`, and `dead_qubits_used` is missing in both on all 96 rows.
+That slice is ibm_fez only at D = 1 and 3 h and exercises no dead qubit, so it
+is a spot check and not a verification of all 26,352 rows. I also had to use
+`team_code/.venv` for it, because the project `.venv` has no `qiskit_aer`.
+
+**Finding 6: could any edit have moved a reported number?** Script 31: yes, and
+it did, by fixing a fault. The entire gap section of `REPORT.md` exists only
+because of that fix. But every point estimate is unchanged between the two
+runs, to all printed digits, because H1, H2 and the arm comparisons come from
+the rows file and not from the store scan. What moved is the bootstrap interval
+bounds, in the fourth decimal, for example H2 from [-0.008722, 0.007241] to
+[-0.008739, 0.007228]. The cause is the shared random stream: with 0 gap jobs
+the gap test returned early without drawing, and with 192 it draws 4000
+resamples, which shifts every later test's position. That is the same mechanism
+I documented in `NOTE_three_intervals.md` yesterday, now with a concrete cause.
+
+The other three: no. Script 34's guard only stops children re-entering
+`main()`, and each job's simulator seed comes from the job's own identity in
+`job_seed_of`, so a result cannot depend on which worker ran it; without the
+guard the run died in one second, so the frozen version could not have produced
+`all_rows.csv` at all. Script 35's two edits were both inside the verification
+`compare()`, which runs at step 4 after the tables are already written at steps
+2 and 3 by `scripts/15_build_tables_all.py` and `scripts/17_build_states.py`,
+which are not pinned and are unmodified since 12 and 13 October. Script 44's
+edit changed which column is printed: `J1_change_intervals.csv` carries
+`clock_R`, `clock_sd_h` and `busiest_6h_share` together, and that file,
+produced by the frozen version, is reproduced unchanged.
+
+**Finding 7: the rule is intact, and this is checked rather than assumed.** The
+w(D) table embedded in FREEZE.txt still hashes to its own recorded
+`fe3e3dee...`, and it cross-checks exactly against
+`outputs/round2/stage1_fitted_rule.json`: guard M = 1, and N and the full w(D)
+curve match for cz, readout, sx and times. `scripts/30_hybrid_rule.py`, which
+holds the rule and the permanent defect list, still matches its frozen
+checksum, as do `scripts/33_round2_fit.py`, the whole engine,
+`scripts/20_analyse_results.py`, `36_freeze_tests.py`, `37_round2_freeze.py`,
+`protocol_round2.md`, and in FREEZE_HARDWARE.txt everything except 44,
+including `scripts/43_hw_analyse.py`. **None of the four changed scripts is the
+rule.** They are the store builder, the run harness, the analysis script and an
+exploratory script.
+
+**What I could not determine.** What the frozen versions actually contained, so
+no diff for any of the four. Whether the frozen 31, 34 or 35 would have
+produced the same numbers, because for those three the saved outputs were made
+after the edit, so reproducing them shows self-consistency only; script 44 is
+the one case with genuine before-and-after evidence. Whether `all_rows.csv` as
+a whole is what the frozen 34 would have produced, since my check covers 96 of
+26,352 rows. And whether anything else was changed in those same edits beyond
+what the log describes.
+
+**What this says about the freeze itself.** It worked, in that it caught four
+real changes. What it did not do is keep the frozen bytes, so a mismatch can
+now only be chased by rerunning and comparing outputs, and that cannot tell
+"the edit was harmless" apart from "the edit changed something and the output
+was regenerated afterwards". For a future round, two things would fix it and
+neither touches any existing number: keep a copy of each frozen file beside its
+checksum, in a read-only folder or a git tag, and write the new checksum into
+the log every single time a pinned file changes. That was done for three of
+these four and left half-finished for the fourth.
+
+**Files written.** New: `outputs/round2/NOTE_frozen_script_mismatch.md`. No
+other file was created, edited, moved or deleted, and nothing was committed.
+The reruns went to a scratch folder outside the project.
+
+**Next.** Still open from L-061: whether the L-053 blocks in the clone should
+move up below the L-049 block rather than sit at the end, and whether the
+working copy of NOTES.md should get the same block above its headline. New from
+this entry: decide whether to start keeping frozen copies, not just checksums.

@@ -1,0 +1,67 @@
+delay_h,column,n,mean,lo95,hi95,panel,machine,label
+1,random,330,0.7293707161889807,0.7204382943121063,0.7380280335510595,mean fidelity,ibm_marrakesh,EXPLORATORY (six arm comparison); A and B are the only confirmatory tests
+1,stale,330,0.902795503372783,0.8861464503905825,0.9155353310301176,mean fidelity,ibm_marrakesh,EXPLORATORY (six arm comparison); A and B are the only confirmatory tests
+1,window_mean,330,0.8938777414833957,0.8825368048413167,0.9033835392132753,mean fidelity,ibm_marrakesh,EXPLORATORY (six arm comparison); A and B are the only confirmatory tests
+1,std_adjusted,330,0.8994532442906495,0.8923092638746455,0.9062537260649889,mean fidelity,ibm_marrakesh,EXPLORATORY (six arm comparison); A and B are the only confirmatory tests
+1,shrinkage,330,0.9048011130186209,0.8942749625038436,0.9131622512133629,mean fidelity,ibm_marrakesh,EXPLORATORY (six arm comparison); A and B are the only confirmatory tests
+1,ceiling,330,0.9172592958672687,0.913202533816587,0.9210076418767116,mean fidelity,ibm_marrakesh,EXPLORATORY (six arm comparison); A and B are the only confirmatory tests
+3,random,320,0.7175239002835706,0.70516820589363,0.7289975166281825,mean fidelity,ibm_marrakesh,EXPLORATORY (six arm comparison); A and B are the only confirmatory tests
+3,stale,320,0.8855096894013486,0.8670852342851278,0.9014465337567062,mean fidelity,ibm_marrakesh,EXPLORATORY (six arm comparison); A and B are the only confirmatory tests
+3,window_mean,320,0.8930547245047343,0.8802605213820308,0.9037352497762021,mean fidelity,ibm_marrakesh,EXPLORATORY (six arm comparison); A and B are the only confirmatory tests
+3,std_adjusted,320,0.8925297532850301,0.8816582062852589,0.9022450288648207,mean fidelity,ibm_marrakesh,EXPLORATORY (six arm comparison); A and B are the only confirmatory tests
+3,shrinkage,320,0.8917530156742195,0.8778351965257103,0.9048702497038474,mean fidelity,ibm_marrakesh,EXPLORATORY (six arm comparison); A and B are the only confirmatory tests
+3,ceiling,320,0.918902880541945,0.9141265974971369,0.9232493552881463,mean fidelity,ibm_marrakesh,EXPLORATORY (six arm comparison); A and B are the only confirmatory tests
+6,random,314,0.7264219138499128,0.7180643837327926,0.7347668424620805,mean fidelity,ibm_marrakesh,EXPLORATORY (six arm comparison); A and B are the only confirmatory tests
+6,stale,314,0.8827673655683597,0.8667168575083033,0.8974902938469199,mean fidelity,ibm_marrakesh,EXPLORATORY (six arm comparison); A and B are the only confirmatory tests
+6,window_mean,314,0.8965262543604389,0.8890007749209956,0.9033583950036499,mean fidelity,ibm_marrakesh,EXPLORATORY (six arm comparison); A and B are the only confirmatory tests
+6,std_adjusted,314,0.8902032280184307,0.8796374708715448,0.9005153813685257,mean fidelity,ibm_marrakesh,EXPLORATORY (six arm comparison); A and B are the only confirmatory tests
+6,shrinkage,314,0.8872256181820062,0.8756279997937678,0.8976027486936884,mean fidelity,ibm_marrakesh,EXPLORATORY (six arm comparison); A and B are the only confirmatory tests
+6,ceiling,314,0.9204601632772464,0.9169174972954793,0.9239556911541758,mean fidelity,ibm_marrakesh,EXPLORATORY (six arm comparison); A and B are the only confirmatory tests
+12,random,315,0.715468301580087,0.7054766026181926,0.7246553728503181,mean fidelity,ibm_marrakesh,EXPLORATORY (six arm comparison); A and B are the only confirmatory tests
+12,stale,315,0.8823665385071615,0.866467656552179,0.8957954811059817,mean fidelity,ibm_marrakesh,EXPLORATORY (six arm comparison); A and B are the only confirmatory tests
+12,window_mean,315,0.8834217468895006,0.859298639364682,0.9014343118165649,mean fidelity,ibm_marrakesh,EXPLORATORY (six arm comparison); A and B are the only confirmatory tests
+12,std_adjusted,315,0.8847409324411534,0.8640358368414015,0.9004630857774717,mean fidelity,ibm_marrakesh,EXPLORATORY (six arm comparison); A and B are the only confirmatory tests
+12,shrinkage,315,0.8818122890526151,0.8630374539919622,0.8970047511170139,mean fidelity,ibm_marrakesh,EXPLORATORY (six arm comparison); A and B are the only confirmatory tests
+12,ceiling,315,0.9192778433495261,0.9156321817736034,0.9224803763390629,mean fidelity,ibm_marrakesh,EXPLORATORY (six arm comparison); A and B are the only confirmatory tests
+24,random,315,0.7109894225299427,0.6956868559317761,0.7241849412152352,mean fidelity,ibm_marrakesh,EXPLORATORY (six arm comparison); A and B are the only confirmatory tests
+24,stale,315,0.8825797609523234,0.8692517665390257,0.8936250072539078,mean fidelity,ibm_marrakesh,EXPLORATORY (six arm comparison); A and B are the only confirmatory tests
+24,window_mean,315,0.8859405990487389,0.8721253119150716,0.8991026597386081,mean fidelity,ibm_marrakesh,EXPLORATORY (six arm comparison); A and B are the only confirmatory tests
+24,std_adjusted,315,0.881271185028499,0.8649939329980025,0.8949205464165957,mean fidelity,ibm_marrakesh,EXPLORATORY (six arm comparison); A and B are the only confirmatory tests
+24,shrinkage,315,0.8763217690894778,0.8617606266742385,0.8907402386042782,mean fidelity,ibm_marrakesh,EXPLORATORY (six arm comparison); A and B are the only confirmatory tests
+24,ceiling,315,0.9184984263199719,0.914472359036198,0.922158188713962,mean fidelity,ibm_marrakesh,EXPLORATORY (six arm comparison); A and B are the only confirmatory tests
+48,random,299,0.7142262971889374,0.7027395890544631,0.7249267584781942,mean fidelity,ibm_marrakesh,EXPLORATORY (six arm comparison); A and B are the only confirmatory tests
+48,stale,299,0.8566591519680085,0.8351998205710504,0.8766460228930772,mean fidelity,ibm_marrakesh,EXPLORATORY (six arm comparison); A and B are the only confirmatory tests
+48,window_mean,299,0.8881679658034418,0.87855804571091,0.8978702872767629,mean fidelity,ibm_marrakesh,EXPLORATORY (six arm comparison); A and B are the only confirmatory tests
+48,std_adjusted,299,0.8772836935456666,0.8612407821250202,0.8917147256442212,mean fidelity,ibm_marrakesh,EXPLORATORY (six arm comparison); A and B are the only confirmatory tests
+48,shrinkage,299,0.8652562619168133,0.8495068144655643,0.8796325815985883,mean fidelity,ibm_marrakesh,EXPLORATORY (six arm comparison); A and B are the only confirmatory tests
+48,ceiling,299,0.9181120991260302,0.9140676186073309,0.9220055322520234,mean fidelity,ibm_marrakesh,EXPLORATORY (six arm comparison); A and B are the only confirmatory tests
+1,regret_random,330,0.18788857967828776,0.18068843125836956,0.1953501893768364,regret vs ceiling,ibm_marrakesh,EXPLORATORY (six arm comparison); A and B are the only confirmatory tests
+1,regret_stale,330,0.01446379249448554,0.0033826616662582377,0.02901757324733531,regret vs ceiling,ibm_marrakesh,EXPLORATORY (six arm comparison); A and B are the only confirmatory tests
+1,regret_window_mean,330,0.023381554383872828,0.01594247025189959,0.03187080917642747,regret vs ceiling,ibm_marrakesh,EXPLORATORY (six arm comparison); A and B are the only confirmatory tests
+1,regret_std_adjusted,330,0.017806051576619034,0.01325919501118492,0.022628246534780686,regret vs ceiling,ibm_marrakesh,EXPLORATORY (six arm comparison); A and B are the only confirmatory tests
+1,regret_shrinkage,330,0.012458182848647673,0.006178968318293186,0.019911068893234338,regret vs ceiling,ibm_marrakesh,EXPLORATORY (six arm comparison); A and B are the only confirmatory tests
+3,regret_random,320,0.2013789802583743,0.19194178575149615,0.21045887417482306,regret vs ceiling,ibm_marrakesh,EXPLORATORY (six arm comparison); A and B are the only confirmatory tests
+3,regret_stale,320,0.0333931911405964,0.01943161107793648,0.048922427225897604,regret vs ceiling,ibm_marrakesh,EXPLORATORY (six arm comparison); A and B are the only confirmatory tests
+3,regret_window_mean,320,0.025848156037210773,0.017645671800114848,0.034881927480399644,regret vs ceiling,ibm_marrakesh,EXPLORATORY (six arm comparison); A and B are the only confirmatory tests
+3,regret_std_adjusted,320,0.026373127256915013,0.019637633516153708,0.033153634523647064,regret vs ceiling,ibm_marrakesh,EXPLORATORY (six arm comparison); A and B are the only confirmatory tests
+3,regret_shrinkage,320,0.027149864867725405,0.017247227227794017,0.0378395310959867,regret vs ceiling,ibm_marrakesh,EXPLORATORY (six arm comparison); A and B are the only confirmatory tests
+6,regret_random,314,0.1940382494273335,0.18634748993141773,0.20094615868368415,regret vs ceiling,ibm_marrakesh,EXPLORATORY (six arm comparison); A and B are the only confirmatory tests
+6,regret_stale,314,0.037692797708886845,0.023316477027472225,0.05286564990168713,regret vs ceiling,ibm_marrakesh,EXPLORATORY (six arm comparison); A and B are the only confirmatory tests
+6,regret_window_mean,314,0.023933908916807516,0.018237012286821088,0.02960058205434032,regret vs ceiling,ibm_marrakesh,EXPLORATORY (six arm comparison); A and B are the only confirmatory tests
+6,regret_std_adjusted,314,0.030256935258815527,0.021345293939882874,0.03895272083154753,regret vs ceiling,ibm_marrakesh,EXPLORATORY (six arm comparison); A and B are the only confirmatory tests
+6,regret_shrinkage,314,0.03323454509524018,0.02335400583612671,0.04361234586420661,regret vs ceiling,ibm_marrakesh,EXPLORATORY (six arm comparison); A and B are the only confirmatory tests
+12,regret_random,315,0.20380954176943902,0.1957510860059425,0.21242850748991277,regret vs ceiling,ibm_marrakesh,EXPLORATORY (six arm comparison); A and B are the only confirmatory tests
+12,regret_stale,315,0.036911304842364524,0.02594341073686573,0.050302834727770716,regret vs ceiling,ibm_marrakesh,EXPLORATORY (six arm comparison); A and B are the only confirmatory tests
+12,regret_window_mean,315,0.03585609646002537,0.019632263397066824,0.05787853121633711,regret vs ceiling,ibm_marrakesh,EXPLORATORY (six arm comparison); A and B are the only confirmatory tests
+12,regret_std_adjusted,315,0.034536910908372735,0.021499558006570853,0.051458817942595,regret vs ceiling,ibm_marrakesh,EXPLORATORY (six arm comparison); A and B are the only confirmatory tests
+12,regret_shrinkage,315,0.03746555429691086,0.02451542669631942,0.05256636364181914,regret vs ceiling,ibm_marrakesh,EXPLORATORY (six arm comparison); A and B are the only confirmatory tests
+24,regret_random,315,0.20750900379002926,0.1961005933582943,0.22001225261124346,regret vs ceiling,ibm_marrakesh,EXPLORATORY (six arm comparison); A and B are the only confirmatory tests
+24,regret_stale,315,0.03591866536764853,0.02626446404546151,0.04784714561323821,regret vs ceiling,ibm_marrakesh,EXPLORATORY (six arm comparison); A and B are the only confirmatory tests
+24,regret_window_mean,315,0.03255782727123303,0.021162683281168073,0.045293564633596906,regret vs ceiling,ibm_marrakesh,EXPLORATORY (six arm comparison); A and B are the only confirmatory tests
+24,regret_std_adjusted,315,0.037227241291472805,0.02511246123657562,0.05104736431447819,regret vs ceiling,ibm_marrakesh,EXPLORATORY (six arm comparison); A and B are the only confirmatory tests
+24,regret_shrinkage,315,0.0421766572304942,0.03061816341177002,0.05512197022984136,regret vs ceiling,ibm_marrakesh,EXPLORATORY (six arm comparison); A and B are the only confirmatory tests
+48,regret_random,299,0.20388580193709305,0.1955127267510216,0.21352286945012133,regret vs ceiling,ibm_marrakesh,EXPLORATORY (six arm comparison); A and B are the only confirmatory tests
+48,regret_stale,299,0.06145294715802192,0.043179292093282876,0.08143413465616495,regret vs ceiling,ibm_marrakesh,EXPLORATORY (six arm comparison); A and B are the only confirmatory tests
+48,regret_window_mean,299,0.029944133322588613,0.021326323532809867,0.038657350421285805,regret vs ceiling,ibm_marrakesh,EXPLORATORY (six arm comparison); A and B are the only confirmatory tests
+48,regret_std_adjusted,299,0.04082840558036378,0.027543170179167995,0.05531357881812085,regret vs ceiling,ibm_marrakesh,EXPLORATORY (six arm comparison); A and B are the only confirmatory tests
+48,regret_shrinkage,299,0.05285583720921706,0.04019285960440982,0.06758227578057488,regret vs ceiling,ibm_marrakesh,EXPLORATORY (six arm comparison); A and B are the only confirmatory tests

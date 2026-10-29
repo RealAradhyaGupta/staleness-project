@@ -1,0 +1,7 @@
+label,delay_h,n,days,no_change_share,mean_regret,lo95,hi95,sign
+"CONFIRMATORY, PROTOCOL.md section 11 comparison A",1,970,22,0.731959,0.005692,0.001913,0.010428,regret = F_ceiling minus F_stale
+"CONFIRMATORY, PROTOCOL.md section 11 comparison A",3,960,22,0.416667,0.016402,0.009621,0.024222,regret = F_ceiling minus F_stale
+"CONFIRMATORY, PROTOCOL.md section 11 comparison A",6,954,22,0.167715,0.022116,0.015922,0.028521,regret = F_ceiling minus F_stale
+"CONFIRMATORY, PROTOCOL.md section 11 comparison A",12,945,21,0.037037,0.025056,0.019239,0.031874,regret = F_ceiling minus F_stale
+"CONFIRMATORY, PROTOCOL.md section 11 comparison A",24,930,21,0.0,0.023876,0.018233,0.030693,regret = F_ceiling minus F_stale
+"CONFIRMATORY, PROTOCOL.md section 11 comparison A",48,889,20,0.0,0.036739,0.026289,0.049377,regret = F_ceiling minus F_stale

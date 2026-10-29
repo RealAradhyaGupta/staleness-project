@@ -1,0 +1,57 @@
+========================================================================
+ROUND 2 STAGE 3 REPORT: the fresh window
+========================================================================
+  window: 2026-10-13 to 2026-10-24 00:00 UTC
+
+  totals: 1184 fresh cards, 323 distinct states
+  machine            cards  states  cards per state
+  ibm_fez              387     112             3.46
+  ibm_kingston         411      87             4.72
+  ibm_marrakesh        386     124             3.11
+
+  cards per machine per day:
+  day                   fez    kingston   marrakesh   total
+  2026-10-13             32          35          44     111
+  2026-10-14             26          42          60     128
+  2026-10-15             25          37          41     103
+  2026-10-16             42          47          24     113
+  2026-10-17             41          44          29     114
+  2026-10-18             43          37          35     115
+  2026-10-19             40          31          17      88
+  2026-10-20             37          25          26      88
+  2026-10-21             38          27          33      98
+  2026-10-22             31          44          34     109
+  2026-10-23             32          42          43     117
+
+  distinct states per machine per day:
+  day                   fez    kingston   marrakesh   total
+  2026-10-13             11           9          25      45
+  2026-10-14             24          10          40      74
+  2026-10-15             19           6           8      33
+  2026-10-16              7           9           7      23
+  2026-10-17              7          11           6      24
+  2026-10-18              7           8           8      23
+  2026-10-19              8           5           3      16
+  2026-10-20              9           7           8      24
+  2026-10-21              7           6           8      21
+  2026-10-22              8           9          10      27
+  2026-10-23              5           7           1      13
+
+  DATES WITH NO CARDS:
+    none. every machine published on every one of the 11 days.
+  No gap was filled. Nothing was invented.
+
+  intervals between neighbouring states longer than 18.0 h
+  (protocol_round2.md section 9 calls these publishing gaps; they
+   stay in and are reported separately):
+    ibm_marrakesh   2026-10-22T20:25:11+00:00 to 2026-10-23T19:17:54+00:00  22.88 h
+
+  last state per machine, which caps how long a delay can be:
+    ibm_fez         2026-10-23T22:34:58+00:00  (425 states in the combined store)
+    ibm_kingston    2026-10-23T19:38:26+00:00  (363 states in the combined store)
+    ibm_marrakesh   2026-10-23T19:17:54+00:00  (456 states in the combined store)
+
+  the device description has not changed:
+    ibm_fez         base target 156 qubits, 352 cz pairs; newest fresh state carries 176 cz values
+    ibm_kingston    base target 156 qubits, 352 cz pairs; newest fresh state carries 176 cz values
+    ibm_marrakesh   base target 156 qubits, 352 cz pairs; newest fresh state carries 176 cz values

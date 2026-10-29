@@ -1,0 +1,133 @@
+
+========================================================================
+ROUND 2 ANALYSIS
+========================================================================
+  rows file: outputs/round2_run/all_rows.csv
+  26352 arm rows, arms present: ['ceiling', 'hybrid', 'hybrid_no_guard', 'shrinkage_r1', 'stale', 'window_mean']
+
+  publishing gaps found in the state store (any interval longer than 18.0 h):
+    ibm_fez         2026-09-17T03:32:48+00:00 to 2026-09-18T02:50:04+00:00   23.29 h
+    ibm_fez         2026-09-22T14:00:30+00:00 to 2026-09-23T16:44:52+00:00   26.74 h
+    ibm_kingston    2026-09-22T14:13:16+00:00 to 2026-09-23T17:27:02+00:00   27.23 h
+    ibm_marrakesh   2026-08-28T07:20:56+00:00 to 2026-08-29T09:16:38+00:00   25.93 h
+    ibm_marrakesh   2026-09-08T21:30:13+00:00 to 2026-09-09T17:43:55+00:00   20.23 h
+    ibm_marrakesh   2026-09-20T22:53:12+00:00 to 2026-09-22T05:14:59+00:00   30.36 h
+    ibm_marrakesh   2026-09-22T06:51:42+00:00 to 2026-09-23T12:46:33+00:00   29.91 h
+    ibm_marrakesh   2026-10-22T20:25:11+00:00 to 2026-10-23T19:17:54+00:00   22.88 h
+
+  4392 jobs, 11 calendar days, 3 machines, 8 circuits
+  delays present: [1, 3, 6, 12, 24, 48]
+  jobs that straddle a publishing gap: 192 (kept in, reported separately below)
+
+  bootstrap: Round 1's block_boot, seed 20261014, 4000 resamples of whole calendar days
+
+========================================================================
+SANITY CHECKS
+========================================================================
+  1. stale regret EXACTLY 0 when no new state appeared: PASS (920 jobs, largest absolute regret 0.0)
+  2. ceiling regret is exactly 0 by construction: PASS (largest 0.0)
+  3. rows whose chosen qubits were dead on the run-time card: 771
+     (these are real outcomes, not errors: a stale pick can land on a qubit that has since failed)
+  4. every job has all 6 arms: PASS
+
+========================================================================
+H1 (NO HARM) AND H2 (PRIMARY)
+========================================================================
+
+  primary tests, in the order the protocol fixes them
+    what                                        n jobs  days       mean    95% low   95% high   verdict
+    H1 hybrid minus stale, D = 1 and 3 h          1568    11  -0.000758  -0.003269   0.001220      FAIL
+    H2 hybrid minus stale, D = 6 to 48 h          2824    11   0.000151  -0.008865   0.007510      FAIL
+    H1 passes when the lower bound is above -0.002
+    H2 passes when the lower bound is above 0
+
+  hybrid minus stale at every delay (6 h and 24 h are named in the protocol)
+    what                                        n jobs  days       mean    95% low   95% high
+    hybrid minus stale, D = 1 h                    784    11  -0.000480  -0.002655   0.001104
+    hybrid minus stale, D = 3 h                    784    11  -0.001036  -0.004283   0.001748
+    hybrid minus stale, D = 6 h                    776    11  -0.002282  -0.009570   0.004588
+    hybrid minus stale, D = 12 h                   736    11  -0.004916  -0.013400   0.003169
+    hybrid minus stale, D = 24 h                   680    10   0.002968  -0.006888   0.011493
+    hybrid minus stale, D = 48 h                   632     9   0.006010  -0.008390   0.020066
+
+========================================================================
+SECONDARY RESULTS
+========================================================================
+
+  hybrid against the other strategies, pooled over D = 6 to 48 h
+    what                                        n jobs  days       mean    95% low   95% high
+    hybrid minus window_mean, D = 6 to 48 h       2824    11  -0.005194  -0.014869   0.003354
+    hybrid minus shrinkage_r1, D = 6 to 48 h      2824    11  -0.000692  -0.008963   0.005680
+    hybrid minus hybrid_no_guard, D = 6 to 48 h    2824    11  -0.001745  -0.003642  -0.000065
+
+  by circuit family and by circuit, pooled over D = 6 to 48 h
+    what                                        n jobs  days       mean    95% low   95% high
+    hybrid minus stale, GHZ                       1059    11  -0.002678  -0.021250   0.013301
+    hybrid minus stale, BV                         706    11   0.001808  -0.005437   0.008471
+    hybrid minus stale, QFT                       1059    11   0.001876  -0.005604   0.008790
+    hybrid minus stale, bv10                       353    11   0.002315  -0.009603   0.011948
+    hybrid minus stale, bv8                        353    11   0.001302  -0.005788   0.007449
+    hybrid minus stale, ghz10                      353    11  -0.004167  -0.028102   0.014956
+    hybrid minus stale, ghz5                       353    11   0.001664  -0.009547   0.010870
+    hybrid minus stale, ghz8                       353    11  -0.005530  -0.029531   0.016500
+    hybrid minus stale, qft10                      353    11  -0.005216  -0.013038   0.003022
+    hybrid minus stale, qft5                       353    11   0.006993  -0.002979   0.017737
+    hybrid minus stale, qft8                       353    11   0.003851  -0.006915   0.013270
+
+  by machine, pooled over D = 6 to 48 h
+    what                                        n jobs  days       mean    95% low   95% high
+    hybrid minus stale, ibm_fez                    952    11  -0.001342  -0.010877   0.006604
+    hybrid minus stale, ibm_kingston               936    11   0.003800   0.000652   0.007485
+    hybrid minus stale, ibm_marrakesh              936    11  -0.001979  -0.025679   0.016887
+
+  the publishing gap, kept in and reported separately
+    what                                        n jobs  days       mean    95% low   95% high
+    hybrid minus stale, jobs across a gap           96     3  -0.027813  -0.062299   0.074353
+    hybrid minus stale, jobs not across a gap     2728    11   0.001136  -0.007630   0.008449
+
+  every arm against stale, pooled over D = 6 to 48 h
+    what                                        n jobs  days       mean    95% low   95% high
+    stale minus stale, D = 6 to 48 h              2824    11   0.000000   0.000000   0.000000
+    window_mean minus stale, D = 6 to 48 h        2824    11   0.005346   0.001584   0.008923
+    shrinkage_r1 minus stale, D = 6 to 48 h       2824    11   0.000843  -0.000495   0.002100
+    hybrid minus stale, D = 6 to 48 h             2824    11   0.000151  -0.008739   0.007228
+    hybrid_no_guard minus stale, D = 6 to 48 h    2824    11   0.001897  -0.007345   0.008998
+
+  mean regret against the ceiling, pooled over D = 6 to 48 h (lower is better)
+    what                                        n jobs  days       mean    95% low   95% high
+    regret of stale, D = 6 to 48 h                2824    11   0.044053   0.032318   0.056054
+    regret of window_mean, D = 6 to 48 h          2824    11   0.038707   0.027429   0.051910
+    regret of shrinkage_r1, D = 6 to 48 h         2824    11   0.043209   0.032233   0.054870
+    regret of hybrid, D = 6 to 48 h               2824    11   0.043901   0.031757   0.056820
+    regret of hybrid_no_guard, D = 6 to 48 h      2824    11   0.042156   0.029843   0.054602
+    regret of ceiling, D = 6 to 48 h              2824    11   0.000000   0.000000   0.000000
+
+========================================================================
+THE THREE DEAD QUBIT VIEWS
+========================================================================
+
+  H2 recomputed under each view
+    what                                        n jobs  days       mean    95% low   95% high   verdict
+    H2 under view 1 all rows as they are          2824    11   0.000151  -0.009153   0.007570      FAIL
+    H2 under view 2 drop jobs with a dead row in any arm    2554    11  -0.001588  -0.006411   0.002496      FAIL
+    H2 under view 3 dead rows forced to fidelity 0    2824    11   0.001669  -0.015783   0.018208      FAIL
+
+    view                                          dead-row share of stale regret
+    H2 under view 1 all rows as they are                                  0.4389
+    H2 under view 2 drop jobs with a dead row in any arm                          0.0000
+    H2 under view 3 dead rows forced to fidelity 0                          0.6283
+
+========================================================================
+DESIGN EFFECTS ON THE FRESH JOBS
+========================================================================
+  pooled over D = 6 to 48 h, n = 2824 jobs on 11 calendar days
+    paired SD of hybrid minus stale   0.071575
+    naive standard error              0.001347
+    clustered standard error (days)   0.004130
+    design effect                     9.400
+  the design effect is how many times wider the honest interval is than the naive one, squared. A value above 1 means jobs on the same day move together.
+
+========================================================================
+SANITY VERDICT
+========================================================================
+  every sanity check that could run passed

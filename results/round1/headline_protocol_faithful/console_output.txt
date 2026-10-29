@@ -1,0 +1,338 @@
+PROTOCOL-FAITHFUL HEADLINE. FIX FORWARD, NOTHING OVERWRITTEN.
+No IBM call. No new simulation. data/raw untouched.
+scripts/20_analyse_results.py is NOT edited and no existing output
+file is replaced. The method, seed and resample count are imported
+from it; only the job selection differs.
+regret = ceiling minus strategy. gain = F_strategy minus F_stale.
+source: <project root>/outputs/test_full/all_rows.csv
+
+==========================================================================
+THE PROTOCOL-FAITHFUL HEADLINE
+==========================================================================
+  jobs in the file: 5648   gap-touching: 360   non-gap: 5288
+
+--------------------------------------------------------------------------
+  ALL jobs (protocol-faithful)   n = 5648 jobs, 22 days
+--------------------------------------------------------------------------
+
+  Comparison A: stale regret against the ceiling, at each D
+  regret = ceiling minus stale, positive means stale is worse
+   D (h)      n  no-change       mean          95 pct interval  days
+       1    970      73.2%    +0.0057   [ +0.0019,  +0.0104]    22
+       3    960      41.7%    +0.0164   [ +0.0096,  +0.0242]    22
+       6    954      16.8%    +0.0221   [ +0.0159,  +0.0285]    22
+      12    945       3.7%    +0.0251   [ +0.0192,  +0.0319]    21
+      24    930       0.0%    +0.0239   [ +0.0182,  +0.0307]    21
+      48    889       0.0%    +0.0367   [ +0.0263,  +0.0494]    20
+
+  Comparison B: per-field shrinkage against stale, paired
+  gain = shrinkage minus stale, positive means shrinkage is better
+  PROTOCOL-FAITHFUL: at D = 6 h and at D = 24 h, each pooled over
+  machines and circuits. The across-delay number is shown after,
+  labelled, because that is the one script 20 headlines.
+    6 h                  n=  954  +0.00330  [-0.00037, +0.00694]  interval includes zero, no difference   (protocol-faithful)
+    24 h                 n=  930  -0.00004  [-0.00288, +0.00255]  interval includes zero, no difference   (protocol-faithful)
+    pooled 6 and 24 h    n= 1884  +0.00165  [-0.00126, +0.00458]  interval includes zero, no difference   (across-delay, script 20 style)
+
+--------------------------------------------------------------------------
+  GAP-touching jobs only (reported separately)   n = 360 jobs, 3 days
+--------------------------------------------------------------------------
+
+  Comparison A: stale regret against the ceiling, at each D
+  regret = ceiling minus stale, positive means stale is worse
+   D (h)      n  no-change       mean          95 pct interval  days
+       1     40      87.5%    +0.0000   [ +0.0000,  +0.0000]     3
+       3     40      87.5%    +0.0000   [ +0.0000,  +0.0000]     3
+       6     45      55.6%    +0.0050   [ +0.0000,  +0.0079]     3
+      12     65       7.7%    +0.0138   [ +0.0115,  +0.0166]     3
+      24     75       0.0%    +0.0166   [ +0.0114,  +0.0212]     3
+      48     95       0.0%    +0.0375   [ +0.0130,  +0.0593]     3
+
+  Comparison B: per-field shrinkage against stale, paired
+  gain = shrinkage minus stale, positive means shrinkage is better
+  PROTOCOL-FAITHFUL: at D = 6 h and at D = 24 h, each pooled over
+  machines and circuits. The across-delay number is shown after,
+  labelled, because that is the one script 20 headlines.
+    6 h                  n=   45  +0.00027  [-0.00302, +0.00209]  interval includes zero, no difference   (protocol-faithful)
+    24 h                 n=   75  -0.00017  [-0.00179, +0.00246]  interval includes zero, no difference   (protocol-faithful)
+    pooled 6 and 24 h    n=  120  -0.00001  [-0.00096, +0.00053]  interval includes zero, no difference   (across-delay, script 20 style)
+
+--------------------------------------------------------------------------
+  NON-GAP jobs only (what script 20 used)   n = 5288 jobs, 22 days
+--------------------------------------------------------------------------
+
+  Comparison A: stale regret against the ceiling, at each D
+  regret = ceiling minus stale, positive means stale is worse
+   D (h)      n  no-change       mean          95 pct interval  days
+       1    930      72.6%    +0.0059   [ +0.0020,  +0.0109]    22
+       3    920      39.7%    +0.0171   [ +0.0102,  +0.0250]    22
+       6    909      14.9%    +0.0230   [ +0.0169,  +0.0292]    22
+      12    880       3.4%    +0.0259   [ +0.0199,  +0.0330]    21
+      24    855       0.0%    +0.0245   [ +0.0184,  +0.0315]    21
+      48    794       0.0%    +0.0367   [ +0.0250,  +0.0510]    19
+
+  Comparison B: per-field shrinkage against stale, paired
+  gain = shrinkage minus stale, positive means shrinkage is better
+  PROTOCOL-FAITHFUL: at D = 6 h and at D = 24 h, each pooled over
+  machines and circuits. The across-delay number is shown after,
+  labelled, because that is the one script 20 headlines.
+    6 h                  n=  909  +0.00345  [-0.00042, +0.00721]  interval includes zero, no difference   (protocol-faithful)
+    24 h                 n=  855  -0.00003  [-0.00307, +0.00271]  interval includes zero, no difference   (protocol-faithful)
+    pooled 6 and 24 h    n= 1764  +0.00176  [-0.00133, +0.00483]  interval includes zero, no difference   (across-delay, script 20 style)
+
+==========================================================================
+ASSERTION: the NON-GAP set must reproduce the reported numbers
+==========================================================================
+  tolerance 0.0005. If any line fails, this script stops.
+    A at  1 h   got +0.00594   reported +0.00590   diff 0.00004  ok
+    A at  3 h   got +0.01712   reported +0.01710   diff 0.00002  ok
+    A at  6 h   got +0.02296   reported +0.02300   diff 0.00004  ok
+    A at 12 h   got +0.02589   reported +0.02590   diff 0.00001  ok
+    A at 24 h   got +0.02451   reported +0.02450   diff 0.00001  ok
+    A at 48 h   got +0.03665   reported +0.03670   diff 0.00005  ok
+    B pooled 6 and 24 h  got +0.001762   reported +0.001760   diff 0.000002  ok
+    B 6 h                got +0.003447   reported +0.003450   diff 0.000003  ok
+    B 24 h               got -0.000030   reported -0.000030   diff 0.000000  ok
+  every line reproduced. The method is unchanged; only the job
+  selection differs.
+
+==========================================================================
+OLD AGAINST NEW, side by side
+==========================================================================
+
+  Comparison A, mean stale regret by delay
+   D (h)          reported (5288)          protocol (5648)    change           gap only (360)
+       1   +0.0059[+0.002,+0.011]   +0.0057[+0.002,+0.010]   -0.0002   +0.0000[+0.000,+0.000]
+       3   +0.0171[+0.010,+0.025]   +0.0164[+0.010,+0.024]   -0.0007   +0.0000[+0.000,+0.000]
+       6   +0.0230[+0.017,+0.029]   +0.0221[+0.016,+0.029]   -0.0008   +0.0050[+0.000,+0.008]
+      12   +0.0259[+0.020,+0.033]   +0.0251[+0.019,+0.032]   -0.0008   +0.0138[+0.011,+0.017]
+      24   +0.0245[+0.018,+0.032]   +0.0239[+0.018,+0.031]   -0.0006   +0.0166[+0.011,+0.021]
+      48   +0.0367[+0.025,+0.051]   +0.0367[+0.026,+0.049]   +0.0001   +0.0375[+0.013,+0.059]
+
+  Comparison B, paired gain of shrinkage over stale
+  6 h                reported +0.00345 [-0.00042, +0.00721]   protocol +0.00330 [-0.00037, +0.00694]   gap only +0.00027
+  24 h               reported -0.00003 [-0.00307, +0.00271]   protocol -0.00004 [-0.00288, +0.00255]   gap only -0.00017
+  pooled 6 and 24 h  reported +0.00176 [-0.00133, +0.00483]   protocol +0.00165 [-0.00126, +0.00458]   gap only -0.00001
+
+==========================================================================
+WINDOW MEAN AGAINST STALE, BY DELAY, ON ALL JOBS. EXPLORATORY.
+==========================================================================
+  Not a confirmatory comparison. PROTOCOL.md section 11 names only
+  A and B, and says everything else must be labelled exploratory.
+  gain = window mean minus stale, positive means window mean better
+    EXPLORATORY  D=  1h  n=  970  -0.00543  [-0.00959, -0.00116]
+    EXPLORATORY  D=  3h  n=  960  +0.00371  [-0.00237, +0.01097]
+    EXPLORATORY  D=  6h  n=  954  +0.00863  [+0.00306, +0.01521]
+    EXPLORATORY  D= 12h  n=  945  +0.00581  [-0.00036, +0.01268]
+    EXPLORATORY  D= 24h  n=  930  +0.00604  [+0.00070, +0.01348]
+    EXPLORATORY  D= 48h  n=  889  +0.01532  [+0.00821, +0.02361]
+
+==========================================================================
+THE FOUR DEAD-QUBIT VIEWS, RECOMPUTED ON ALL JOBS
+==========================================================================
+  Same construction as scripts/26_row_check.py, with the gap filter
+  removed. EXPLORATORY and post-hoc, as it was there.
+  jobs with a dead-qubit row in any arm: 842
+  jobs with a dead-qubit row in an informed arm: 145
+
+  View 1 all rows   n = 5648 jobs
+    stale regret by delay
+      1h +0.0057[+0.002,+0.010]  3h +0.0164[+0.010,+0.024]  6h +0.0221[+0.016,+0.029]  12h +0.0251[+0.019,+0.032]  24h +0.0239[+0.018,+0.031]  48h +0.0367[+0.026,+0.049]
+    Comparison B: 6 h +0.00330[-0.00037,+0.00694]   24 h -0.00004[-0.00288,+0.00255]   pooled 6 and 24 h +0.00165[-0.00126,+0.00458]
+
+  View 2a drop dead-qubit jobs in any arm   n = 4806 jobs
+    stale regret by delay
+      1h +0.0015[+0.001,+0.002]  3h +0.0096[+0.005,+0.016]  6h +0.0145[+0.009,+0.021]  12h +0.0196[+0.014,+0.027]  24h +0.0206[+0.015,+0.028]  48h +0.0283[+0.017,+0.043]
+    Comparison B: 6 h +0.00156[-0.00067,+0.00438]   24 h +0.00171[-0.00079,+0.00486]   pooled 6 and 24 h +0.00163[-0.00037,+0.00440]
+
+  View 2b drop dead-qubit jobs in an informed arm   n = 5503 jobs
+    stale regret by delay
+      1h +0.0023[+0.001,+0.003]  3h +0.0114[+0.007,+0.018]  6h +0.0166[+0.012,+0.023]  12h +0.0205[+0.015,+0.027]  24h +0.0208[+0.016,+0.027]  48h +0.0302[+0.021,+0.042]
+    Comparison B: 6 h +0.00144[-0.00049,+0.00398]   24 h +0.00028[-0.00261,+0.00336]   pooled 6 and 24 h +0.00086[-0.00121,+0.00350]
+
+  View 3 dead rows forced to fidelity 0   n = 5648 jobs
+    stale regret by delay
+      1h +0.0097[+0.002,+0.019]  3h +0.0226[+0.012,+0.035]  6h +0.0336[+0.021,+0.047]  12h +0.0335[+0.024,+0.045]  24h +0.0299[+0.020,+0.042]  48h +0.0518[+0.033,+0.072]
+    Comparison B: 6 h +0.00482[-0.00483,+0.01475]   24 h -0.00231[-0.01127,+0.00484]   pooled 6 and 24 h +0.00130[-0.00663,+0.00860]
+
+  SHARE OF SUMMED REGRET THAT SITS IN THE DEAD-QUBIT ROWS
+  All jobs now, so the stale arm has its full 81 rows.
+        arm                 scope  n_jobs  n_dead_rows  total_regret  regret_in_dead_rows  share_pct
+      stale               overall    5648           81      120.9083              25.3799    20.9910
+      stale             delay 1 h     970            8        5.5211               3.2918    59.6227
+      stale             delay 3 h     960           12       15.7459               4.8227    30.6282
+      stale             delay 6 h     954           18       21.0983               5.3924    25.5586
+      stale            delay 12 h     945           12       23.6781               2.9374    12.4057
+      stale            delay 24 h     930            9       22.2043               2.5440    11.4572
+      stale            delay 48 h     889           22       32.6606               6.3915    19.5694
+      stale       machine ibm_fez    1890            3       16.5377               1.1283     6.8223
+      stale  machine ibm_kingston    1865            0       35.7603               0.0000     0.0000
+      stale machine ibm_marrakesh    1893           78       68.6103              24.2516    35.3469
+window_mean               overall    5648           42       89.6483              12.7053    14.1724
+window_mean             delay 1 h     970            6       10.7851               2.0043    18.5839
+window_mean             delay 3 h     960            4       12.1822               1.1802     9.6881
+window_mean             delay 6 h     954            4       12.8619               0.6003     4.6671
+window_mean            delay 12 h     945           15       18.1848               4.6866    25.7719
+window_mean            delay 24 h     930            5       16.5901               1.6745    10.0932
+window_mean            delay 48 h     889            8       19.0443               2.5594    13.4394
+window_mean       machine ibm_fez    1890            2       14.9986               0.4502     3.0019
+window_mean  machine ibm_kingston    1865            0       20.6434               0.0000     0.0000
+window_mean machine ibm_marrakesh    1893           40       54.0063              12.2550    22.6919
+  shrinkage               overall    5648           66      108.3486              18.3033    16.8930
+  shrinkage             delay 1 h     970            4        5.3766               1.3007    24.1925
+  shrinkage             delay 3 h     960            8       12.8688               2.4133    18.7531
+  shrinkage             delay 6 h     954           14       17.9531               3.2823    18.2829
+  shrinkage            delay 12 h     945           16       21.2237               4.0475    19.0706
+  shrinkage            delay 24 h     930           12       22.2428               3.0583    13.7497
+  shrinkage            delay 48 h     889           12       28.6836               4.2011    14.6463
+  shrinkage       machine ibm_fez    1890            1       14.8704               0.2180     1.4660
+  shrinkage  machine ibm_kingston    1865            0       29.3522               0.0000     0.0000
+  shrinkage machine ibm_marrakesh    1893           65       64.1260              18.0853    28.2028
+
+==========================================================================
+DESIGN EFFECT AND POWER, ON ALL JOBS. EXPLORATORY.
+==========================================================================
+  Same helpers as scripts/26_row_check.py, imported not copied.
+  gain = F_strategy minus F_stale.
+               contrast                    scope  n_jobs  paired_sd  naive_se  se_boot_days_within_machine  se_boot_machine_submission  design_effect_days  design_effect_submission  icc_machine_day
+  shrinkage minus stale                delay 1 h     970   0.028768  0.000924                     0.001262                    0.001238            1.866393                  1.797615         0.064278
+  shrinkage minus stale                delay 3 h     960   0.057022  0.001840                     0.001766                    0.001717            0.920790                  0.870129        -0.003091
+  shrinkage minus stale                delay 6 h     954   0.060949  0.001973                     0.001952                    0.001744            0.978076                  0.780818        -0.002114
+  shrinkage minus stale               delay 12 h     945   0.054522  0.001774                     0.001839                    0.001502            1.075054                  0.716769         0.007605
+  shrinkage minus stale               delay 24 h     930   0.057160  0.001874                     0.001559                    0.001429            0.691678                  0.581403        -0.015094
+  shrinkage minus stale               delay 48 h     889   0.064523  0.002164                     0.002384                    0.002048            1.213637                  0.895268         0.016746
+  shrinkage minus stale pooled [6, 12, 24, 48] h    3718   0.059340  0.000973                     0.001369                    0.001228            1.978727                  1.591937         0.017773
+window_mean minus stale                delay 1 h     970   0.040902  0.001313                     0.002108                    0.001782            2.576683                  1.842122         0.120247
+window_mean minus stale                delay 3 h     960   0.062551  0.002019                     0.003098                    0.003139            2.355375                  2.417163         0.113006
+window_mean minus stale                delay 6 h     954   0.062355  0.002019                     0.003122                    0.003071            2.391214                  2.313992         0.113388
+window_mean minus stale               delay 12 h     945   0.062665  0.002038                     0.003264                    0.003072            2.563830                  2.271681         0.129371
+window_mean minus stale               delay 24 h     930   0.060260  0.001976                     0.003019                    0.002860            2.334460                  2.095240         0.106027
+window_mean minus stale               delay 48 h     889   0.092656  0.003108                     0.004090                    0.004063            1.731926                  1.709170         0.076196
+window_mean minus stale pooled [6, 12, 24, 48] h    3718   0.070478  0.001156                     0.002648                    0.002679            5.247016                  5.372677         0.082914
+
+  required jobs, n = DE * (z_0.975 + z_power)^2 * SD^2 / delta^2
+               contrast          cluster_definition  design_effect  paired_sd  effect   power  required_jobs  required_machine_days  required_calendar_days
+  shrinkage minus stale         days within machine        1.97873    0.05934 0.00500 0.80000           2188                     37                      13
+  shrinkage minus stale         days within machine        1.97873    0.05934 0.00500 0.90000           2929                     49                      17
+  shrinkage minus stale         days within machine        1.97873    0.05934 0.01000 0.80000            547                     10                       4
+  shrinkage minus stale         days within machine        1.97873    0.05934 0.01000 0.90000            733                     13                       5
+  shrinkage minus stale machine and submission time        1.59194    0.05934 0.00500 0.80000           1760                     30                      10
+  shrinkage minus stale machine and submission time        1.59194    0.05934 0.00500 0.90000           2357                     40                      14
+  shrinkage minus stale machine and submission time        1.59194    0.05934 0.01000 0.80000            440                      8                       3
+  shrinkage minus stale machine and submission time        1.59194    0.05934 0.01000 0.90000            590                     10                       4
+window_mean minus stale         days within machine        5.24702    0.07048 0.00500 0.80000           8183                    137                      46
+window_mean minus stale         days within machine        5.24702    0.07048 0.00500 0.90000          10954                    183                      61
+window_mean minus stale         days within machine        5.24702    0.07048 0.01000 0.80000           2046                     35                      12
+window_mean minus stale         days within machine        5.24702    0.07048 0.01000 0.90000           2739                     46                      16
+window_mean minus stale machine and submission time        5.37268    0.07048 0.00500 0.80000           8379                    140                      47
+window_mean minus stale machine and submission time        5.37268    0.07048 0.00500 0.90000          11217                    187                      63
+window_mean minus stale machine and submission time        5.37268    0.07048 0.01000 0.80000           2095                     35                      12
+window_mean minus stale machine and submission time        5.37268    0.07048 0.01000 0.90000           2805                     47                      16
+
+==========================================================================
+STEP 3: EVERY CHOICE THE ANALYSIS CODE MAKES, AGAINST THE PROTOCOL
+==========================================================================
+  Read from PROTOCOL.md in full plus PROTOCOL_AMENDMENTS.md.
+  NOTHING IS FIXED HERE. This is a list, not a change.
+
+  checks that the two CONFORMS claims above rest on:
+    rows whose label is not TEST: 0
+    earliest t_s in the file: 2026-09-21 03:25:26.644703+00:00
+    A1.6 test window starts:  2026-09-21
+    delays present: [1, 3, 6, 12, 24, 48]
+    circuits present: ['bv10', 'bv8', 'ghz10', 'ghz5', 'ghz8']
+
+  1. Gap jobs, section 10
+     VERDICT: DEPARTURE
+     protocol says: "The 22 to 23 September publishing gap stays in. It is not deleted or patched. Results are reported with it included, and the jobs that straddle it are reported separately so its effect is visible." Reaffirmed by A1.6.
+     code does:     scripts/20_analyse_results.py: "main_set = w[~w.touches_gap]", then both confirmatory comparisons run on main_set. The gap set is printed separately under "THE 22 TO 23 SEPTEMBER GAP, reported separately (EXPLORATORY)".
+     note:          The separate reporting is done, but the headline excludes the gap jobs instead of including them. This script supplies the included version. Found in L-052.
+
+  2. Comparison B pooling, section 11
+     VERDICT: DEPARTURE IN EMPHASIS
+     protocol says: "(B) per-field shrinkage against stale, at D = 6 hours and D = 24 hours, pooled over machines and circuits, on the test days only."
+     code does:     scripts/20_analyse_results.py: PRIMARY_B_DELAYS = [6, 24], then "sub = main_set[main_set.delay_h.isin(PRIMARY_B_DELAYS)]" and one block_boot over that combined set is printed as the headline, with the per-delay numbers printed under it.
+     note:          The protocol pools over machines and circuits AT EACH D, which is two numbers. Script 20 headlines a third number that also pools the two delays together. Both are printed, so no number is hidden, but the headlined one is not the one the protocol defines. This script reports the two per-delay numbers first.
+
+  3. Comparison B window, section 11
+     VERDICT: CONFORMS
+     protocol says: "on the test days only."
+     code does:     The results file carries label TEST only, and script 20 takes the file as given without re-filtering by date.
+     note:          Checked: every row in the file has label TEST, and every t_s falls on or after the A1.6 test start of 21 September.
+
+  4. Delays, section 3
+     VERDICT: CONFORMS
+     protocol says: "Delays D, in hours: 1, 3, 6, 12, 24, 48."
+     code does:     engine_config.DELAYS_H = [1, 3, 6, 12, 24, 48]; script 20 groups by delay_h and never filters a delay out.
+
+  5. Circuits, section 5
+     VERDICT: CONFORMS
+     protocol says: "ghz5, ghz8, ghz10, bv8, bv10."
+     code does:     run_engine.CIRCUIT_ORDER lists exactly those five; script 20 never filters a circuit out and pools over them.
+
+  6. Invalid jobs, section 3 and A1.7
+     VERDICT: CONFORMS ELSEWHERE
+     protocol says: "invalid jobs are dropped and counted, never silently skipped ... The count dropped per D is reported." A1.7: "Jobs whose truth state falls outside the data are dropped and counted, with the count reported per delay D."
+     code does:     engine/jobs.py build_jobs returns (jobs, dropped) and the run log records the per-delay counts. scripts/20_analyse_results.py does NOT print them; scripts/24_prereg_outputs.py does, as P7_dropped_jobs_per_delay.csv.
+     note:          The obligation is met, but by script 24 rather than by the headline script. Worth knowing when reading script 20 alone.
+
+  7. Three result axes, section 9
+     VERDICT: CONFORMS ELSEWHERE
+     protocol says: "Every result is reported against all three of these: queue delay D; age at run time of the cz numbers; number of new states between t_s and t_r." Readout age "shown separately, never merged".
+     code does:     scripts/20_analyse_results.py reports delay and new states. The cz age axis and the separate readout age live in scripts/24_prereg_outputs.py as P1, P1b, P2 and P2b.
+     note:          Same shape as the row above: the axis exists, in script 24.
+
+  8. Secondary metric, section 8
+     VERDICT: CONFORMS ELSEWHERE
+     protocol says: "analytic estimated success probability ... reported alongside the simulated fidelity, never instead of it."
+     code does:     The engine writes an esp column for every row. Script 20 does not print ESP; scripts/24_prereg_outputs.py does, as P3_esp_alongside_fidelity.csv.
+
+  9. Bootstrap unit, section 11
+     VERDICT: CONFORMS
+     protocol says: "a block bootstrap that resamples WHOLE DAYS, so jobs from the same day stay together."
+     code does:     scripts/20_analyse_results.py block_boot resamples frame.day.unique(), where day is the calendar date of t_s, pooled across machines.
+     note:          A calendar day, not a machine-day. Section 17 risk 4 names machine-days as the alternative and declines it, because the gap was platform wide, so the calendar day is the choice the protocol points to.
+
+  10. Dead qubit rule, section 7
+     VERDICT: CONFORMS
+     protocol says: "dead if sx_error > 0.1 or readout_error > 0.2 or T1 missing or T2 missing", applied to the state THAT STRATEGY SEES, with permanent defects excluded for every strategy.
+     code does:     engine_config.SX_DEAD = 0.1, RO_DEAD = 0.2; real_data.strategy_target forbids dead_qubits(snap) plus the permanent set. Permanent defects come from training days only, which is Amendment A1.5.
+     note:          A1.5 covers the training-only change.
+
+  11. Tie handling in the shrinkage tuning
+     VERDICT: CONFORMS VIA AMENDMENT
+     protocol says: Section 6 says N and w are tuned on training days and recorded in an amendment before test days are touched. It sets no tie-break rule.
+     code does:     engine_config.py: "Chosen by the pre-registered rule: lowest mean ESP regret vs the ceiling, ties to smaller N, then to smaller total w."
+     note:          The tie-break is in Amendment A2, and A2.2 records honestly that w_times was settled by the tie-break and not by evidence; A3.1 later fixed it by evidence instead.
+
+  12. Sanity checks, section 12
+     VERDICT: CONFORMS
+     protocol says: Four checks, and no number may be reported until all pass.
+     code does:     scripts/20_analyse_results.py sanity() implements all four and exits 1 unless --allow-failed-checks is given.
+
+  13. No-change share, section 13
+     VERDICT: CONFORMS
+     protocol says: "For every D, report the share of jobs where no new state appeared between t_s and t_r."
+     code does:     scripts/20_analyse_results.py prints the no-change share in the Comparison A table for every delay.
+
+  14. Exploratory labelling, section 11
+     VERDICT: CONFORMS
+     protocol says: "Everything else is exploratory and must be labelled exploratory wherever it appears."
+     code does:     scripts/20_analyse_results.py prints "EXPLORATORY from here down. Not confirmatory. Do not headline." before the rest.
+
+  15. Split dates, section 10
+     VERDICT: CONFORMS VIA AMENDMENT
+     protocol says: "Training days: 28 August to 28 September 2026 (32 days). Test days: 29 September to 12 October 2026 (14 days)."
+     code does:     engine_config.TRAIN_END = "2026-09-20", TEST_START = "2026-09-21".
+     note:          Amendment A1.6 moved the split to 24 training and 22 test days and recorded the consequence that the gap moved into the test window.
+
+  departures found: 2 of 15 items checked
+    DEPARTURE              Gap jobs, section 10
+    DEPARTURE IN EMPHASIS  Comparison B pooling, section 11
+  Neither is fixed by this script beyond supplying the
+  protocol-faithful numbers alongside the reported ones.
+
+files written to <project root>/outputs/protocol_headline
+Confirmatory parts are A and B only. Everything else is labelled
+EXPLORATORY. Where this touches measurement noise against real
+drift, the wording is 'consistent with'.

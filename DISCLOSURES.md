@@ -311,3 +311,83 @@ pre-registered fix, A2 chose the shrinkage setting on an ESP grid that cannot
 see T1 or T2, and claiming it after seeing the test data is picking the winner
 afterwards. It is labelled exploratory everywhere it appears and belongs in the
 limits as something to pre-register next time. See L-039.
+
+<!-- Appended 2026-10-29 from outputs/protocol_headline/PREPARED_correction_DISCLOSURES.md.
+     Appended at the end of the file, not inserted below the
+     L-049 block, so no existing line is reworded. -->
+
+## CORRECTION (L-053), 24 October 2026
+
+**The headline numbers in this file were computed on 5288 jobs, not the 5648
+the frozen protocol specifies.** See PROGRESS_LOG.md entries L-052 and L-053.
+The text below is left exactly as it was first written and is superseded on
+this one point only.
+
+`scripts/20_analyse_results.py` runs both confirmatory comparisons on
+`main_set = w[~w.touches_gap]`, which drops the 360 jobs whose
+submission-to-run interval overlaps a 22 to 23 September publishing gap. The
+comment above that line says it does so "as PROTOCOL.md section 10 requires".
+Section 10 says the opposite:
+
+    "The 22 to 23 September publishing gap stays in. It is not deleted or
+     patched. Results are reported with it included, and the jobs that straddle
+     it are reported separately so its effect is visible."
+
+Amendment A1.6 reaffirmed this after moving the split. So the protocol asks for
+those 360 jobs to be IN the headline and ALSO shown on their own. The separate
+reporting was done; the inclusion was not.
+
+Nothing has been overwritten. `scripts/20_analyse_results.py` is unchanged and
+every number already reported stands. The protocol-faithful figures were
+computed forward in `scripts/28_protocol_headline.py`, which imports the
+bootstrap, the seed 20261014 and the 4000 resamples from script 20 so only the
+job selection differs, and which asserts that the 5288-job selection still
+reproduces every reported number inside 0.0005. It does.
+
+Comparison A, mean stale regret against the ceiling, reported against
+protocol-faithful:
+
+    D       reported (5288)        protocol (5648)       change
+     1 h    +0.0059                +0.0057               -0.0002
+     3 h    +0.0171                +0.0164               -0.0007
+     6 h    +0.0230                +0.0221               -0.0008
+    12 h    +0.0259                +0.0251               -0.0008
+    24 h    +0.0245                +0.0239               -0.0006
+    48 h    +0.0367                +0.0367               +0.0001
+
+Protocol-faithful 95 percent intervals: [+0.0019, +0.0104], [+0.0096, +0.0242],
+[+0.0159, +0.0285], [+0.0192, +0.0319], [+0.0182, +0.0307], [+0.0263, +0.0494].
+
+Comparison B, paired gain of shrinkage over stale, positive means shrinkage is
+better, on all 5648 jobs:
+
+      at  6 h   +0.00330   [-0.00037, +0.00694]
+      at 24 h   -0.00004   [-0.00288, +0.00255]
+      pooled    +0.00165   [-0.00126, +0.00458]
+
+The 360 gap jobs on their own, as section 10 asks: Comparison A +0.0000,
++0.0000, +0.0050, +0.0138, +0.0166, +0.0375 by delay; Comparison B +0.00027 at
+6 h, -0.00017 at 24 h.
+
+**NO VERDICT CHANGES.** Comparison A is still positive at every delay with
+every interval above zero, and still grows with delay. Comparison B is still
+NULL at 6 h, at 24 h and pooled: every interval includes zero. The two sets of
+numbers are consistent with each other, differing by at most 0.0008 of
+fidelity.
+
+**Why the headline goes slightly DOWN rather than up.** During a publishing gap
+few or no new states appear, so a stale card is often still the correct card.
+Among the 360 gap jobs the no-change share is 87.5 percent at both 1 and 3
+hours, against 72.6 and 39.7 percent in the non-gap set, and their stale regret
+at those two delays is exactly 0.0000. By 48 hours they look like the rest.
+Putting them back adds a block of easy short-delay jobs, which dilutes the mean
+slightly. This is a property of the data, not an error.
+
+**A SECOND DEPARTURE, recorded here and not fixed.** PROTOCOL.md section 11
+defines Comparison B as "per-field shrinkage against stale, at D = 6 hours and
+D = 24 hours, pooled over machines and circuits, on the test days only". That
+pools over machines and circuits AT EACH D, which is two numbers. Script 20
+headlines a third number that also pools the two delays together. Script 20
+prints the per-delay numbers underneath, so nothing was hidden, but the figure
+this file headlines is not the one the protocol defines. Both are given above.
+The verdict is the same either way: every interval includes zero.

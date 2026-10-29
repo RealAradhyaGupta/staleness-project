@@ -1,0 +1,32 @@
+ROUND 1 REPRODUCTION CHECK
+========================================================================
+Round 2 added three things to the engine, all additive and all with the
+Round 1 path unchanged by default: the QFT circuits in circuits.py, two
+environment variables for the table and cache folders in real_data.py,
+and two optional window arguments on all_submission_times in jobs.py.
+This check re-ran a slice of the Round 1 test-day jobs with the edited
+engine and compared every column against outputs/test_full/all_rows.csv,
+the file the Round 1 results were reported from.
+
+command: engine/run_engine.py --days test --limit-subs 2 --circuits ghz5,bv8 --delays 1,24
+re-run rows 144, matched against the reported file 144
+
+  fidelity               IDENTICAL
+  esp                    IDENTICAL
+  info_state             IDENTICAL
+  truth_state            IDENTICAL
+  new_states             IDENTICAL
+  n_forbidden            IDENTICAL
+  job_seed               IDENTICAL
+  qubits_used            IDENTICAL
+  dead_qubits_used       IDENTICAL
+  cz_age_at_run_h        IDENTICAL
+  readout_age_at_run_h   IDENTICAL
+  t_s                    IDENTICAL
+  t_r                    IDENTICAL
+
+VERDICT: every column identical
+largest absolute fidelity difference: 0.0
+
+No Round 1 output file was changed by this check. It wrote only to
+outputs/r1_recheck/.

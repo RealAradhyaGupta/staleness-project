@@ -22,16 +22,22 @@ import engine_config as cfg
 MACHINES = ["ibm_fez", "ibm_kingston", "ibm_marrakesh"]   # sorted name order
 
 
-def all_submission_times():
+def all_submission_times(window_start=None, window_end=None):
     """Every submission time for every machine, in the protocol's draw order.
 
     Returns a list of (machine, t_s, draw_order) with draw_order counting from
     0 across the whole sequence, so "the first 30 for ibm_kingston" is
     well defined.
+
+    ROUND 2, additive: the two arguments move the window. Called with no
+    arguments, which is how Round 1 calls it, the window comes from
+    engine_config exactly as before and the draws are identical.
     """
     rng = np.random.default_rng(cfg.SEED_SUBMIT)
-    start = datetime.fromisoformat(cfg.WINDOW_START).replace(tzinfo=timezone.utc)
-    end = datetime.fromisoformat(cfg.WINDOW_END).replace(tzinfo=timezone.utc)
+    start = datetime.fromisoformat(
+        window_start or cfg.WINDOW_START).replace(tzinfo=timezone.utc)
+    end = datetime.fromisoformat(
+        window_end or cfg.WINDOW_END).replace(tzinfo=timezone.utc)
     days = []
     d = start
     while d <= end:

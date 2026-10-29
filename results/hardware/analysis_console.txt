@@ -1,0 +1,137 @@
+========================================================================
+STAGE 6 PART A: HARDWARE RESULTS
+========================================================================
+  device: ibm_kingston
+  t0: 2026-10-25T16:32:39.095739+00:00
+  protocol: protocol_hardware.md, frozen in FREEZE_HARDWARE.txt
+
+  36 arm rows from 12 finished jobs -> <project root>/outputs/hardware/hw_jobs.csv
+
+========================================================================
+MEASURED FIDELITY, one row per job
+========================================================================
+  job         circuit     D h  PUBs         stale   window_mean        hybrid
+  s1_bv8      bv8        6.01     3        0.8290        0.6960        0.8470
+  s1_ghz5     ghz5       6.00     3        0.9252        0.9439        0.9332
+  s1_ghz8     ghz8       6.01     1        0.8602        0.8602        0.8602
+  s1_qft5     qft5       6.01     2        0.8694        0.8820        0.8820
+  s2_bv8      bv8        6.01     3        0.8320        0.8260        0.8380
+  s2_ghz5     ghz5       6.00     3        0.9270        0.9232        0.9260
+  s2_ghz8     ghz8       6.01     2        0.8439        0.8815        0.8815
+  s2_qft5     qft5       6.01     2        0.9159        0.8870        0.8870
+  s3_bv8      bv8        6.10     3        0.8680        0.8750        0.8850
+  s3_ghz5     ghz5       6.00     3        0.9313        0.9390        0.9267
+  s3_ghz8     ghz8       6.10     2        0.8909        0.8744        0.8744
+  s3_qft5     qft5       6.18     2        0.9215        0.8753        0.8753
+
+  mean fidelity, stale        0.8845  (SD 0.0389)
+  mean fidelity, window_mean  0.8720  (SD 0.0646)
+  mean fidelity, hybrid       0.8847  (SD 0.0305)
+
+========================================================================
+PAIRED DIFFERENCES OVER JOBS
+========================================================================
+  a job whose two arms gave an IDENTICAL transpiled circuit
+  contributes exactly 0 and is counted, it is not dropped
+  bootstrap: 4000 resamples of the jobs, seed 20261025, percentile interval
+
+  comparison                        role          n       mean        SD    95% low   95% high   differ
+  window_mean minus stale           PRIMARY      12   -0.01256   0.04382   -0.03906    0.00710   11/12 
+  hybrid minus stale                secondary    12    0.00018   0.02246   -0.01253    0.01151   11/12 
+  hybrid minus window_mean          extra        12    0.01274   0.04408   -0.00276    0.03903    6/12 
+
+========================================================================
+IDENTICAL TRANSPILED CIRCUITS, counted as the protocol requires
+========================================================================
+  29 PUBs were submitted for 12 jobs; 3 arms x 12 jobs = 36 arm results came back
+  7 arm results were served by a circuit another arm had already produced
+  window_mean and stale: identical in 1 of 12 jobs (8.3 percent), layouts differ in 11
+  hybrid and stale: identical in 1 of 12 jobs (8.3 percent), layouts differ in 11
+  hybrid and window_mean: identical in 6 of 12 jobs (50.0 percent), layouts differ in 6
+
+========================================================================
+BY CIRCUIT
+========================================================================
+  circuit    n       mean F stale mean F window_mean      mean F hybrid   wm - stale  hyb - stale
+  bv8        3             0.8430             0.7990             0.8567     -0.04400      0.01367
+  ghz5       3             0.9278             0.9353             0.9286      0.00753      0.00082
+  ghz8       3             0.8650             0.8720             0.8720      0.00705      0.00705
+  qft5       3             0.9023             0.8814             0.8814     -0.02081     -0.02081
+
+========================================================================
+QUEUE WAIT (running minus created, as IBM reports them)
+========================================================================
+  this is NOT the staleness delay. The 6 h hold is deliberate and
+  local: the circuits sat on this machine before being sent.
+  n 12   median 1.6 s (0.03 min)
+  range 1.2 s to 354.6 s (0.02 to 5.91 min)
+  share under 1 hour: 12/12 = 100.0 percent
+
+========================================================================
+THE ACTUAL HOLD D, which the analysis uses
+========================================================================
+  s1_bv8       compiled 2026-10-25T16:36:16.105211+00:00  submitted 2026-10-25T22:36:50.666450+00:00  D = 6.0096 h   card 2026-10-25T14:35:43+00:00 (2.0092 h old at compile)
+  s1_ghz5      compiled 2026-10-25T16:36:16.105211+00:00  submitted 2026-10-25T22:36:21.940302+00:00  D = 6.0016 h   card 2026-10-25T14:35:43+00:00 (2.0092 h old at compile)
+  s1_ghz8      compiled 2026-10-25T16:36:16.105211+00:00  submitted 2026-10-25T22:36:36.840145+00:00  D = 6.0058 h   card 2026-10-25T14:35:43+00:00 (2.0092 h old at compile)
+  s1_qft5      compiled 2026-10-25T16:36:16.105211+00:00  submitted 2026-10-25T22:37:02.766470+00:00  D = 6.013 h   card 2026-10-25T14:35:43+00:00 (2.0092 h old at compile)
+  s2_bv8       compiled 2026-10-25T18:36:17.430806+00:00  submitted 2026-10-26T00:36:55.730272+00:00  D = 6.0106 h   card 2026-10-25T16:35:15+00:00 (2.0173 h old at compile)
+  s2_ghz5      compiled 2026-10-25T18:36:17.430806+00:00  submitted 2026-10-26T00:36:23.347117+00:00  D = 6.0016 h   card 2026-10-25T16:35:15+00:00 (2.0173 h old at compile)
+  s2_ghz8      compiled 2026-10-25T18:36:17.430806+00:00  submitted 2026-10-26T00:36:39.449221+00:00  D = 6.0061 h   card 2026-10-25T16:35:15+00:00 (2.0173 h old at compile)
+  s2_qft5      compiled 2026-10-25T18:36:17.430806+00:00  submitted 2026-10-26T00:37:09.212932+00:00  D = 6.0144 h   card 2026-10-25T16:35:15+00:00 (2.0173 h old at compile)
+  s3_bv8       compiled 2026-10-25T20:35:55.656490+00:00  submitted 2026-10-26T02:42:01.137907+00:00  D = 6.1015 h   card 2026-10-25T16:35:15+00:00 (4.0113 h old at compile)
+  s3_ghz5      compiled 2026-10-25T20:35:55.656490+00:00  submitted 2026-10-26T02:35:59.733008+00:00  D = 6.0011 h   card 2026-10-25T16:35:15+00:00 (4.0113 h old at compile)
+  s3_ghz8      compiled 2026-10-25T20:35:55.656490+00:00  submitted 2026-10-26T02:41:46.877191+00:00  D = 6.0976 h   card 2026-10-25T16:35:15+00:00 (4.0113 h old at compile)
+  s3_qft5      compiled 2026-10-25T20:35:55.656490+00:00  submitted 2026-10-26T02:47:01.596769+00:00  D = 6.185 h   card 2026-10-25T16:35:15+00:00 (4.0113 h old at compile)
+
+========================================================================
+QPU USAGE AGAINST THE CAP
+========================================================================
+  pilot        2.000 s
+  s1_bv8       3.000 s
+  s1_ghz5      3.000 s
+  s1_ghz8      2.000 s
+  s1_qft5      3.000 s
+  s2_bv8       3.000 s
+  s2_ghz5      3.000 s
+  s2_ghz8      3.000 s
+  s2_qft5      3.000 s
+  s3_bv8       3.000 s
+  s3_ghz5      3.000 s
+  s3_ghz8      3.000 s
+  s3_qft5      3.000 s
+  TOTAL        37.000 s of the 180 s cap (20.6 percent)
+  the account's own counter moved 0.0 s -> 34.0 s, a change of 34.000 s
+  cap respected: YES
+
+========================================================================
+EVERY RETRY, DELAY, LATE COMPILE AND MISSED JOB
+========================================================================
+  2026-10-26T02:41:50.040307+00:00  late               s3_ghz8: actual hold 6.098 h, planned 6 h
+  2026-10-26T02:42:04.088829+00:00  late               s3_bv8: actual hold 6.102 h, planned 6 h
+  2026-10-26T02:47:04.819130+00:00  late               s3_qft5: actual hold 6.185 h, planned 6 h
+
+  job states:
+    s1_bv8       DONE
+    s1_ghz5      DONE
+    s1_ghz8      DONE
+    s1_qft5      DONE
+    s2_bv8       DONE
+    s2_ghz5      DONE
+    s2_ghz8      DONE
+    s2_qft5      DONE
+    s3_bv8       DONE
+    s3_ghz5      DONE
+    s3_ghz8      DONE
+    s3_qft5      DONE
+
+========================================================================
+WHAT THIS CANNOT SHOW
+========================================================================
+  12 jobs is a sanity check, not a significance test.
+  Round 2 measured a design effect of 9.400 on 11 days, so clustered
+  variation here is large and these intervals are wide on purpose.
+  The 6 h delay is a deliberate local hold, not a queue delay.
+  There is no ceiling arm, so no regret and no absolute claim.
+  Any agreement with Round 2 is 'consistent with', never proved.
+
+  summary written to <project root>/outputs/hardware/hw_summary.json

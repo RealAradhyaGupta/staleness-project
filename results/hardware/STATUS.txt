@@ -1,0 +1,8 @@
+Stage 6 Part A, hardware run. No secret is written in this file.
+written           2026-10-26T02:53:16.215777+00:00
+device            ibm_kingston
+last step done    run finished
+next step due     now
+jobs finished     13 of 12
+QPU usage so far  37.000 s of a 180 s cap
+note              12 jobs done, 37.000 s used

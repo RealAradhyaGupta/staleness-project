@@ -1,0 +1,4 @@
+machine,random,stale,window_mean,std_adjusted,shrinkage,all arms
+ibm_fez,193,3,2,12,1,211
+ibm_kingston,85,0,0,0,0,85
+ibm_marrakesh,508,78,40,38,65,729

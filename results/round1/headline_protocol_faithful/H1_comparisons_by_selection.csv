@@ -1,0 +1,28 @@
+selection,comparison,scope,n,no_change_share,mean,lo,hi,days,interval_excludes_zero,note,verdict
+ALL jobs (protocol-faithful),A stale regret,delay 1 h,970,0.7319587628865979,0.005691864747994299,0.0019128824223429422,0.010428216631544793,22,True,,
+ALL jobs (protocol-faithful),A stale regret,delay 3 h,960,0.4166666666666667,0.01640200707274229,0.009620747970116363,0.024221518405264222,22,True,,
+ALL jobs (protocol-faithful),A stale regret,delay 6 h,954,0.16771488469601678,0.02211560636804039,0.01592218626915918,0.02852119578420819,22,True,,
+ALL jobs (protocol-faithful),A stale regret,delay 12 h,945,0.037037037037037035,0.025056161514943262,0.019239458332425276,0.031873566176215375,21,True,,
+ALL jobs (protocol-faithful),A stale regret,delay 24 h,930,0.0,0.023875642030015208,0.018232667941812334,0.030693214942061144,21,True,,
+ALL jobs (protocol-faithful),A stale regret,delay 48 h,889,0.0,0.03673855415441715,0.026288759152737474,0.049376765250740626,20,True,,
+ALL jobs (protocol-faithful),B shrinkage vs stale,6 h,954,,0.00329684363403686,-0.0003715984903904899,0.006939138866448803,22,False,protocol-faithful,"interval includes zero, no difference"
+ALL jobs (protocol-faithful),B shrinkage vs stale,24 h,930,,-4.131889391948788e-05,-0.002877373575897941,0.002545762356601135,21,False,protocol-faithful,"interval includes zero, no difference"
+ALL jobs (protocol-faithful),B shrinkage vs stale,pooled 6 and 24 h,1884,,0.001649024551765415,-0.001257425580752546,0.004580173508053514,22,False,"across-delay, script 20 style","interval includes zero, no difference"
+GAP-touching jobs only (reported separately),A stale regret,delay 1 h,40,0.875,0.0,0.0,0.0,3,False,,
+GAP-touching jobs only (reported separately),A stale regret,delay 3 h,40,0.875,0.0,0.0,0.0,3,False,,
+GAP-touching jobs only (reported separately),A stale regret,delay 6 h,45,0.5555555555555556,0.0050130765359839196,0.0,0.007901192815314711,3,False,,
+GAP-touching jobs only (reported separately),A stale regret,delay 12 h,65,0.07692307692307693,0.01380986688939062,0.01147418131025729,0.016582333678363956,3,True,,
+GAP-touching jobs only (reported separately),A stale regret,delay 24 h,75,0.0,0.016630427584402908,0.011427138336106639,0.021208214869864423,3,True,,
+GAP-touching jobs only (reported separately),A stale regret,delay 48 h,95,0.0,0.03745217846444537,0.013024449115387545,0.0593450634167292,3,True,,
+GAP-touching jobs only (reported separately),B shrinkage vs stale,6 h,45,,0.00026570885919899496,-0.0030167491294453247,0.002087045257268233,3,False,protocol-faithful,"interval includes zero, no difference"
+GAP-touching jobs only (reported separately),B shrinkage vs stale,24 h,75,,-0.00017302084822933792,-0.0017916326827788246,0.002459460138141889,3,False,protocol-faithful,"interval includes zero, no difference"
+GAP-touching jobs only (reported separately),B shrinkage vs stale,pooled 6 and 24 h,120,,-8.497207943713077e-06,-0.0009570437505773688,0.0005256704639495458,3,False,"across-delay, script 20 style","interval includes zero, no difference"
+NON-GAP jobs only (what script 20 used),A stale regret,delay 1 h,930,0.7258064516129032,0.005936676135004807,0.002009748419945575,0.010860632032903973,22,True,,
+NON-GAP jobs only (what script 20 used),A stale regret,delay 3 h,920,0.3967391304347826,0.01711513781503543,0.010174881446654623,0.02497153645717894,22,True,,
+NON-GAP jobs only (what script 20 used),A stale regret,delay 6 h,909,0.1485148514851485,0.02296226626071645,0.016851306631638467,0.029231520247263023,22,True,,
+NON-GAP jobs only (what script 20 used),A stale regret,delay 12 h,880,0.03409090909090909,0.025886853731603408,0.019858175120446856,0.032993120385580894,21,True,,
+NON-GAP jobs only (what script 20 used),A stale regret,delay 24 h,855,0.0,0.0245111871568233,0.018375440261210428,0.031517482810253614,21,True,,
+NON-GAP jobs only (what script 20 used),A stale regret,delay 48 h,794,0.0,0.03665317089314173,0.02495865046884282,0.051049351009085545,19,True,,
+NON-GAP jobs only (what script 20 used),B shrinkage vs stale,6 h,909,,0.003446899811009032,-0.0004156819182489642,0.007212863312973894,22,False,protocol-faithful,"interval includes zero, no difference"
+NON-GAP jobs only (what script 20 used),B shrinkage vs stale,24 h,855,,-2.976609090985191e-05,-0.0030734218266212,0.002709146589175429,21,False,protocol-faithful,"interval includes zero, no difference"
+NON-GAP jobs only (what script 20 used),B shrinkage vs stale,pooled 6 and 24 h,1764,,0.0017617811340585527,-0.0013256875275791,0.004829681062460516,22,False,"across-delay, script 20 style","interval includes zero, no difference"

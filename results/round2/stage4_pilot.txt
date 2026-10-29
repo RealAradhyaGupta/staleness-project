@@ -1,0 +1,40 @@
+ROUND 2 RUN  label=round2_pilot
+  store: <project root>/data/clean_r2  cache: <project root>/data/cache_r2
+  arms: ['stale', 'window_mean', 'shrinkage_r1', 'hybrid', 'hybrid_no_guard', 'ceiling']
+  circuits: ['ghz5', 'ghz8', 'ghz10', 'bv8', 'bv10', 'qft5', 'qft8', 'qft10']
+  delays: [1, 3, 6, 12, 24, 48]   workers: 6
+  submission window: 2026-10-13 to 2026-10-23
+  rule cross check: table matches outputs/round2/stage1_fitted_rule.json
+  ibm_fez: 425 states, 2026-08-28T01:04:26+00:00 to 2026-10-23T22:34:58+00:00
+  ibm_kingston: 363 states, 2026-08-28T00:35:09+00:00 to 2026-10-23T19:38:26+00:00
+  ibm_marrakesh: 456 states, 2026-08-28T01:11:22+00:00 to 2026-10-23T19:17:54+00:00
+  ibm_fez: 33 submissions -> 1480 jobs; dropped {'D=1': {'no_history': 0, 'no_truth': 0, 'past_end': 0}, 'D=3': {'no_history': 0, 'no_truth': 0, 'past_end': 0}, 'D=6': {'no_history': 0, 'no_truth': 0, 'past_end': 0}, 'D=12': {'no_history': 0, 'no_truth': 0, 'past_end': 3}, 'D=24': {'no_history': 0, 'no_truth': 0, 'past_end': 4}, 'D=48': {'no_history': 0, 'no_truth': 0, 'past_end': 6}}
+  ibm_kingston: 33 submissions -> 1448 jobs; dropped {'D=1': {'no_history': 0, 'no_truth': 0, 'past_end': 1}, 'D=3': {'no_history': 0, 'no_truth': 0, 'past_end': 1}, 'D=6': {'no_history': 0, 'no_truth': 0, 'past_end': 1}, 'D=12': {'no_history': 0, 'no_truth': 0, 'past_end': 2}, 'D=24': {'no_history': 0, 'no_truth': 0, 'past_end': 4}, 'D=48': {'no_history': 0, 'no_truth': 0, 'past_end': 8}}
+  ibm_marrakesh: 33 submissions -> 1464 jobs; dropped {'D=1': {'no_history': 0, 'no_truth': 0, 'past_end': 0}, 'D=3': {'no_history': 0, 'no_truth': 0, 'past_end': 0}, 'D=6': {'no_history': 0, 'no_truth': 0, 'past_end': 1}, 'D=12': {'no_history': 0, 'no_truth': 0, 'past_end': 2}, 'D=24': {'no_history': 0, 'no_truth': 0, 'past_end': 6}, 'D=48': {'no_history': 0, 'no_truth': 0, 'past_end': 6}}
+  PILOT: 30 jobs per circuit -> 240 jobs
+total jobs 240, arm rows 1440, simulations at most 1440
+13 distinct (machine, truth state) groups -> 6 workers; each noise model is built once
+[w4] 16/16 jobs, 54 sims, 42 saved by dedup, 143s, 8.91s/job, eta 0.0 min
+[w4] DONE 16 jobs, 54 sims, 42 saved, 143s
+[w0] 20/64 jobs, 64 sims, 56 saved by dedup, 154s, 7.72s/job, eta 5.7 min
+[w3] 16/16 jobs, 70 sims, 26 saved by dedup, 180s, 11.24s/job, eta 0.0 min
+[w3] DONE 16 jobs, 70 sims, 26 saved, 180s
+[w5] 20/96 jobs, 77 sims, 43 saved by dedup, 194s, 9.69s/job, eta 12.3 min
+[w2] 20/24 jobs, 82 sims, 38 saved by dedup, 200s, 10.01s/job, eta 0.7 min
+[w1] 20/24 jobs, 84 sims, 36 saved by dedup, 202s, 10.08s/job, eta 0.7 min
+[w2] 24/24 jobs, 94 sims, 50 saved by dedup, 226s, 9.43s/job, eta 0.0 min
+[w2] DONE 24 jobs, 94 sims, 50 saved, 226s
+[w1] 24/24 jobs, 100 sims, 44 saved by dedup, 234s, 9.74s/job, eta 0.0 min
+[w1] DONE 24 jobs, 100 sims, 44 saved, 234s
+[w0] 40/64 jobs, 125 sims, 115 saved by dedup, 263s, 6.58s/job, eta 2.6 min
+[w5] 40/96 jobs, 140 sims, 100 saved by dedup, 293s, 7.32s/job, eta 6.8 min
+[w5] 60/96 jobs, 194 sims, 166 saved by dedup, 362s, 6.04s/job, eta 3.6 min
+[w0] 60/64 jobs, 196 sims, 164 saved by dedup, 372s, 6.20s/job, eta 0.4 min
+[w0] 64/64 jobs, 207 sims, 177 saved by dedup, 390s, 6.10s/job, eta 0.0 min
+[w0] DONE 64 jobs, 207 sims, 177 saved, 390s
+[w5] 80/96 jobs, 240 sims, 240 saved by dedup, 426s, 5.32s/job, eta 1.4 min
+[w5] 96/96 jobs, 280 sims, 296 saved by dedup, 477s, 4.97s/job, eta 0.0 min
+[w5] DONE 96 jobs, 280 sims, 296 saved, 477s
+
+all workers finished in 478s (0.13 h)
+merged 6 parts -> <project root>/outputs/round2_pilot/all_rows.csv (1440 rows, 240 jobs)

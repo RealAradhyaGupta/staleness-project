@@ -1,0 +1,47 @@
+sanity_checks_all_jobs.txt
+
+The four PROTOCOL.md section 12 sanity checks, recomputed on ALL 5,648
+jobs with no gap exclusion. Same layout as the old
+sanity_checks_and_independent_check.txt, but these are real recomputed
+counts, not a quotation of the log.
+
+source: outputs/test_full/all_rows.csv (read only)
+rows 33888   jobs 5648   days 22
+the script that ran them: scripts/45_round1_corrected_pack.py, using the
+sanity logic of scripts/20_analyse_results.py unchanged
+
+1. THE FOUR SANITY CHECKS (test period, all jobs)
+
+   1. stale regret EXACTLY 0 when no new state appeared: PASS
+      1305 jobs, largest absolute regret 0.0.
+
+   2. ceiling at least as good as stale at every delay:
+      D=  1h  ceiling 0.9181  stale 0.9124  +0.0057  ok
+      D=  3h  ceiling 0.9234  stale 0.9070  +0.0164  ok
+      D=  6h  ceiling 0.9286  stale 0.9065  +0.0221  ok
+      D= 12h  ceiling 0.9239  stale 0.8988  +0.0251  ok
+      D= 24h  ceiling 0.9280  stale 0.9041  +0.0239  ok
+      D= 48h  ceiling 0.9228  stale 0.8861  +0.0367  ok
+      PASS: +0.0057 at 1 h rising to +0.0367 at 48 h.
+
+   3. random layout is the worst arm: PASS (lowest is random)
+      0.7334 against 0.9027 for stale.
+      random         0.7334
+      stale          0.9027
+      shrinkage      0.9049
+      std_adjusted   0.9051
+      window_mean    0.9083
+      ceiling        0.9241
+
+   4. teammates' fixture checksum unchanged: PASS
+      afd161059ecad53ec35c87450832d920880ecd04504a7d17a830ebc611716f69
+
+   All four sanity checks PASS on all 5,648 jobs.
+
+2. THE INDEPENDENT CHECK
+
+   scripts/23_independent_check.py was written for the gap-excluded set
+   and was never run with --json-out, so no saved output file exists for
+   it on any row set. It is NOT rerun or re-estimated here. The old
+   pack's quotation of PROGRESS_LOG.md L-042 stands as the record for
+   the gap-excluded numbers only.

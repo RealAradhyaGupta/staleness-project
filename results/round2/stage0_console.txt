@@ -1,0 +1,69 @@
+qiskit_runtime_service._discover_account:WARNING:2026-10-24 23:55:32,860: Loading account with the given token. A saved account will not be used.
+========================================================================
+STAGE 0 PART 1: environment
+========================================================================
+  interpreter          <project root>/team_code/.venv/bin/python
+  python               3.12.4
+  qiskit               2.5.2
+  qiskit-aer           0.17.2
+  qiskit-ibm-runtime   0.50.0
+  numpy                2.5.4
+  pandas               3.0.6
+  platform             macOS-26.6.2-arm64-arm-64bit
+  cpu cores            8
+
+  optimization level   2
+  seed_transpiler      11
+  seed_simulator base  3
+  seed submission draw 20260828
+  shots                4000
+  delays (h)           [1, 3, 6, 12, 24, 48]
+  submits per day      3
+  dead rule            sx > 0.1 or readout > 0.2 or T1 missing or T2 missing
+
+========================================================================
+STAGE 0 PART 2: is there any calibration card after 12 Oct 2026?
+========================================================================
+  raw card files on disk (read only, never written here):
+    ibm_fez           1449 files   newest 2026-10-12 16:22:41+00:00   ok
+    ibm_kingston      1230 files   newest 2026-10-12 17:47:16+00:00   ok
+    ibm_marrakesh     1352 files   newest 2026-10-12 19:53:05+00:00   ok
+  clean tables:
+    qubits.csv        628836 rows   newest 2026-10-12 19:53:05+00:00   ok
+    pairs.csv         708576 rows   newest 2026-10-12 19:53:05+00:00   ok
+    card_quality.csv    3826 rows   newest 2026-10-12 19:53:05+00:00   ok
+    states.csv           921 rows   newest 2026-10-12 19:53:05+00:00   ok
+  data/fresh exists: False   card files: 0
+    (this is where Stage 3 will put the fresh cards; it is expected
+     to be empty or absent at Stage 0)
+
+  RESULT: no card at or after 2026-10-13 in data/raw or data/clean. The development fit cannot have seen the fresh window.
+
+========================================================================
+STAGE 0 PART 3: existence probe (yes/no and timestamp only)
+========================================================================
+  credentials loaded from .env: key True, instance True
+  no value from any returned card is read, saved or printed below
+
+  machine         asked for             returned?  timestamp of card
+  ibm_fez         2026-10-13            YES        2026-10-13T11:47:16+00:00
+  ibm_fez         2026-10-18            YES        2026-10-18T11:28:24+00:00
+  ibm_fez         2026-10-23            YES        2026-10-23T11:18:49+00:00
+  ibm_kingston    2026-10-13            YES        2026-10-13T11:25:48+00:00
+  ibm_kingston    2026-10-18            YES        2026-10-18T11:52:02+00:00
+  ibm_kingston    2026-10-23            YES        2026-10-23T11:45:31+00:00
+  ibm_marrakesh   2026-10-13            YES        2026-10-13T11:18:14+00:00
+  ibm_marrakesh   2026-10-18            YES        2026-10-18T10:53:21+00:00
+  ibm_marrakesh   2026-10-23            YES        2026-10-23T11:44:58+00:00
+
+========================================================================
+STAGE 0 VERDICT
+========================================================================
+  No future card on disk: ok.
+  probe table written to <project root>/outputs/round2/stage0_existence_probe.csv
+  ibm_fez: 3 of 3 probe dates returned a card
+  ibm_kingston: 3 of 3 probe dates returned a card
+  ibm_marrakesh: 3 of 3 probe dates returned a card
+
+  PROBE OK: every machine returned a card for every probe date.
+  Historical retrieval works, so Stage 3 can fetch the fresh window.

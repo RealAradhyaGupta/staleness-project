@@ -1,0 +1,6 @@
+arm,rows,qubit_instances,mean_per_row,max_in_one_row,rows_of_5648,share_of_arm_rows_pct
+random,786,1036,1.318066,5,786,13.916431
+stale,81,81,1.0,1,81,1.434136
+window_mean,42,44,1.047619,2,42,0.743626
+std_adjusted,50,52,1.04,2,50,0.885269
+shrinkage,66,66,1.0,1,66,1.168555

@@ -1,0 +1,198 @@
+========================================================================
+ROUND 2: build the combined store (development cards plus fresh cards)
+========================================================================
+
+step 1: symlink both card folders into one place
+  ibm_fez: 1449 development cards + 387 fresh cards = 1836 symlinks
+  ibm_kingston: 1230 development cards + 411 fresh cards = 1641 symlinks
+  ibm_marrakesh: 1352 development cards + 386 fresh cards = 1738 symlinks
+
+step 2: qubits.csv and pairs.csv, by scripts/15_build_tables_all.py
+=== backups ===
+
+=== reading 5215 snapshot files ===
+  ...500/5215 files
+  ...1000/5215 files
+  ...1500/5215 files
+  ...2000/5215 files
+  ...2500/5215 files
+  ...3000/5215 files
+  ...3500/5215 files
+  ...4000/5215 files
+  ...4500/5215 files
+  ...5000/5215 files
+
+=== tables ===
+qubits.csv rows: 813540   (89.4 MB)
+pairs.csv rows:  916960   (57.7 MB)
+rows with a missing value: qubits 9790, pairs 0
+cz pairs where the two directions disagreed: 0
+files skipped as a repeated timestamp: 0
+
+=== snapshots per machine ===
+
+ibm_fez: 1836 snapshots over 124 days
+  per day: min 1, median 1, max 43
+  per day inside 2026-08-28 onwards: min 11, median 32, max 43
+
+ibm_kingston: 1641 snapshots over 126 days
+  per day: min 1, median 1, max 47
+  per day inside 2026-08-28 onwards: min 9, median 27, max 47
+
+ibm_marrakesh: 1738 snapshots over 124 days
+  per day: min 1, median 1, max 60
+  per day inside 2026-08-28 onwards: min 3, median 32, max 60
+
+=== biggest gaps between neighbouring snapshots ===
+
+ibm_fez
+  gap hours inside the window: min 0.05, median 0.65, max 26.74
+     82.68 h  from 2026-08-07 03:21 to 2026-08-10 14:02 UTC
+     75.30 h  from 2026-08-14 20:18 to 2026-08-17 23:37 UTC
+     62.35 h  from 2026-06-27 01:56 to 2026-06-29 16:17 UTC
+     57.09 h  from 2026-08-10 14:02 to 2026-08-12 23:08 UTC
+     46.08 h  from 2026-07-05 18:59 to 2026-07-07 17:04 UTC
+
+ibm_kingston
+  gap hours inside the window: min 0.07, median 0.69, max 27.23
+    109.49 h  from 2026-08-13 09:46 to 2026-08-17 23:15 UTC
+     65.83 h  from 2026-06-27 02:05 to 2026-06-29 19:54 UTC
+     51.79 h  from 2026-07-05 19:47 to 2026-07-07 23:34 UTC
+     29.82 h  from 2026-07-23 16:47 to 2026-07-24 22:37 UTC
+     28.83 h  from 2026-07-25 18:33 to 2026-07-26 23:23 UTC
+
+ibm_marrakesh
+  gap hours inside the window: min 0.08, median 0.63, max 27.77
+    115.92 h  from 2026-08-07 03:19 to 2026-08-11 23:15 UTC
+     75.22 h  from 2026-08-14 15:04 to 2026-08-17 18:17 UTC
+     70.69 h  from 2026-06-27 00:47 to 2026-06-29 23:29 UTC
+     51.73 h  from 2026-07-05 19:58 to 2026-07-07 23:41 UTC
+     37.13 h  from 2026-06-30 09:58 to 2026-07-01 23:06 UTC
+
+=== total size ===
+distinct snapshots used: 5215
+data/raw on disk: 683.0 MB
+data/clean on disk: 147.2 MB (includes the .bak backups)
+
+step 3: states.csv, by scripts/17_build_states.py
+
+=== ibm_fez: 1836 files on disk ===
+  ...1000/1836 files, 218 states so far
+  ...1500/1836 files, 343 states so far
+  cards in the window: 1769, older than the window: 67, distinct states: 425
+
+=== ibm_kingston: 1641 files on disk ===
+  cards in the window: 1570, older than the window: 71, distinct states: 363
+
+=== ibm_marrakesh: 1738 files on disk ===
+  cards in the window: 1671, older than the window: 67, distinct states: 456
+
+wrote <project root>/data/clean_r2/states.csv with 1244 rows and 28 columns
+
+
+=== 1: DISTINCT STATES PER MACHINE PER DAY ===
+a state is a run of cards whose five fields are all exactly equal
+
+ibm_fez: 425 states from 1769 cards (4.16 cards per state)
+  states per day over 57 days: min 4, median 7, p90 9, max 24
+  cards per state: min 1, median 3, p90 9, max 18
+  hours between states: min 0.18, median 2.16, p90 6.82, max 26.74
+  states whose first card has a short or missing section: 0
+
+ibm_kingston: 363 states from 1570 cards (4.33 cards per state)
+  states per day over 57 days: min 2, median 6, p90 9, max 11
+  cards per state: min 1, median 3, p90 9, max 16
+  hours between states: min 0.22, median 2.49, p90 8.14, max 27.23
+  states whose first card has a short or missing section: 3
+    state 226 2026-10-05T20:35:03+00:00 no cz_error
+    state 227 2026-10-05T22:13:15+00:00 no cz_error
+    state 228 2026-10-06T00:42:52+00:00 no cz_error
+
+ibm_marrakesh: 456 states from 1671 cards (3.66 cards per state)
+  states per day over 56 days: min 1, median 8, p90 10, max 40
+  cards per state: min 1, median 3, p90 8, max 44
+  hours between states: min 0.11, median 2.07, p90 6.29, max 30.36
+  states whose first card has a short or missing section: 0
+
+
+=== 2: AGE OF A STATE'S VALUES WHEN IT WAS FIRST PUBLISHED ===
+median over qubits or pairs of (first publication - value's own date), hours
+
+ibm_fez
+  field            states    median       p90        max
+  T1                  425      7.16     23.60      32.60
+  T2                  425      7.16     23.60      32.60
+  readout_error       425      0.43      4.18      25.19
+  sx_error            425     12.81     24.02      48.13
+  cz_error            425     16.32     23.32      29.86
+
+ibm_kingston
+  field            states    median       p90        max
+  T1                  363      7.39     23.34      30.35
+  T2                  363      7.38     23.32      30.33
+  readout_error       363      0.99      4.66      23.41
+  sx_error            363     13.45     24.26      57.24
+  cz_error            360     15.75     24.01      41.77
+
+ibm_marrakesh
+  field            states    median       p90        max
+  T1                  456      9.87     22.91      42.77
+  T2                  456      9.87     22.91      42.77
+  readout_error       456      0.27      4.24      22.88
+  sx_error            456     13.96     23.74      51.15
+  cz_error            456     14.96     23.35      51.10
+
+
+=== 3: DEAD QUBITS UNDER THE CHECKPOINT 3 RULE, PER STATE ===
+rule: sx_error > 0.1, or readout_error > 0.2, or T1 or T2 missing
+
+ibm_fez: 425 states
+  dead per state: min 1, median 2, p90 3, max 75
+  dead_sx_gt_0.1           median 1, max 1, states with at least one: 425 (100.0%)
+  dead_readout_gt_0.2      median 2, max 75, states with at least one: 425 (100.0%)
+  dead_t1_or_t2_missing    median 1, max 1, states with at least one: 425 (100.0%)
+  PERMANENT defects, dead in all 425 states: 1 qubits [72]
+  dead in some states but not all: 94 qubits [1, 2, 3, 4, 5, 6, 7, 11, 12, 14, 15, 17, 18, 19, 22, 23, 25, 26, 28, 29, 31, 32, 33, 34, 35, 36, 37, 39, 41, 42, 43, 45, 46, 50, 51, 54, 55, 56, 58, 59, 60, 62, 63, 64, 65, 69, 71, 73, 75, 76, 78, 80, 82, 83, 88, 89, 90, 91, 92, 93, 94, 95, 96, 98, 99, 100, 101, 102, 103, 105, 106, 108, 110, 111, 113, 114, 117, 123, 124, 125, 126, 132, 133, 134, 135, 136, 139, 141, 143, 145, 147, 148, 149, 155]
+
+ibm_kingston: 363 states
+  dead per state: min 3, median 4, p90 5, max 6
+  dead_sx_gt_0.1           median 3, max 5, states with at least one: 363 (100.0%)
+  dead_readout_gt_0.2      median 3, max 6, states with at least one: 363 (100.0%)
+  dead_t1_or_t2_missing    median 1, max 2, states with at least one: 363 (100.0%)
+  PERMANENT defects, dead in all 363 states: 3 qubits [113, 121, 146]
+  dead in some states but not all: 20 qubits [1, 12, 16, 31, 35, 69, 72, 83, 87, 95, 112, 120, 122, 125, 127, 131, 138, 139, 140, 142]
+
+ibm_marrakesh: 456 states
+  dead per state: min 4, median 6, p90 10, max 15
+  dead_sx_gt_0.1           median 4, max 4, states with at least one: 456 (100.0%)
+  dead_readout_gt_0.2      median 6, max 15, states with at least one: 456 (100.0%)
+  dead_t1_or_t2_missing    median 4, max 4, states with at least one: 390 (85.5%)
+  PERMANENT defects, dead in all 456 states: 4 qubits [82, 94, 113, 130]
+  dead in some states but not all: 98 qubits [1, 7, 9, 11, 13, 15, 16, 18, 21, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 34, 37, 38, 39, 42, 43, 44, 45, 46, 47, 48, 49, 51, 56, 57, 58, 59, 60, 61, 62, 63, 65, 66, 67, 68, 69, 71, 72, 73, 74, 75, 76, 77, 78, 79, 80, 81, 83, 84, 85, 86, 87, 89, 92, 93, 96, 97, 99, 100, 102, 103, 104, 106, 107, 108, 110, 111, 117, 118, 119, 121, 122, 123, 125, 126, 127, 128, 131, 133, 135, 139, 142, 143, 145, 147, 150, 151, 153, 155]
+
+Permanent defects are machine specific. Union across machines is 7 qubit indices: [72, 82, 94, 113, 121, 130, 146]
+
+No quantum hardware was used. data/raw was only read.
+
+========================================================================
+step 4: CHECK the development part against data/clean
+========================================================================
+  qubits.csv     IDENTICAL   628836 rows identical
+  pairs.csv      IDENTICAL   708576 rows identical
+  states.csv     IDENTICAL   921 rows identical except the boundary state's run length, which grew: ibm_fez boundary state last_card_utc 2026-10-12T16:22:41+00:00 -> 2026-10-13T00:57:49+00:00; ibm_kingston boundary state last_card_utc 2026-10-12T17:47:16+00:00 -> 2026-10-13T00:57:44+00:00; ibm_fez boundary state n_cards 3 -> 5; ibm_kingston boundary state n_cards 6 -> 7
+
+step 5: the npz cache the engine reads
+  ibm_fez: 425 states, 156 qubits, 176 cz pairs -> <project root>/data/cache_r2/ibm_fez.npz (3.0 MB)
+  ibm_kingston: 363 states, 156 qubits, 176 cz pairs -> <project root>/data/cache_r2/ibm_kingston.npz (2.6 MB)
+  ibm_marrakesh: 456 states, 156 qubits, 176 cz pairs -> <project root>/data/cache_r2/ibm_marrakesh.npz (3.2 MB)
+
+========================================================================
+the combined store
+========================================================================
+  machine           states    dev  fresh   first state            last state
+  ibm_fez              425    313    112   2026-08-28 01:04:26+00:00  2026-10-23 22:34:58+00:00
+  ibm_kingston         363    276     87   2026-08-28 00:35:09+00:00  2026-10-23 19:38:26+00:00
+  ibm_marrakesh        456    332    124   2026-08-28 01:11:22+00:00  2026-10-23 19:17:54+00:00
+  total states 1244, of which 921 development and 323 fresh
+
+  data/raw and data/clean were only read. No card was copied.

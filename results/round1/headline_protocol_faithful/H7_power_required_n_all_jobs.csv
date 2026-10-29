@@ -1,0 +1,17 @@
+contrast,cluster_definition,design_effect,paired_sd,effect,power,required_jobs,required_machine_days,required_calendar_days
+shrinkage minus stale,days within machine,1.9787266665972243,0.059340369987774165,0.005,0.8,2188,37,13
+shrinkage minus stale,days within machine,1.9787266665972243,0.059340369987774165,0.005,0.9,2929,49,17
+shrinkage minus stale,days within machine,1.9787266665972243,0.059340369987774165,0.01,0.8,547,10,4
+shrinkage minus stale,days within machine,1.9787266665972243,0.059340369987774165,0.01,0.9,733,13,5
+shrinkage minus stale,machine and submission time,1.5919365297969879,0.059340369987774165,0.005,0.8,1760,30,10
+shrinkage minus stale,machine and submission time,1.5919365297969879,0.059340369987774165,0.005,0.9,2357,40,14
+shrinkage minus stale,machine and submission time,1.5919365297969879,0.059340369987774165,0.01,0.8,440,8,3
+shrinkage minus stale,machine and submission time,1.5919365297969879,0.059340369987774165,0.01,0.9,590,10,4
+window_mean minus stale,days within machine,5.247015917112831,0.07047774242542218,0.005,0.8,8183,137,46
+window_mean minus stale,days within machine,5.247015917112831,0.07047774242542218,0.005,0.9,10954,183,61
+window_mean minus stale,days within machine,5.247015917112831,0.07047774242542218,0.01,0.8,2046,35,12
+window_mean minus stale,days within machine,5.247015917112831,0.07047774242542218,0.01,0.9,2739,46,16
+window_mean minus stale,machine and submission time,5.372677377010296,0.07047774242542218,0.005,0.8,8379,140,47
+window_mean minus stale,machine and submission time,5.372677377010296,0.07047774242542218,0.005,0.9,11217,187,63
+window_mean minus stale,machine and submission time,5.372677377010296,0.07047774242542218,0.01,0.8,2095,35,12
+window_mean minus stale,machine and submission time,5.372677377010296,0.07047774242542218,0.01,0.9,2805,47,16

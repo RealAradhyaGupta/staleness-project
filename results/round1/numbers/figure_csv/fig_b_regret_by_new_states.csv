@@ -1,0 +1,13 @@
+new_states_crossed,arm,n,mean_regret,lo95,hi95,label
+0,stale,1305,0.0,0.0,0.0,PRE-REGISTERED axis (PROTOCOL.md section 9 axis 3); the per arm split is exploratory
+0,window_mean,1305,0.008840183551003425,0.006346498956515249,0.011879693402784525,PRE-REGISTERED axis (PROTOCOL.md section 9 axis 3); the per arm split is exploratory
+0,std_adjusted,1305,0.00864701117455998,0.006509202393091876,0.011405015183115758,PRE-REGISTERED axis (PROTOCOL.md section 9 axis 3); the per arm split is exploratory
+0,shrinkage,1305,0.0023620796104730068,0.001576766973958124,0.003141163313634985,PRE-REGISTERED axis (PROTOCOL.md section 9 axis 3); the per arm split is exploratory
+1,stale,970,0.02806426702947841,0.018439134239021705,0.0369126151826576,PRE-REGISTERED axis (PROTOCOL.md section 9 axis 3); the per arm split is exploratory
+1,window_mean,970,0.01659140694610619,0.012658384821128812,0.021147664783284535,PRE-REGISTERED axis (PROTOCOL.md section 9 axis 3); the per arm split is exploratory
+1,std_adjusted,970,0.019263718664522013,0.01513808989771456,0.02356749835116351,PRE-REGISTERED axis (PROTOCOL.md section 9 axis 3); the per arm split is exploratory
+1,shrinkage,970,0.023077953548962866,0.017177971735966205,0.029160609901443247,PRE-REGISTERED axis (PROTOCOL.md section 9 axis 3); the per arm split is exploratory
+2 or more,stale,3373,0.02777526813362464,0.022070442668515513,0.03486338691995227,PRE-REGISTERED axis (PROTOCOL.md section 9 axis 3); the per arm split is exploratory
+2 or more,window_mean,3373,0.018386666505944883,0.01540577666414921,0.021782722193620693,PRE-REGISTERED axis (PROTOCOL.md section 9 axis 3); the per arm split is exploratory
+2 or more,std_adjusted,3373,0.022994286948456445,0.019062608472143583,0.028031094763676517,PRE-REGISTERED axis (PROTOCOL.md section 9 axis 3); the per arm split is exploratory
+2 or more,shrinkage,3373,0.02457174932816513,0.020076312973049824,0.029585544267749307,PRE-REGISTERED axis (PROTOCOL.md section 9 axis 3); the per arm split is exploratory

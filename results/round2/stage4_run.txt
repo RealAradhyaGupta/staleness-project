@@ -1,0 +1,113 @@
+ROUND 2 RUN  label=round2
+  store: <project root>/data/clean_r2  cache: <project root>/data/cache_r2
+  arms: ['stale', 'window_mean', 'shrinkage_r1', 'hybrid', 'hybrid_no_guard', 'ceiling']
+  circuits: ['ghz5', 'ghz8', 'ghz10', 'bv8', 'bv10', 'qft5', 'qft8', 'qft10']
+  delays: [1, 3, 6, 12, 24, 48]   workers: 6
+  submission window: 2026-10-13 to 2026-10-23
+  rule cross check: table matches outputs/round2/stage1_fitted_rule.json
+  ibm_fez: 425 states, 2026-08-28T01:04:26+00:00 to 2026-10-23T22:34:58+00:00
+  ibm_kingston: 363 states, 2026-08-28T00:35:09+00:00 to 2026-10-23T19:38:26+00:00
+  ibm_marrakesh: 456 states, 2026-08-28T01:11:22+00:00 to 2026-10-23T19:17:54+00:00
+  ibm_fez: 33 submissions -> 1480 jobs; dropped {'D=1': {'no_history': 0, 'no_truth': 0, 'past_end': 0}, 'D=3': {'no_history': 0, 'no_truth': 0, 'past_end': 0}, 'D=6': {'no_history': 0, 'no_truth': 0, 'past_end': 0}, 'D=12': {'no_history': 0, 'no_truth': 0, 'past_end': 3}, 'D=24': {'no_history': 0, 'no_truth': 0, 'past_end': 4}, 'D=48': {'no_history': 0, 'no_truth': 0, 'past_end': 6}}
+  ibm_kingston: 33 submissions -> 1448 jobs; dropped {'D=1': {'no_history': 0, 'no_truth': 0, 'past_end': 1}, 'D=3': {'no_history': 0, 'no_truth': 0, 'past_end': 1}, 'D=6': {'no_history': 0, 'no_truth': 0, 'past_end': 1}, 'D=12': {'no_history': 0, 'no_truth': 0, 'past_end': 2}, 'D=24': {'no_history': 0, 'no_truth': 0, 'past_end': 4}, 'D=48': {'no_history': 0, 'no_truth': 0, 'past_end': 8}}
+  ibm_marrakesh: 33 submissions -> 1464 jobs; dropped {'D=1': {'no_history': 0, 'no_truth': 0, 'past_end': 0}, 'D=3': {'no_history': 0, 'no_truth': 0, 'past_end': 0}, 'D=6': {'no_history': 0, 'no_truth': 0, 'past_end': 1}, 'D=12': {'no_history': 0, 'no_truth': 0, 'past_end': 2}, 'D=24': {'no_history': 0, 'no_truth': 0, 'past_end': 6}, 'D=48': {'no_history': 0, 'no_truth': 0, 'past_end': 6}}
+total jobs 4392, arm rows 26352, simulations at most 26352
+186 distinct (machine, truth state) groups -> 6 workers; each noise model is built once
+[w0] 50/632 jobs, 162 sims, 138 saved by dedup, 440s, 8.79s/job, eta 85.3 min
+[w5] 50/944 jobs, 171 sims, 129 saved by dedup, 462s, 9.25s/job, eta 137.8 min
+[w4] 50/544 jobs, 170 sims, 130 saved by dedup, 488s, 9.76s/job, eta 80.3 min
+[w1] 50/848 jobs, 196 sims, 104 saved by dedup, 580s, 11.59s/job, eta 154.2 min
+[w3] 50/736 jobs, 196 sims, 104 saved by dedup, 590s, 11.79s/job, eta 134.8 min
+[w2] 50/688 jobs, 203 sims, 97 saved by dedup, 615s, 12.30s/job, eta 130.8 min
+[w5] 100/944 jobs, 299 sims, 301 saved by dedup, 888s, 8.88s/job, eta 124.9 min
+[w0] 100/632 jobs, 325 sims, 275 saved by dedup, 997s, 9.97s/job, eta 88.4 min
+[w4] 100/544 jobs, 329 sims, 271 saved by dedup, 1045s, 10.45s/job, eta 77.4 min
+[w2] 100/688 jobs, 385 sims, 215 saved by dedup, 1197s, 11.97s/job, eta 117.3 min
+[w3] 100/736 jobs, 389 sims, 211 saved by dedup, 1235s, 12.35s/job, eta 130.9 min
+[w1] 100/848 jobs, 385 sims, 215 saved by dedup, 1241s, 12.41s/job, eta 154.8 min
+[w5] 150/944 jobs, 425 sims, 475 saved by dedup, 1253s, 8.36s/job, eta 110.6 min
+[w0] 150/632 jobs, 485 sims, 415 saved by dedup, 1473s, 9.82s/job, eta 78.9 min
+[w4] 150/544 jobs, 510 sims, 390 saved by dedup, 1601s, 10.67s/job, eta 70.1 min
+[w2] 150/688 jobs, 559 sims, 341 saved by dedup, 1769s, 11.80s/job, eta 105.8 min
+[w3] 150/736 jobs, 554 sims, 346 saved by dedup, 1781s, 11.87s/job, eta 116.0 min
+[w1] 150/848 jobs, 553 sims, 347 saved by dedup, 1781s, 11.87s/job, eta 138.1 min
+[w5] 200/944 jobs, 611 sims, 589 saved by dedup, 1888s, 9.44s/job, eta 117.1 min
+[w0] 200/632 jobs, 648 sims, 552 saved by dedup, 2036s, 10.18s/job, eta 73.3 min
+[w4] 200/544 jobs, 645 sims, 555 saved by dedup, 2074s, 10.37s/job, eta 59.5 min
+[w3] 200/736 jobs, 712 sims, 488 saved by dedup, 2309s, 11.55s/job, eta 103.1 min
+[w2] 200/688 jobs, 734 sims, 466 saved by dedup, 2354s, 11.77s/job, eta 95.7 min
+[w1] 200/848 jobs, 725 sims, 475 saved by dedup, 2360s, 11.80s/job, eta 127.5 min
+[w5] 250/944 jobs, 787 sims, 713 saved by dedup, 2493s, 9.97s/job, eta 115.3 min
+[w0] 250/632 jobs, 812 sims, 688 saved by dedup, 2596s, 10.39s/job, eta 66.1 min
+[w4] 250/544 jobs, 821 sims, 679 saved by dedup, 2660s, 10.64s/job, eta 52.1 min
+[w3] 250/736 jobs, 876 sims, 624 saved by dedup, 2844s, 11.38s/job, eta 92.2 min
+[w2] 250/688 jobs, 898 sims, 602 saved by dedup, 2922s, 11.69s/job, eta 85.3 min
+[w1] 250/848 jobs, 896 sims, 604 saved by dedup, 2928s, 11.71s/job, eta 116.7 min
+[w5] 300/944 jobs, 929 sims, 871 saved by dedup, 2949s, 9.83s/job, eta 105.5 min
+[w0] 300/632 jobs, 998 sims, 802 saved by dedup, 3191s, 10.64s/job, eta 58.9 min
+[w4] 300/544 jobs, 1007 sims, 793 saved by dedup, 3237s, 10.79s/job, eta 43.9 min
+[w1] 300/848 jobs, 1048 sims, 752 saved by dedup, 3403s, 11.34s/job, eta 103.6 min
+[w3] 300/736 jobs, 1064 sims, 736 saved by dedup, 3455s, 11.52s/job, eta 83.7 min
+[w2] 300/688 jobs, 1061 sims, 739 saved by dedup, 3457s, 11.52s/job, eta 74.5 min
+[w5] 350/944 jobs, 1109 sims, 991 saved by dedup, 3507s, 10.02s/job, eta 99.2 min
+[w0] 350/632 jobs, 1173 sims, 927 saved by dedup, 3743s, 10.69s/job, eta 50.3 min
+[w4] 350/544 jobs, 1170 sims, 930 saved by dedup, 3759s, 10.74s/job, eta 34.7 min
+[w3] 350/736 jobs, 1228 sims, 872 saved by dedup, 3969s, 11.34s/job, eta 73.0 min
+[w1] 350/848 jobs, 1235 sims, 865 saved by dedup, 3994s, 11.41s/job, eta 94.7 min
+[w5] 400/944 jobs, 1275 sims, 1125 saved by dedup, 4033s, 10.08s/job, eta 91.4 min
+[w2] 350/688 jobs, 1241 sims, 859 saved by dedup, 4065s, 11.61s/job, eta 65.4 min
+[w0] 400/632 jobs, 1340 sims, 1060 saved by dedup, 4347s, 10.87s/job, eta 42.0 min
+[w4] 400/544 jobs, 1363 sims, 1037 saved by dedup, 4472s, 11.18s/job, eta 26.8 min
+[w3] 400/736 jobs, 1409 sims, 991 saved by dedup, 4619s, 11.55s/job, eta 64.7 min
+[w2] 400/688 jobs, 1411 sims, 989 saved by dedup, 4651s, 11.63s/job, eta 55.8 min
+[w1] 400/848 jobs, 1419 sims, 981 saved by dedup, 4681s, 11.70s/job, eta 87.4 min
+[w5] 450/944 jobs, 1458 sims, 1242 saved by dedup, 4692s, 10.43s/job, eta 85.8 min
+[w0] 450/632 jobs, 1540 sims, 1160 saved by dedup, 5089s, 11.31s/job, eta 34.3 min
+[w3] 450/736 jobs, 1565 sims, 1135 saved by dedup, 5137s, 11.42s/job, eta 54.4 min
+[w5] 500/944 jobs, 1624 sims, 1376 saved by dedup, 5237s, 10.47s/job, eta 77.5 min
+[w1] 450/848 jobs, 1587 sims, 1113 saved by dedup, 5243s, 11.65s/job, eta 77.3 min
+[w2] 450/688 jobs, 1600 sims, 1100 saved by dedup, 5293s, 11.76s/job, eta 46.7 min
+[w4] 450/544 jobs, 1592 sims, 1108 saved by dedup, 5324s, 11.83s/job, eta 18.5 min
+[w1] 500/848 jobs, 1747 sims, 1253 saved by dedup, 5971s, 11.94s/job, eta 69.3 min
+[w0] 500/632 jobs, 1742 sims, 1258 saved by dedup, 5976s, 11.95s/job, eta 26.3 min
+[w3] 500/736 jobs, 1766 sims, 1234 saved by dedup, 5977s, 11.95s/job, eta 47.0 min
+[w5] 550/944 jobs, 1798 sims, 1502 saved by dedup, 5988s, 10.89s/job, eta 71.5 min
+[w2] 500/688 jobs, 1776 sims, 1224 saved by dedup, 6115s, 12.23s/job, eta 38.3 min
+[w4] 500/544 jobs, 1832 sims, 1168 saved by dedup, 6608s, 13.22s/job, eta 9.7 min
+[w1] 550/848 jobs, 1925 sims, 1375 saved by dedup, 6913s, 12.57s/job, eta 62.4 min
+[w5] 600/944 jobs, 1991 sims, 1609 saved by dedup, 6965s, 11.61s/job, eta 66.6 min
+[w3] 550/736 jobs, 1954 sims, 1346 saved by dedup, 6983s, 12.70s/job, eta 39.4 min
+[w0] 550/632 jobs, 1960 sims, 1340 saved by dedup, 7089s, 12.89s/job, eta 17.6 min
+[w2] 550/688 jobs, 1994 sims, 1306 saved by dedup, 7217s, 13.12s/job, eta 30.2 min
+[w4] 544/544 jobs, 2040 sims, 1224 saved by dedup, 7699s, 14.15s/job, eta 0.0 min
+[w4] DONE 544 jobs, 2040 sims, 1224 saved, 7699s
+[w1] 600/848 jobs, 2146 sims, 1454 saved by dedup, 7767s, 12.94s/job, eta 53.5 min
+[w5] 650/944 jobs, 2208 sims, 1692 saved by dedup, 7800s, 12.00s/job, eta 58.8 min
+[w3] 600/736 jobs, 2167 sims, 1433 saved by dedup, 7829s, 13.05s/job, eta 29.6 min
+[w0] 600/632 jobs, 2195 sims, 1405 saved by dedup, 8002s, 13.34s/job, eta 7.1 min
+[w2] 600/688 jobs, 2246 sims, 1354 saved by dedup, 8119s, 13.53s/job, eta 19.8 min
+[w0] 632/632 jobs, 2301 sims, 1491 saved by dedup, 8332s, 13.18s/job, eta 0.0 min
+[w0] DONE 632 jobs, 2301 sims, 1491 saved, 8332s
+[w1] 650/848 jobs, 2343 sims, 1557 saved by dedup, 8347s, 12.84s/job, eta 42.4 min
+[w5] 700/944 jobs, 2419 sims, 1781 saved by dedup, 8419s, 12.03s/job, eta 48.9 min
+[w3] 650/736 jobs, 2388 sims, 1512 saved by dedup, 8462s, 13.02s/job, eta 18.7 min
+[w2] 650/688 jobs, 2466 sims, 1434 saved by dedup, 8692s, 13.37s/job, eta 8.5 min
+[w1] 700/848 jobs, 2548 sims, 1652 saved by dedup, 8801s, 12.57s/job, eta 31.0 min
+[w3] 700/736 jobs, 2601 sims, 1599 saved by dedup, 8978s, 12.83s/job, eta 7.7 min
+[w5] 750/944 jobs, 2650 sims, 1850 saved by dedup, 8984s, 11.98s/job, eta 38.7 min
+[w2] 688/688 jobs, 2617 sims, 1511 saved by dedup, 9055s, 13.16s/job, eta 0.0 min
+[w2] DONE 688 jobs, 2617 sims, 1511 saved, 9055s
+[w1] 750/848 jobs, 2761 sims, 1739 saved by dedup, 9254s, 12.34s/job, eta 20.2 min
+[w3] 736/736 jobs, 2764 sims, 1652 saved by dedup, 9319s, 12.66s/job, eta 0.0 min
+[w3] DONE 736 jobs, 2764 sims, 1652 saved, 9319s
+[w5] 800/944 jobs, 2875 sims, 1925 saved by dedup, 9414s, 11.77s/job, eta 28.2 min
+[w1] 800/848 jobs, 2972 sims, 1828 saved by dedup, 9628s, 12.04s/job, eta 9.6 min
+[w5] 850/944 jobs, 3080 sims, 2020 saved by dedup, 9763s, 11.49s/job, eta 18.0 min
+[w1] 848/848 jobs, 3194 sims, 1894 saved by dedup, 10004s, 11.80s/job, eta 0.0 min
+[w1] DONE 848 jobs, 3194 sims, 1894 saved, 10004s
+[w5] 900/944 jobs, 3281 sims, 2119 saved by dedup, 10089s, 11.21s/job, eta 8.2 min
+[w5] 944/944 jobs, 3452 sims, 2212 saved by dedup, 10355s, 10.97s/job, eta 0.0 min
+[w5] DONE 944 jobs, 3452 sims, 2212 saved, 10355s
+
+all workers finished in 10357s (2.88 h)
+merged 6 parts -> <project root>/outputs/round2_run/all_rows.csv (26352 rows, 4392 jobs)
